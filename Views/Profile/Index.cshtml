@@ -1,0 +1,30 @@
+﻿@model ApplicationUser
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-8" style="border: 2px dashed rgba(27,31,34,0.3)">
+        <h3>Class Posts</h3>
+        <hr />
+        <h5>
+            No Posts...
+        </h5>
+    </div>
+
+    <div class="col-md-3" style="margin-left: 15px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span style="font-weight: 500; font-size: 14px;"> Classes</span>
+            </div>
+            <div class="panel-body">
+                Not in any classes.
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

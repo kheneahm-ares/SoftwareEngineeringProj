@@ -1,0 +1,10 @@
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\bin\Debug\netcoreapp1.1\CodingBlogDemo2.deps.json
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\bin\Debug\netcoreapp1.1\CodingBlogDemo2.runtimeconfig.json
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\bin\Debug\netcoreapp1.1\CodingBlogDemo2.runtimeconfig.dev.json
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\bin\Debug\netcoreapp1.1\CodingBlogDemo2.dll
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\bin\Debug\netcoreapp1.1\CodingBlogDemo2.pdb
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.csprojResolveAssemblyReference.cache
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.AssemblyInfo.cs
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.dll
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.pdb
