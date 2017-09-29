@@ -15,6 +15,9 @@ namespace CodingBlogDemo2.Data
         {
         }
 
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Register> Registers { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

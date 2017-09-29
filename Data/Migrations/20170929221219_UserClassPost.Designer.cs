@@ -8,9 +8,10 @@ using CodingBlogDemo2.Data;
 namespace CodingBlogDemo2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170929221219_UserClassPost")]
+    partial class UserClassPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.3")
@@ -84,36 +85,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
-                });
-
-            modelBuilder.Entity("CodingBlogDemo2.Models.Post", b =>
-                {
-                    b.Property<int>("PostId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ClassId");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("PostId");
-
-                    b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("CodingBlogDemo2.Models.Register", b =>
-                {
-                    b.Property<int>("RegisterId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CourseId");
-
-                    b.Property<string>("UserEmail");
-
-                    b.HasKey("RegisterId");
-
-                    b.ToTable("Registers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

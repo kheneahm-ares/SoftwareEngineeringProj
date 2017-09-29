@@ -23,7 +23,7 @@ namespace CodingBlogDemo2.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.FName = _accountRepository.getUserFName(User.Identity.Name);\
+            ViewBag.FName = _accountRepository.getUserFName(User.Identity.Name);
 
             return View();
 
