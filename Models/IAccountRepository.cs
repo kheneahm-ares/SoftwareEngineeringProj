@@ -9,5 +9,8 @@ namespace CodingBlogDemo2.Models
     public interface IAccountRepository
     {
         String getUserFName(string userEmail);
+        bool IsAdmin(string userEmail);
+
+        ApplicationUser getUserByEmail(string userEmail);
     }
 }

@@ -50,6 +50,7 @@ namespace CodingBlogDemo2
             services.AddMvc();
 
             // Add application services.
+            services.AddTransient<ICourseRepository, CourseRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

@@ -24,6 +24,7 @@ namespace CodingBlogDemo2.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
+        private IAccountRepository _accountRepo;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -31,7 +32,8 @@ namespace CodingBlogDemo2.Controllers
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IAccountRepository accountRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +41,7 @@ namespace CodingBlogDemo2.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _accountRepo = accountRepo;
         }
 
         //
@@ -69,7 +72,11 @@ namespace CodingBlogDemo2.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+
+
                     _logger.LogInformation(1, "User logged in.");
+                    
+                    
                     return RedirectToAction("Index", "Profile");
                 }
                 if (result.RequiresTwoFactor)
@@ -124,7 +131,7 @@ namespace CodingBlogDemo2.Controllers
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Profile");
                 }
                 AddErrors(result);
             }

@@ -1,4 +1,4 @@
-﻿@model ApplicationUser
+﻿@model CourseListViewModel
 @inject UserManager<ApplicationUser> UserManager
 
 @{
@@ -17,14 +17,22 @@
     <div class="col-md-3" style="margin-left: 15px;">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <span style="font-weight: 500; font-size: 14px;"> Classes</span>
+                <span style="font-weight: 500; font-size: 14px;"> Courses</span>
             </div>
-            <div class="panel-body">
-                Not in any classes.
-            </div>
+            @foreach (var course in Model.Courses)
+            {
+                @*if(Model.Courses.Count() > 5)
+                {
 
-
-
+                    <p>hello</p>
+                }*@
+                <div class="panel-body" style="padding: 0px">
+                    <h5 style="padding: 10px 15px;"><a href="#">@course.Name</a></h5>
+                    <p style="padding-left: 15px"><span style="font-weight: bold">Instructor: </span>Professor @Model.ProfessorName</p>
+                    <hr style="margin:0px"/>
+                </div>
+            }
+            
         </div>
     </div>
 </div>
