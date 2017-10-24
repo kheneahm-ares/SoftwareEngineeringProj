@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CodingBlogDemo2.Models
 {
-    public class CourseListViewModel
+    public class CourseViewModel
     {
-        public IEnumerable<Course> Courses { get; set; }
-        public string ProfessorName { get; set; }
+        public IEnumerable<Post> Posts { get; set; }
+        public Course Course { get; set; }
 
     }
 }

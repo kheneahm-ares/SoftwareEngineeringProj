@@ -11,6 +11,7 @@ namespace CodingBlogDemo2.Models
 {
     public class CourseRepository : ICourseRepository
     {
+        
         private ApplicationDbContext _context;
         public CourseRepository(ApplicationDbContext context)
         {

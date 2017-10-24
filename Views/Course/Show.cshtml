@@ -1,0 +1,23 @@
+﻿@model CourseViewModel
+@{
+    ViewData["Title"] = "Show Course";
+}
+
+<div class="row">
+    <div class="col-md-8" style="border: 2px dashed rgba(27,31,34,0.3)">
+        <h3>@Model.Course.Name 's Posts</h3>
+        <hr />
+        <h5>
+            No Posts...
+        </h5>
+    </div>
+
+    <div class="col-md-3" style="margin-left: 15px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Modules</a>
+            </div>
+
+        </div>
+    </div>
+</div>

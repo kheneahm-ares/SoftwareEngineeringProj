@@ -16,24 +16,37 @@ namespace CodingBlogDemo2.Controllers
     {
         private ICourseRepository _courseRepo;
         private IAccountRepository _accountRepo;
+        private ApplicationDbContext _context;
 
 
-       
 
-        public CourseController(ICourseRepository courseRepo)
+
+        public CourseController(ICourseRepository courseRepo, IAccountRepository accountRepo, ApplicationDbContext context)
         {
             _courseRepo = courseRepo;
+            _accountRepo = accountRepo;
+            _context = context;
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+
+            IEnumerable<Course> courses;
+
+
+            courses = _courseRepo.Courses.Where(p => p.UserEmail == User.Identity.Name);
+
+
+            return View(new CourseListViewModel
+            {
+                Courses = courses,
+            });
         }
-        
+
 
         public IActionResult Create()
         {
-            
+
 
             return View();
 
@@ -48,22 +61,78 @@ namespace CodingBlogDemo2.Controllers
                 _courseRepo.AddCourse(newCourse);
                 return RedirectToRoute(new
                 {
-                    controller="Profile",
-                    action="Index"
+                    controller = "Profile",
+                    action = "Index"
                 });
             }
 
             return View(newCourse);
         }
-        public IActionResult Edit()
+
+        public IActionResult Show(int courseId)
         {
-            return View();
+
+
+            return View(new CourseViewModel
+            {
+                Course = _courseRepo.Courses.Where(c => c.CourseId == courseId).FirstOrDefault()
+            });
 
         }
 
-        public IActionResult Delete()
+        //this just gets the view and returns the course model with initialized variables87ytfdxzaa
+        public IActionResult Edit(int courseId)
         {
-            return View();
+
+            var course = _courseRepo.Courses.Where(c => c.CourseId == courseId).FirstOrDefault();
+            return View(course);
+
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int courseId, Course course)
+        {
+
+            //tell database which course we want to edit
+            var courseToUpdate = _context.Set<Course>().Where(c => c.CourseId == courseId).SingleOrDefault();
+
+            courseToUpdate.CourseId = courseId;
+            courseToUpdate.Name = course.Name;
+            courseToUpdate.UserEmail = User.Identity.Name;
+
+            _context.SaveChanges();
+
+            //message partial, a session
+            TempData["Success"] = "Course Updated!";
+
+            return RedirectToRoute(new {
+                controller = "Profile",
+                action = "Index"
+
+            });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int courseId)
+        {
+
+            //for now it will just be the data in the course table,
+            //however, when we delete a course that has relationships with modules and assignments, we have to delete every data
+            //connected to that course such as the modules, posts, and assignments in those modules!!!!!!!!!!!
+            Course course = _context.Set<Course>().Where(c => c.CourseId == courseId).SingleOrDefault();
+            _context.Entry(course).State = Microsoft.EntityFrameworkCore.EntityState.Deleted; 
+            _context.SaveChanges();
+
+            TempData["Success"] = "Course Successfully Deleted!";
+
+            return RedirectToRoute(new
+            {
+                controller = "Profile",
+                action = "Index"
+
+            });
 
         }
     }

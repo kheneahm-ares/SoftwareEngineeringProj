@@ -129,7 +129,13 @@ namespace CodingBlogDemo2.Controllers
                     //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+
+
+                    //BY DEFAULT ADD USER AS A STUDENT ROLE
+                    await _userManager.AddToRoleAsync(user, "Student");
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToAction("Index", "Profile");
                 }
@@ -148,7 +154,7 @@ namespace CodingBlogDemo2.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(ProfileController.Index), "Profile");
         }
 
         //

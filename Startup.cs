@@ -47,7 +47,10 @@ namespace CodingBlogDemo2
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddSession();
             services.AddMvc();
+
+         
 
             // Add application services.
             services.AddTransient<ICourseRepository, CourseRepository>();
@@ -74,6 +77,7 @@ namespace CodingBlogDemo2
             }
 
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseIdentity();
 
@@ -83,7 +87,7 @@ namespace CodingBlogDemo2
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Profile}/{action=Index}/{id?}");
             });
         }
     }
