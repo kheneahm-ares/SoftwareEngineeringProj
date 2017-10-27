@@ -1,4 +1,5 @@
-﻿using CodingBlogDemo2.Models;
+﻿using CodingBlogDemo2.Data;
+using CodingBlogDemo2.Models;
 using CodingBlogDemo2.Models.ProfileViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,13 +17,13 @@ namespace CodingBlogDemo2.Controllers
     {
         private IAccountRepository _accountRepository;
         private ICourseRepository _courseRepository;
-        private IPostRepository _postRepository;
+        private ApplicationDbContext _context;
 
-        public ProfileController(IAccountRepository accountRepo, ICourseRepository courseRepo, IPostRepository postRepo)
+        public ProfileController(IAccountRepository accountRepo, ICourseRepository courseRepo, ApplicationDbContext context)
         {
             _accountRepository = accountRepo;
             _courseRepository = courseRepo;
-            _postRepository = postRepo;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -37,7 +38,7 @@ namespace CodingBlogDemo2.Controllers
 
 
             courses = _courseRepository.Courses.Where(p => p.UserEmail == User.Identity.Name);
-            posts = _postRepository.Posts;
+            posts = _context.Posts;
             currentUser = _accountRepository.getUserByEmail(User.Identity.Name);
 
 

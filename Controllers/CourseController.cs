@@ -17,17 +17,15 @@ namespace CodingBlogDemo2.Controllers
         private ICourseRepository _courseRepo;
         private IAccountRepository _accountRepo;
         private ApplicationDbContext _context;
-        private IPostRepository _postRepo;
 
 
 
 
-        public CourseController(ICourseRepository courseRepo, IAccountRepository accountRepo, ApplicationDbContext context, IPostRepository postRepo)
+        public CourseController(ICourseRepository courseRepo, IAccountRepository accountRepo, ApplicationDbContext context)
         {
             _courseRepo = courseRepo;
             _accountRepo = accountRepo;
             _context = context;
-            _postRepo = postRepo;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -76,7 +74,7 @@ namespace CodingBlogDemo2.Controllers
         {
             IEnumerable<Post> posts;
 
-            posts = _postRepo.Posts.Where(p => p.CourseId == courseId);
+            posts = _context.Posts.Where(p => p.CourseId == courseId);
 
             return View(new CourseViewModel
             {
