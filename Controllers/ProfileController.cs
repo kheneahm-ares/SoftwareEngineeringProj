@@ -16,11 +16,13 @@ namespace CodingBlogDemo2.Controllers
     {
         private IAccountRepository _accountRepository;
         private ICourseRepository _courseRepository;
+        private IPostRepository _postRepository;
 
-        public ProfileController(IAccountRepository accountRepo, ICourseRepository courseRepo)
+        public ProfileController(IAccountRepository accountRepo, ICourseRepository courseRepo, IPostRepository postRepo)
         {
             _accountRepository = accountRepo;
             _courseRepository = courseRepo;
+            _postRepository = postRepo;
         }
 
         public IActionResult Index()
@@ -30,16 +32,19 @@ namespace CodingBlogDemo2.Controllers
             ViewBag.isAdmin = _accountRepository.IsAdmin(User.Identity.Name);
 
             IEnumerable<Course> courses;
+            IEnumerable<Post> posts;
             ApplicationUser currentUser;
 
 
             courses = _courseRepository.Courses.Where(p => p.UserEmail == User.Identity.Name);
+            posts = _postRepository.Posts;
             currentUser = _accountRepository.getUserByEmail(User.Identity.Name);
 
 
             return View(new CourseListViewModel
             {
                 Courses = courses,
+                Posts = posts,
                 ProfessorName = currentUser.LastName
             });
 

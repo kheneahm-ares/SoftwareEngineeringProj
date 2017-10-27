@@ -14,6 +14,6 @@ namespace CodingBlogDemo2.Models
 
         [DataType(DataType.Text)]
         public string Description { get; set; }
-        public int ClassId { get; set; }
+        public int CourseId { get; set; }
     }
 }

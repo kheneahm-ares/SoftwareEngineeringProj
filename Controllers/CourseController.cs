@@ -17,15 +17,17 @@ namespace CodingBlogDemo2.Controllers
         private ICourseRepository _courseRepo;
         private IAccountRepository _accountRepo;
         private ApplicationDbContext _context;
+        private IPostRepository _postRepo;
 
 
 
 
-        public CourseController(ICourseRepository courseRepo, IAccountRepository accountRepo, ApplicationDbContext context)
+        public CourseController(ICourseRepository courseRepo, IAccountRepository accountRepo, ApplicationDbContext context, IPostRepository postRepo)
         {
             _courseRepo = courseRepo;
             _accountRepo = accountRepo;
             _context = context;
+            _postRepo = postRepo;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -59,6 +61,7 @@ namespace CodingBlogDemo2.Controllers
             {
                 newCourse.UserEmail = User.Identity.Name;
                 _courseRepo.AddCourse(newCourse);
+                TempData["Success"] = "Course Successfully Created!";
                 return RedirectToRoute(new
                 {
                     controller = "Profile",
@@ -71,11 +74,14 @@ namespace CodingBlogDemo2.Controllers
 
         public IActionResult Show(int courseId)
         {
+            IEnumerable<Post> posts;
 
+            posts = _postRepo.Posts.Where(p => p.CourseId == courseId);
 
             return View(new CourseViewModel
             {
-                Course = _courseRepo.Courses.Where(c => c.CourseId == courseId).FirstOrDefault()
+                Course = _courseRepo.Courses.Where(c => c.CourseId == courseId).FirstOrDefault(),
+                Posts = posts
             });
 
         }
