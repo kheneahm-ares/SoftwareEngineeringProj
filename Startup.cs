@@ -50,7 +50,7 @@ namespace CodingBlogDemo2
             services.AddSession();
             services.AddMvc();
 
-         
+
 
             // Add application services.
             services.AddTransient<ICourseRepository, CourseRepository>();

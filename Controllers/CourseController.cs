@@ -59,6 +59,7 @@ namespace CodingBlogDemo2.Controllers
             {
                 newCourse.UserEmail = User.Identity.Name;
                 _courseRepo.AddCourse(newCourse);
+                TempData["Success"] = "Course Successfully Created!";
                 return RedirectToRoute(new
                 {
                     controller = "Profile",
@@ -71,11 +72,14 @@ namespace CodingBlogDemo2.Controllers
 
         public IActionResult Show(int courseId)
         {
+            IEnumerable<Post> posts;
 
+            posts = _context.Posts.Where(p => p.CourseId == courseId);
 
             return View(new CourseViewModel
             {
-                Course = _courseRepo.Courses.Where(c => c.CourseId == courseId).FirstOrDefault()
+                Course = _courseRepo.Courses.Where(c => c.CourseId == courseId).FirstOrDefault(),
+                Posts = posts
             });
 
         }

@@ -4,18 +4,37 @@
 }
 
 <div class="row">
-    <div class="col-md-8" style="border: 2px dashed rgba(27,31,34,0.3)">
-        <h3>@Model.Course.Name 's Posts</h3>
+    <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
+        <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
+            @Model.Course.Name Posts
+            <a asp-controller="Post" asp-action="Create" asp-route-courseId="@Model.Course.CourseId" class="btn btn-default">Create Post</a>
+        </h3>
         <hr />
-        <h5>
-            No Posts...
-        </h5>
+        @if (Model.Posts.Count() < 1)
+        {
+            <h5>
+                No posts...
+            </h5>
+        }
+        else
+        {
+            @foreach (var post in Model.Posts)
+            {
+                <div class="">
+                    <h5><a asp-controller="Post" asp-action="Details" asp-route-id="@post.PostId" style="color: #0366d6;">@post.Title</a></h5>
+                    <p style="padding-top: 10px; padding-bottom: 10px;">
+                        @post.Description
+                    </p>
+                </div>
+                <hr />
+            }
+        }
     </div>
 
     <div class="col-md-3" style="margin-left: 15px;">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Modules</a>
+                <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;">Modules</a>
             </div>
 
         </div>

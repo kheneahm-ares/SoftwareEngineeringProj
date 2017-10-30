@@ -9,6 +9,7 @@ namespace CodingBlogDemo2.Models
     public class CourseListViewModel
     {
         public IEnumerable<Course> Courses { get; set; }
+        public IEnumerable<Post> Posts { get; set; }
         public string ProfessorName { get; set; }
 
     }
