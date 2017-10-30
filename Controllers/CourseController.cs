@@ -59,12 +59,14 @@ namespace CodingBlogDemo2.Controllers
             {
                 newCourse.UserEmail = User.Identity.Name;
                 _courseRepo.AddCourse(newCourse);
+                TempData["Success"] = "Course Successfully Created!";
                 return RedirectToRoute(new
                 {
                     controller = "Profile",
                     action = "Index"
                 });
             }
+
 
             return View(newCourse);
         }
