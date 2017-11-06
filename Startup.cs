@@ -53,6 +53,7 @@ namespace CodingBlogDemo2
 
 
             // Add application services.
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ICourseRepository, CourseRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
