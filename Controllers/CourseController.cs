@@ -11,7 +11,7 @@ using CodingBlogDemo2.Models;
 
 namespace CodingBlogDemo2.Controllers
 {
-    [Authorize] //should only be accessed by Admin, need to create custom authorization
+     //should only be accessed by Admin, need to create custom authorization
     public class CourseController : Controller
     {
         private ICourseRepository _courseRepo;
@@ -28,6 +28,7 @@ namespace CodingBlogDemo2.Controllers
             _context = context;
         }
         // GET: /<controller>/
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
 
@@ -43,7 +44,7 @@ namespace CodingBlogDemo2.Controllers
             });
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
 
@@ -52,6 +53,8 @@ namespace CodingBlogDemo2.Controllers
 
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create(Course newCourse)
         {
@@ -84,6 +87,7 @@ namespace CodingBlogDemo2.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         //this just gets the view and returns the course model with initialized variables87ytfdxzaa
         public IActionResult Edit(int courseId)
         {
@@ -93,6 +97,7 @@ namespace CodingBlogDemo2.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(int courseId, Course course)
         {
@@ -116,7 +121,7 @@ namespace CodingBlogDemo2.Controllers
             });
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int courseId)

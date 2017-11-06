@@ -24,12 +24,12 @@
         {
             @foreach (var post in Model.Posts)
             {
-                <div class="">
-                    <h5><a asp-controller="Post" asp-action="Details" asp-route-id="@post.PostId" style="color: #0366d6;">@post.Title</a></h5>
+                @*<div class="">
+                    <h5><a asp-controller="Post" asp-action="Details" asp-route-id="@post.PostId" style="color: #0366d6;">@post.PostCategory</a></h5>
                     <p style="padding-top: 10px; padding-bottom: 10px;">
                         @post.Description
                     </p>
-                </div>
+                </div>*@
                 <hr />
             }
         }

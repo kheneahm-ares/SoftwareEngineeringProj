@@ -4,7 +4,6 @@ C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\bin\Debug\netcoreap
 C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\bin\Debug\netcoreapp1.1\CodingBlogDemo2.dll
 C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\bin\Debug\netcoreapp1.1\CodingBlogDemo2.pdb
 C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.csprojResolveAssemblyReference.cache
-C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs
 C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.AssemblyInfo.cs
 C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.dll
 C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.pdb
@@ -20,3 +19,6 @@ C:\Users\Pablo\Documents\Software Engineering\Final Project\CodingBlogDemo2\Codi
 C:\Users\Pablo\Documents\Software Engineering\Final Project\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.AssemblyInfo.cs
 C:\Users\Pablo\Documents\Software Engineering\Final Project\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.dll
 C:\Users\Pablo\Documents\Software Engineering\Final Project\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.pdb
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.csproj.CoreCompileInputs.cache
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\CodingBlogDemo2.AssemblyInfoInputs.cache
+C:\Users\khene\CSharpNet2017\CodingBlogDemo2\CodingBlogDemo2\obj\Debug\netcoreapp1.1\UserSecretsAssemblyInfo.cs

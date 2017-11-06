@@ -5,10 +5,12 @@
 
 <div class="row">
     <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
+        @if (User.IsInRole("Admin")){
         <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
             @Model.Course.Name Posts
             <a asp-controller="Post" asp-action="Create" asp-route-courseId="@Model.Course.CourseId" class="btn btn-default">Create Post</a>
         </h3>
+        }
         <hr />
         @if (Model.Posts.Count() < 1)
         {
@@ -20,12 +22,12 @@
         {
             @foreach (var post in Model.Posts)
             {
-                <div class="">
+                @*<div class="">
                     <h5><a asp-controller="Post" asp-action="Details" asp-route-id="@post.PostId" style="color: #0366d6;">@post.Title</a></h5>
                     <p style="padding-top: 10px; padding-bottom: 10px;">
                         @post.Description
                     </p>
-                </div>
+                </div>*@
                 <hr />
             }
         }
