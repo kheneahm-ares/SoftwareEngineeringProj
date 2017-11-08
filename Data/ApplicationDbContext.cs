@@ -24,6 +24,7 @@ namespace CodingBlogDemo2.Data
         public DbSet<Register> Registers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<MultipleChoice> MultipleChoices { get; set; }
+        public DbSet<CodeSnippet> CodeSnippets { get; set; }
 
 
 
@@ -34,5 +35,9 @@ namespace CodingBlogDemo2.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+
+
+        public DbSet<CodingBlogDemo2.Models.CodeSnippet> CodeSnippet { get; set; }
     }
 }
