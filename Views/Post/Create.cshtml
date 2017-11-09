@@ -2,10 +2,13 @@
     ViewData["Title"] = "Create";
 }
 
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 <div class="container">
     <div class="col-md-4">
         <label> Select Form Type</label>
-        <select class="form-control" id="myselect" required>
+        <select class="form-control" id="myselect" name="myselect" required>
             @foreach (var category in ViewBag.Categories)
             {
 
