@@ -86,6 +86,9 @@ namespace CodingBlogDemo2
 
             app.UseMvc(routes =>
             {
+                //routes.MapRoute(
+                //    name: "posts",
+                //    template: "Course/{courseId}/Post");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Profile}/{action=Index}/{id?}");

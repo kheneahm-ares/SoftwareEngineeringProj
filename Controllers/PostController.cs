@@ -16,7 +16,7 @@ namespace CodingBlogDemo2.Controllers
     {
         private ApplicationDbContext _context;
         private ICategoryRepository _categoryRepo;
-        private int _courseId;
+        private static int _courseId;
 
         public PostController(ApplicationDbContext context, ICategoryRepository catRepo)
         {
@@ -51,9 +51,10 @@ namespace CodingBlogDemo2.Controllers
 
         // GET: Post/Create
         [Authorize(Roles = "Admin")]
-        public IActionResult Create(int courseId)
+        [Route("/Course/{id}/Create")]
+        public IActionResult Create(int id)
         {
-            _courseId = courseId;
+            _courseId = id;
             ViewBag.Categories = _categoryRepo.Categories;
             return View();
         }
@@ -62,30 +63,110 @@ namespace CodingBlogDemo2.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CategoryViewModel category, int courseId)
+        [Route("/Course/{id}/Create/MultipleChoice", Name ="MultipleChoice")]
+        public async Task<IActionResult> CreateMultipleChoice(MultipleChoiceViewModel model)
         {
+            ViewBag.Categories = _categoryRepo.Categories;
             if (ModelState.IsValid)
             {
-                //post.CourseId = _courseId;
-                //_context.Add(post);
-                //await _context.SaveChangesAsync();
-                //return RedirectToRoute(new
-                //{
-                //    controller = "Profile",
-                //    action = "Index"
-                //});
+        
 
-                //Post newPost = new Post();
-                //newPost.CourseId = _courseId; //initialized at (get) create
-                //newPost.
+                //create new multiple choice 
+                MultipleChoice newMC = new MultipleChoice();
 
-                String CategoryId = Request.Form["Category"];
-                //if (Request.Form["category"] == "1")
-                //{
-                //    return RedirectToAction("Assignment",);
-                //}
+
+                newMC.Name = model.Name;
+                newMC.Description = model.Description;
+
+                newMC.A = model.A;
+                newMC.B = model.B;
+                newMC.C = model.C;
+                newMC.D = model.D;
+
+                newMC.Answer = model.Answer;
+
+                _context.MultipleChoices.Add(newMC);
+                await _context.SaveChangesAsync();
+
+                //save changes ^^
+
+                //create new post and pass it newly saved multiple choice's id as foreign key
+
+                Post newPost = new Post();
+
+
+                newPost.CourseId = _courseId;
+
+                newPost.PostCategory = 1;
+                newPost.AssignmentId = newMC.MultipleChoiceId;
+
+                _context.Posts.Add(newPost);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Assignment Successfully Created!";
+                return RedirectToRoute(new
+                {
+                    controller = "Course",
+                    action = "Show",
+                    id = _courseId
+                });
+
             }
-            return View(category);
+            return View(model);
+        }
+
+
+
+        // POST: Post/Create
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/Course/{id}/Create/CodeSnippet", Name = "CodeSnippet")]
+        public async Task<IActionResult> CreateCodeSnippet(CodeSnippetViewModel model)
+        {
+            ViewBag.Categories = _categoryRepo.Categories;
+            if (ModelState.IsValid)
+            {
+
+                //create new code snippet in CodeSnippet table
+                CodeSnippet newCodeSnip = new CodeSnippet();
+
+
+                newCodeSnip.Name = model.Name;
+                newCodeSnip.Description = model.Description;
+
+                newCodeSnip.Code = model.Code;
+
+                newCodeSnip.Answer = model.Answer;
+
+                _context.CodeSnippets.Add(newCodeSnip);
+                await _context.SaveChangesAsync();
+
+                //save changes ^^^
+
+                //create new post and pass in the newly saved code snippet id in as the foreign key
+
+                Post newPost = new Post();
+
+
+                newPost.CourseId = _courseId;
+
+                newPost.PostCategory = 1;
+                newPost.AssignmentId = newCodeSnip.CodeSnippetId;
+
+                _context.Posts.Add(newPost);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Assignment Successfully Created!";
+                return RedirectToRoute(new
+                {
+                    controller = "Course",
+                    action = "Show",
+                    id = _courseId
+                });
+
+            }
+            return View(model);
         }
 
 

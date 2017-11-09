@@ -1,8 +1,9 @@
 ﻿@model CodingBlogDemo2.Models.ViewModels.MultipleChoiceViewModel
 
-<form asp-controller="Post" asp-method="Create" role="form" class="form-horizontal" id="1" name="1">
+<form asp-route="MultipleChoice" method="post" role="form" class="form-horizontal" id="1" name="1">
     <h2> Create a Multiple Choice form</h2>
     <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" name="category" value="1"/>
 
     <hr />
 

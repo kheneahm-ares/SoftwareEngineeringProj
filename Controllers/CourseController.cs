@@ -73,15 +73,15 @@ namespace CodingBlogDemo2.Controllers
             return View(newCourse);
         }
 
-        public IActionResult Show(int courseId)
+        public IActionResult Show(int id)
         {
             IEnumerable<Post> posts;
 
-            posts = _context.Posts.Where(p => p.CourseId == courseId);
+            posts = _context.Posts.Where(p => p.CourseId == id);
 
             return View(new CourseViewModel
             {
-                Course = _courseRepo.Courses.Where(c => c.CourseId == courseId).FirstOrDefault(),
+                Course = _courseRepo.Courses.Where(c => c.CourseId == id).FirstOrDefault(),
                 Posts = posts
             });
 
@@ -89,23 +89,23 @@ namespace CodingBlogDemo2.Controllers
 
         [Authorize(Roles = "Admin")]
         //this just gets the view and returns the course model with initialized variables87ytfdxzaa
-        public IActionResult Edit(int courseId)
+        public IActionResult Edit(int id)
         {
 
-            var course = _courseRepo.Courses.Where(c => c.CourseId == courseId).FirstOrDefault();
+            var course = _courseRepo.Courses.Where(c => c.CourseId == id).FirstOrDefault();
             return View(course);
 
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Edit(int courseId, Course course)
+        public IActionResult Edit(int id, Course course)
         {
 
             //tell database which course we want to edit
-            var courseToUpdate = _context.Set<Course>().Where(c => c.CourseId == courseId).SingleOrDefault();
+            var courseToUpdate = _context.Set<Course>().Where(c => c.CourseId == id).SingleOrDefault();
 
-            courseToUpdate.CourseId = courseId;
+            courseToUpdate.CourseId = id;
             courseToUpdate.Name = course.Name;
             courseToUpdate.UserEmail = User.Identity.Name;
 
@@ -124,13 +124,13 @@ namespace CodingBlogDemo2.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int courseId)
+        public IActionResult Delete(int id)
         {
 
             //for now it will just be the data in the course table,
             //however, when we delete a course that has relationships with modules and assignments, we have to delete every data
             //connected to that course such as the modules, posts, and assignments in those modules!!!!!!!!!!!
-            Course course = _context.Set<Course>().Where(c => c.CourseId == courseId).SingleOrDefault();
+            Course course = _context.Set<Course>().Where(c => c.CourseId == id).SingleOrDefault();
             _context.Entry(course).State = Microsoft.EntityFrameworkCore.EntityState.Deleted; 
             _context.SaveChanges();
 

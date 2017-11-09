@@ -17,5 +17,9 @@ namespace CodingBlogDemo2.Models
         public int PostCategory { get; set; }
 
 
+        //the id in each of the assignment types
+        public int AssignmentId { get; set; }
+
+
     }
 }
