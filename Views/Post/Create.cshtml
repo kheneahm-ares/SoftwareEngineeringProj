@@ -4,6 +4,18 @@
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/codemirror-5.31.0/lib/codemirror.js"></script>
+<script src="~/codemirror-5.31.0/mode/clike/clike.js"></script>
+<link href="/codemirror-5.31.0/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<link href="~/codemirror-5.31.0/theme/base16-dark.css" rel="stylesheet" type="text/css" />
+
+<style>
+    .CodeMirror {
+        border: 1px solid #334;
+        width: 400px;
+    }
+</style>
+
 
 <div class="container">
     <div class="col-md-4">
@@ -72,6 +84,17 @@
 
 
 <script>
+
+    //create code mirror instance for code snippets 
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java"
+    });
+
+    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+
     $(document).ready(function () {
         $('#2').hide();
         $('#3').hide();

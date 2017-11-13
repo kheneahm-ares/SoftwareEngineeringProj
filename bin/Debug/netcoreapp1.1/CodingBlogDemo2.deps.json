@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "d7b1faeff27678a54a0710a6e04db69d5b4c7b25"
+    "signature": "67a68eb155ac1fd37ae4727ac6b1a134a031832e"
   },
   "compilationOptions": {
     "defines": [
@@ -23,6 +23,7 @@
     ".NETCoreApp,Version=v1.1": {
       "CodingBlogDemo2/1.0.0": {
         "dependencies": {
+          "CodeMirror": "2.37.0",
           "Microsoft.ApplicationInsights.AspNetCore": "2.0.0",
           "Microsoft.AspNetCore": "1.1.2",
           "Microsoft.AspNetCore.Authentication.Cookies": "1.1.2",
@@ -49,6 +50,7 @@
           "CodingBlogDemo2.dll": {}
         }
       },
+      "CodeMirror/2.37.0": {},
       "jQuery/3.2.1": {},
       "Libuv/1.9.2": {
         "dependencies": {
@@ -3590,6 +3592,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "CodeMirror/2.37.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ndtgiHttYmFVJv9W84jl3Ktl8IIxPYwBE1P+fL1NU6JbMglNQczojXQgFotXsOc1wIIL/HGnZiMI3dW4OmtxQg==",
+      "path": "codemirror/2.37.0",
+      "hashPath": "codemirror.2.37.0.nupkg.sha512"
     },
     "jQuery/3.2.1": {
       "type": "package",

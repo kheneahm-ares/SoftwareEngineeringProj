@@ -127,7 +127,7 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<string>("A");
 
-                    b.Property<char>("Answer");
+                    b.Property<string>("Answer");
 
                     b.Property<string>("B");
 

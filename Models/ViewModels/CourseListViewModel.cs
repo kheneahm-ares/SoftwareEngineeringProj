@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodingBlogDemo2.Models
 {
+    //this is used by profile page to show all courses
     public class CourseListViewModel
     {
         public IEnumerable<Course> Courses { get; set; }

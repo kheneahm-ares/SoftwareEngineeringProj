@@ -1,0 +1,58 @@
+﻿@model CodingBlogDemo2.Models.MultipleChoice
+
+<div class="form-horizontal">
+    <h4>Post</h4>
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden"  />
+    <div class="form-group">
+        <label asp-for="Name" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Name);
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Description);
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="A" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.A);
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="B" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.B);
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="C" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.C);
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="D" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.D);
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+
+@if (User.IsInRole("Admin"))
+{
+<div>
+    <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1">Edit</a> |
+    <a href="#">Delete</a>
+</div>
+}

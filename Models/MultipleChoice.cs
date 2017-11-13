@@ -15,9 +15,7 @@ namespace CodingBlogDemo2.Models
         public String B { get; set; }
         public String C { get; set; }
         public String D { get; set; }
-        public Char Answer { get; set; }
+        public String Answer { get; set; }
         public int PostId { get; set; }
-
-
     }
 }
