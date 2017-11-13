@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodingBlogDemo2.Models.ViewModels
 {
+    //this model is used when creating a category
     public class CategoryViewModel
     {
 

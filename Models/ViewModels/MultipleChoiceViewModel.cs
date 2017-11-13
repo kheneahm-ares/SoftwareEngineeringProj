@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodingBlogDemo2.Models.ViewModels
 {
+    //this model is used when creating an MC assignment
     public class MultipleChoiceViewModel
     {
         public int PostId { get; set; }
@@ -36,6 +37,7 @@ namespace CodingBlogDemo2.Models.ViewModels
         public String D { get; set; }
 
         [Required]
-        public Char Answer { get; set; }
+        public String Answer { get; set; }
+
     }
 }

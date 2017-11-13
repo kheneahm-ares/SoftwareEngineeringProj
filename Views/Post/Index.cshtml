@@ -1,3 +1,5 @@
+@model CodingBlogDemo2.Models.ViewModels.AssignmentViewModel
+
 
 @{
     ViewData["Title"] = "Index";
@@ -5,3 +7,21 @@
 
 <h2>Index</h2>
 
+<h3>Multiple Choice Posts</h3>
+
+@foreach(MultipleChoice mc in Model.MultipleChoices)
+{
+    <p>@mc.Name</p>
+
+}
+<hr />
+
+
+<h3>Code Snippet Posts</h3>
+
+@foreach (CodeSnippet cs in Model.CodeSnippets)
+{
+    <p>@cs.Name</p>
+
+}
+<hr />

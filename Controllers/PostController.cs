@@ -25,27 +25,109 @@ namespace CodingBlogDemo2.Controllers
         }
 
         // GET: Post
-        public async Task<IActionResult> Index()
+        [Route("/Course/{id}/Post/", Name = "PostIndex")]
+        public IActionResult Index(int? id)
         {
-            return View(await _context.Posts.ToListAsync());
+            AssignmentViewModel allPosts = new AssignmentViewModel();
+
+            //to get all posts of a current model we must first filter based on class
+            IEnumerable<Post> posts = _context.Posts.Where(p => p.CourseId == id);
+
+            //we now have all posts and its values (specifically the assignment ID and what tables they are in) based on a specific course id
+            //now we go to each table and grab them 
+
+
+
+            //we want to use list instead of Enumarable because we technically cant add to an enumerable set
+            List<MultipleChoice> mcs = new List<MultipleChoice>();
+            List<CodeSnippet> codeSnips = new List<CodeSnippet>();
+
+            foreach (Post post in posts)
+            {
+                //based on category type, we append the assignment to the set
+
+                //grab from MC table
+                if (post.PostCategory == 1)
+                {
+                    mcs.Add(_context.MultipleChoices.Where(m => m.MultipleChoiceId == post.AssignmentId).SingleOrDefault());
+                }
+
+
+                else if (post.PostCategory == 2)
+                {
+                    codeSnips.Add(_context.CodeSnippets.Where(c => c.CodeSnippetId == post.AssignmentId).SingleOrDefault());
+                }
+
+
+                else if (post.PostCategory == 3)
+                {
+                    //codensippnoresult
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+
+            return View(new AssignmentViewModel
+            {
+                MultipleChoices = mcs,
+                CodeSnippets = codeSnips
+            });
         }
 
         // GET: Post/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [Route("/Course/{id}/Post/{assignmentId?}/{categoryId?}", Name = "PostDetails")]
+        public IActionResult Details(int? id, int? assignmentId, int? categoryId)
         {
-            if (id == null)
+            //NOTE THAT assignmentId != postId, postId is the id for the Post table whereas assignmentId is the actual instance of the assignment post
+
+            //define an view model that will be used by the view
+            AssignmentViewModel newModel = new AssignmentViewModel();
+
+            //we will use this in our views, instead of creating another view model
+            ViewBag.courseId = id;
+            ViewBag.categoryId = categoryId;
+
+
+            //if requests for a category of type Multiple Choice
+            if (categoryId == 1)
             {
-                return NotFound();
+                var mc = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
+
+                newModel.MC = mc;
+
+                return View(new AssignmentViewModel
+                {
+                    MC = newModel.MC
+                });
+
             }
 
-            var post = await _context.Posts
-                .SingleOrDefaultAsync(m => m.PostId == id);
-            if (post == null)
+            //if requests for category of type code snippet with an answer
+            else if (categoryId == 2)
             {
-                return NotFound();
+
+                var codeSnip = _context.CodeSnippets.Where(c => c.CodeSnippetId == assignmentId).SingleOrDefault();
+                newModel.CodeSnippet = codeSnip;
+
+                return View(new AssignmentViewModel
+                {
+                    CodeSnippet = newModel.CodeSnippet
+                });
             }
 
-            return View(post);
+            //if requests for category of type code snippet without an answer
+            else if(categoryId == 3)
+            {
+
+            }
+
+
+            return NotFound();
+             
+
+
         }
 
 
@@ -151,7 +233,7 @@ namespace CodingBlogDemo2.Controllers
 
                 newPost.CourseId = _courseId;
 
-                newPost.PostCategory = 1;
+                newPost.PostCategory = 2;
                 newPost.AssignmentId = newCodeSnip.CodeSnippetId;
 
                 _context.Posts.Add(newPost);
@@ -170,21 +252,44 @@ namespace CodingBlogDemo2.Controllers
         }
 
 
-        // GET: Post/Edit/5'
+        // GET:
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int? id)
+        [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}", Name ="EditPost")]
+        public async Task<IActionResult> Edit(int? id, int? assignmentId, int? categoryId)
         {
+
+            AssignmentViewModel newModel = new AssignmentViewModel();
             if (id == null)
             {
                 return NotFound();
             }
+           
 
-            var post = await _context.Posts.SingleOrDefaultAsync(m => m.PostId == id);
-            if (post == null)
+            if(categoryId == 1)
+            {
+              newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
+
+            }
+            else if(categoryId == 2)
+            {
+                newModel.CodeSnippet = _context.CodeSnippets.Where(c => c.CodeSnippetId == assignmentId).SingleOrDefault();
+
+            }
+            else if(categoryId == 3)
+            {
+                //do something for no result cs
+            }
+            else
             {
                 return NotFound();
             }
-            return View(post);
+
+            return View(new AssignmentViewModel
+            {
+                MC = newModel.MC,
+                CodeSnippet = newModel.CodeSnippet
+            });
+            
         }
 
         //[Authorize(Roles = "Admin")]

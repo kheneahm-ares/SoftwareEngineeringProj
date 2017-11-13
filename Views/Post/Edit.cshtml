@@ -1,4 +1,19 @@
-@model CodingBlogDemo2.Models.Post
+@model CodingBlogDemo2.Models.ViewModels.AssignmentViewModel
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/codemirror-5.31.0/lib/codemirror.js"></script>
+<script src="~/codemirror-5.31.0/mode/clike/clike.js"></script>
+<link href="/codemirror-5.31.0/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<link href="~/codemirror-5.31.0/theme/base16-dark.css" rel="stylesheet" type="text/css" />
+
+<style>
+    .CodeMirror {
+        border: 1px solid #334;
+        width: 400px;
+    }
+</style>
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,7 +21,16 @@
 
 <h2>Edit</h2>
 
-<form asp-action="Edit">
+@if(Model.MC != null)
+{
+    @Html.Partial("EditMultipleChoice", Model.MC);
+
+}
+else if(Model.CodeSnippet != null)
+{
+    @Html.Partial("EditCodeSnippet", Model.CodeSnippet)
+}
+@*<form asp-action="Edit">
     <div class="form-horizontal">
         <h4>Post</h4>
         <hr />
@@ -32,9 +56,21 @@
             </div>
         </div>
     </div>
-</form>
+</form>*@
 
 @*<div>
     <a asp-action="Index">Back to List</a>
 </div>*@
 
+<script>
+
+    //create code mirror instance for code snippets
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java"
+    });
+
+    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+</script>
