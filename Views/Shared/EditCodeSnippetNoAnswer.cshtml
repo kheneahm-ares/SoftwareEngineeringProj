@@ -1,4 +1,4 @@
-﻿@model CodingBlogDemo2.Models.CodeSnippet
+@model CodingBlogDemo2.Models.CodeSnippetNoAnswer
 
 <form asp-route="EditPostSubmit" role="form" class="form-horizontal">
     <div class="form-horizontal">
@@ -28,15 +28,6 @@
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
         </div>
-
-        <div class="form-group">
-            <label asp-for="Answer" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Answer" class="form-control" />
-                <span asp-validation-for="Answer" class="text-danger"></span>
-            </div>
-        </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

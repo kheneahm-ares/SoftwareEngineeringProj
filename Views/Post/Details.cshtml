@@ -32,6 +32,11 @@ else if(Model.CodeSnippet != null)
     @Html.Partial("ShowCodeSnippet", Model.CodeSnippet)
 
 }
+else if (Model.CodeSnippetNoAnswer != null)
+{
+    @Html.Partial("ShowCodeSnippetNoAnswer", Model.CodeSnippetNoAnswer)
+
+}
 
 @*<div>
     <h4>Post</h4>

@@ -120,7 +120,14 @@ namespace CodingBlogDemo2.Controllers
             //if requests for category of type code snippet without an answer
             else if(categoryId == 3)
             {
+                var codeSnipNoAnswer = _context.CodeSnippetNoAnswers.Where
+                    (c => c.CodeSnippetNoAnswerId == assignmentId).SingleOrDefault();
+                newModel.CodeSnippetNoAnswer = codeSnipNoAnswer;
 
+                return View(new AssignmentViewModel
+                {
+                    CodeSnippetNoAnswer = newModel.CodeSnippetNoAnswer
+                });
             }
 
 
@@ -251,6 +258,56 @@ namespace CodingBlogDemo2.Controllers
             return View(model);
         }
 
+        // POST: Post/Create
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/Course/{id}/Create/CodeSnippetNoAnswer", Name = "CodeSnippetNoAnswer")]
+        public async Task<IActionResult> CreateCodeSnippetNoAnswer(CodeSnippetNoAnswerViewModel model)
+        {
+            ViewBag.Categories = _categoryRepo.Categories;
+            if (ModelState.IsValid)
+            {
+
+                //create new code snippet in CodeSnippet table
+                CodeSnippetNoAnswer newCodeSnip = new CodeSnippetNoAnswer();
+
+
+                newCodeSnip.Name = model.Name;
+                newCodeSnip.Description = model.Description;
+
+                newCodeSnip.Code = model.Code;
+
+                _context.CodeSnippetNoAnswers.Add(newCodeSnip);
+                await _context.SaveChangesAsync();
+
+                //save changes ^^^
+
+                //create new post and pass in the newly saved code snippet id in as the foreign key
+
+                Post newPost = new Post();
+
+
+                newPost.CourseId = _courseId;
+
+                newPost.PostCategory = 3;
+                newPost.AssignmentId = newCodeSnip.CodeSnippetNoAnswerId;
+
+                _context.Posts.Add(newPost);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Assignment Successfully Created!";
+                return RedirectToRoute(new
+                {
+                    controller = "Course",
+                    action = "Show",
+                    id = _courseId
+                });
+
+            }
+            return View(model);
+        }
+
 
         // GET:
         [Authorize(Roles = "Admin")]
@@ -267,7 +324,7 @@ namespace CodingBlogDemo2.Controllers
 
             if(categoryId == 1)
             {
-              newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
+                newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
             }
             else if(categoryId == 2)
@@ -277,7 +334,8 @@ namespace CodingBlogDemo2.Controllers
             }
             else if(categoryId == 3)
             {
-                //do something for no result cs
+                newModel.CodeSnippetNoAnswer = _context.CodeSnippetNoAnswers.Where
+                    (c => c.CodeSnippetNoAnswerId == assignmentId).SingleOrDefault();
             }
             else
             {
@@ -287,7 +345,8 @@ namespace CodingBlogDemo2.Controllers
             return View(new AssignmentViewModel
             {
                 MC = newModel.MC,
-                CodeSnippet = newModel.CodeSnippet
+                CodeSnippet = newModel.CodeSnippet,
+                CodeSnippetNoAnswer = newModel.CodeSnippetNoAnswer
             });
             
         }

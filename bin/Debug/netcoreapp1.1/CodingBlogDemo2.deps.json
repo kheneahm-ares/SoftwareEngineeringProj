@@ -3715,7 +3715,7 @@
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore/1.1.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-r75SdbrOQyRJ37XcWFIwIIjA2s1hZaMs6jvUAzCPphXMVoTzz7c9HMYHSIHqF0Cd5Sh4+pdx9Z6vAt60LTfJNw==",
+      "sha512": "sha512-AmxoIViWS7lqPLN96W7lXTW2bcO4YEqUNw/v/6crE1Nx+4d6BeldYjqtB8xnScmZqp1Hdiq7CEDUmGngPtUEdQ==",
       "path": "microsoft.aspnetcore.diagnostics.entityframeworkcore/1.1.2",
       "hashPath": "microsoft.aspnetcore.diagnostics.entityframeworkcore.1.1.2.nupkg.sha512"
     },
@@ -4107,7 +4107,7 @@
     "Microsoft.Extensions.Configuration.UserSecrets/1.1.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-GB5O9KxoGOAu5UWpZ/62tSPaYDosZ8XYkxyTdHpRO2QDyTVGa1404U4lUN/95XCipebdRX77e286qpP6hjbdMg==",
+      "sha512": "sha512-YIy96i+3yxH/HjhX7eNy7lpWRhW2ZzaGyhSpYlg92iYX5BfHSmwUgXnKQ7T2zu3WC8UMlO+r8JwnqXtBsEXIoQ==",
       "path": "microsoft.extensions.configuration.usersecrets/1.1.2",
       "hashPath": "microsoft.extensions.configuration.usersecrets.1.1.2.nupkg.sha512"
     },
@@ -4212,7 +4212,7 @@
     "Microsoft.Extensions.Logging.Debug/1.1.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-r7VCI7bjYsfrjzrMVuV7dbD3U4V7e4Z7z86xLQptXrPk2+tHJxHLq3KmZWzurrJo+84li5j0l3U9dkWSu5QJFg==",
+      "sha512": "sha512-HJiIs2WN4g9pAxus8It/S2epy5ROVMbQM48NLi0EfL+N1uC2nkDQk9ITtJn2rvDmVaQb7AzBsGT3ziBQUQcuYg==",
       "path": "microsoft.extensions.logging.debug/1.1.2",
       "hashPath": "microsoft.extensions.logging.debug.1.1.2.nupkg.sha512"
     },
@@ -4268,7 +4268,7 @@
     "Microsoft.VisualStudio.Web.BrowserLink/1.1.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-muiZ8eKVMR+FaqAjZfv9JEJaacvCkJ1JZ4qDd+sWHvJkvazWYDTJJ1IbfTwgQYc5DtqXkvYVGmoCrFACfk7noA==",
+      "sha512": "sha512-QOu+6RH3j+ncittuC5iZNAhOWyYy1BqVb7KPzeRk/s94Yl23+TOUqzH7NBdchObenhGqmFXT654VJEdSF1JERQ==",
       "path": "microsoft.visualstudio.web.browserlink/1.1.2",
       "hashPath": "microsoft.visualstudio.web.browserlink.1.1.2.nupkg.sha512"
     },
