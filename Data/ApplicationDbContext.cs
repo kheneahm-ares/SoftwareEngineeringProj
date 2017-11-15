@@ -17,6 +17,7 @@ namespace CodingBlogDemo2.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
 
         public DbSet<Course> Courses { get; set; }
