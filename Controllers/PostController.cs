@@ -85,6 +85,13 @@ namespace CodingBlogDemo2.Controllers
             ViewBag.courseId = id;
             ViewBag.categoryId = categoryId;
 
+            //we first check whether there exists an assignment based on the assignmentId, categoryId, and courseId
+            var coursesPosts = _context.Posts.Where(p => p.CourseId == id && p.AssignmentId == assignmentId && p.PostCategory == p.PostCategory);
+            
+            if(coursesPosts.Count() == 0)
+            {
+                return NotFound();
+            }
 
             //if requests for a category of type Multiple Choice
             if (categoryId == 1)
