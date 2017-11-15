@@ -1,9 +1,9 @@
-﻿@model CodingBlogDemo2.Models.CodeSnippet
+@model CodingBlogDemo2.Models.CodeSnippetNoAnswer
 
 
-<form asp-route="CodeSnippet" role="form" class="form-horizontal" id="2" name="2">
+<form asp-route="CodeSnippetNoAnswer" role="form" class="form-horizontal" id="3" name="3">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <input type="hidden" name="category" value="2" />
+    <input type="hidden" name="category" value="3" />
     <hr />
     <div style="position: relative; right: 100px;">
         <div class="form-group">
@@ -37,11 +37,3 @@
         </div>
     </div>
 </form>
-
-@if (User.IsInRole("Admin")) 
-{
-    <div>
-        <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2">Edit</a> |
-        <a href="#">Delete</a>
-    </div>
-}

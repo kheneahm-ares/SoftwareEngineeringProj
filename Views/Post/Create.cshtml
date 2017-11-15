@@ -46,9 +46,7 @@
 
         @{ await Html.RenderPartialAsync("CodeSnippet");}
 
-        @*<form asp-action="Create" id="2">asdfasdf</form>*@
-
-        <form asp-action="Create" id="3">okjihkjbhkhijopiohkbhkjioikbh</form>
+        @{ await Html.RenderPartialAsync("CodeSnippetNoAnswer");}
 
     </div>
 </div>
@@ -87,6 +85,13 @@
 
     //create code mirror instance for code snippets 
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java"
+    });
+
+    //create code mirror instance for code snippets with no answer (had to have its own instance for some reason)
+    var editor2 = CodeMirror.fromTextArea(document.getElementById("code2"), {
         lineNumbers: true,
         matchBrackets: true,
         mode: "text/x-java"

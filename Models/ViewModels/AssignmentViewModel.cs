@@ -14,6 +14,7 @@ namespace CodingBlogDemo2.Models.ViewModels
     {
         public MultipleChoice MC { get; set; }
         public CodeSnippet CodeSnippet { get; set; }
+        public CodeSnippetNoAnswer CodeSnippetNoAnswer { get; set; }
 
 
 
@@ -21,5 +22,6 @@ namespace CodingBlogDemo2.Models.ViewModels
         //this will be used to show all models respectively
         public IEnumerable<MultipleChoice> MultipleChoices { get; set; }
         public IEnumerable<CodeSnippet> CodeSnippets { get; set; }
+        public IEnumerable<CodeSnippetNoAnswer> CodeSnippetNoAnswers { get; set; }
     }
 }

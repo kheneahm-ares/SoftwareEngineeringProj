@@ -70,6 +70,7 @@ namespace CodingBlogDemo2.Controllers
                 });
             }
 
+
             return View(newCourse);
         }
 

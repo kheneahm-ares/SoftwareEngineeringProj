@@ -30,6 +30,10 @@ else if(Model.CodeSnippet != null)
 {
     @Html.Partial("EditCodeSnippet", Model.CodeSnippet)
 }
+else if(Model.CodeSnippetNoAnswer != null)
+{
+    @Html.Partial("EditCodeSnippetNoAnswer", Model.CodeSnippetNoAnswer)
+}
 @*<form asp-action="Edit">
     <div class="form-horizontal">
         <h4>Post</h4>
