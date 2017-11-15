@@ -37,3 +37,11 @@
         </div>
     </div>
 </form>
+
+@if (User.IsInRole("Admin")) 
+{
+    <div>
+        <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2">Edit</a> |
+        <a href="#">Delete</a>
+    </div>
+}
