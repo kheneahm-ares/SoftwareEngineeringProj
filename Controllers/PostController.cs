@@ -41,6 +41,7 @@ namespace CodingBlogDemo2.Controllers
             //we want to use list instead of Enumarable because we technically cant add to an enumerable set
             List<MultipleChoice> mcs = new List<MultipleChoice>();
             List<CodeSnippet> codeSnips = new List<CodeSnippet>();
+            List<CodeSnippetNoAnswer> codeSnipsNoAnswer = new List<CodeSnippetNoAnswer>();
 
             foreach (Post post in posts)
             {
@@ -61,7 +62,8 @@ namespace CodingBlogDemo2.Controllers
 
                 else if (post.PostCategory == 3)
                 {
-                    //codensippnoresult
+                    codeSnipsNoAnswer.Add(_context.CodeSnippetNoAnswers.Where
+                        (c => c.CodeSnippetNoAnswerId == post.AssignmentId).SingleOrDefault());
                 }
                 else
                 {
@@ -72,7 +74,8 @@ namespace CodingBlogDemo2.Controllers
             return View(new AssignmentViewModel
             {
                 MultipleChoices = mcs,
-                CodeSnippets = codeSnips
+                CodeSnippets = codeSnips,
+                CodeSnippetNoAnswers = codeSnipsNoAnswer
             });
         }
 
