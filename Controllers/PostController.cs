@@ -296,7 +296,7 @@ namespace CodingBlogDemo2.Controllers
         //// POST: Post/Edit/5
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, Post post)
+        //public async Task<IActionResult> EditMultipleChoice(int id, MultipleChoice post)
         //{
         //    if (id != post.PostId)
         //    {
