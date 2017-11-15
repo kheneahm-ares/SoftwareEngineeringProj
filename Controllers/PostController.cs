@@ -63,10 +63,6 @@ namespace CodingBlogDemo2.Controllers
                 {
                     //codensippnoresult
                 }
-                else
-                {
-                    return NotFound();
-                }
             }
 
             return View(new AssignmentViewModel
@@ -89,6 +85,14 @@ namespace CodingBlogDemo2.Controllers
             ViewBag.courseId = id;
             ViewBag.categoryId = categoryId;
 
+            //we first check whether there exists an assignment based on the assignmentId, categoryId, and courseId
+            var coursesPosts = _context.Posts.Where(p => p.CourseId == id && p.AssignmentId == assignmentId && p.PostCategory == p.PostCategory);
+            
+            //if there isnt an exiting assignment
+            if(coursesPosts.Count() == 0)
+            {
+                return NotFound();
+            }
 
             //if requests for a category of type Multiple Choice
             if (categoryId == 1)
@@ -120,14 +124,7 @@ namespace CodingBlogDemo2.Controllers
             //if requests for category of type code snippet without an answer
             else if(categoryId == 3)
             {
-                var codeSnipNoAnswer = _context.CodeSnippetNoAnswers.Where
-                    (c => c.CodeSnippetNoAnswerId == assignmentId).SingleOrDefault();
-                newModel.CodeSnippetNoAnswer = codeSnipNoAnswer;
 
-                return View(new AssignmentViewModel
-                {
-                    CodeSnippetNoAnswer = newModel.CodeSnippetNoAnswer
-                });
             }
 
 
@@ -258,56 +255,6 @@ namespace CodingBlogDemo2.Controllers
             return View(model);
         }
 
-        // POST: Post/Create
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("/Course/{id}/Create/CodeSnippetNoAnswer", Name = "CodeSnippetNoAnswer")]
-        public async Task<IActionResult> CreateCodeSnippetNoAnswer(CodeSnippetNoAnswerViewModel model)
-        {
-            ViewBag.Categories = _categoryRepo.Categories;
-            if (ModelState.IsValid)
-            {
-
-                //create new code snippet in CodeSnippet table
-                CodeSnippetNoAnswer newCodeSnip = new CodeSnippetNoAnswer();
-
-
-                newCodeSnip.Name = model.Name;
-                newCodeSnip.Description = model.Description;
-
-                newCodeSnip.Code = model.Code;
-
-                _context.CodeSnippetNoAnswers.Add(newCodeSnip);
-                await _context.SaveChangesAsync();
-
-                //save changes ^^^
-
-                //create new post and pass in the newly saved code snippet id in as the foreign key
-
-                Post newPost = new Post();
-
-
-                newPost.CourseId = _courseId;
-
-                newPost.PostCategory = 3;
-                newPost.AssignmentId = newCodeSnip.CodeSnippetNoAnswerId;
-
-                _context.Posts.Add(newPost);
-                await _context.SaveChangesAsync();
-
-                TempData["Success"] = "Assignment Successfully Created!";
-                return RedirectToRoute(new
-                {
-                    controller = "Course",
-                    action = "Show",
-                    id = _courseId
-                });
-
-            }
-            return View(model);
-        }
-
 
         // GET:
         [Authorize(Roles = "Admin")]
@@ -324,7 +271,7 @@ namespace CodingBlogDemo2.Controllers
 
             if(categoryId == 1)
             {
-                newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
+              newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
             }
             else if(categoryId == 2)
@@ -334,8 +281,7 @@ namespace CodingBlogDemo2.Controllers
             }
             else if(categoryId == 3)
             {
-                newModel.CodeSnippetNoAnswer = _context.CodeSnippetNoAnswers.Where
-                    (c => c.CodeSnippetNoAnswerId == assignmentId).SingleOrDefault();
+                //do something for no result cs
             }
             else
             {
@@ -345,8 +291,7 @@ namespace CodingBlogDemo2.Controllers
             return View(new AssignmentViewModel
             {
                 MC = newModel.MC,
-                CodeSnippet = newModel.CodeSnippet,
-                CodeSnippetNoAnswer = newModel.CodeSnippetNoAnswer
+                CodeSnippet = newModel.CodeSnippet
             });
             
         }
@@ -355,7 +300,7 @@ namespace CodingBlogDemo2.Controllers
         //// POST: Post/Edit/5
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, Post post)
+        //public async Task<IActionResult> EditMultipleChoice(int id, MultipleChoice post)
         //{
         //    if (id != post.PostId)
         //    {
