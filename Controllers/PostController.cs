@@ -63,10 +63,6 @@ namespace CodingBlogDemo2.Controllers
                 {
                     //codensippnoresult
                 }
-                else
-                {
-                    return NotFound();
-                }
             }
 
             return View(new AssignmentViewModel
