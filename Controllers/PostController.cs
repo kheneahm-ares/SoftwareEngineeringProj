@@ -88,7 +88,9 @@ namespace CodingBlogDemo2.Controllers
             //we first check whether there exists an assignment based on the assignmentId, categoryId, and courseId
             var coursesPosts = _context.Posts.Where(p => p.CourseId == id && p.AssignmentId == assignmentId && p.PostCategory == p.PostCategory);
             
+
             //if there isnt an exiting assignment
+
             if(coursesPosts.Count() == 0)
             {
                 return NotFound();
