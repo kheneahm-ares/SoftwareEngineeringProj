@@ -1,4 +1,4 @@
-﻿@model CourseViewModel
+﻿@model CodingBlogDemo2.Models.ViewModels.AssignmentViewModel
 @{
     ViewData["Title"] = "Show Course";
 }
@@ -9,15 +9,18 @@
         <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
     }
     <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
-        @if (User.IsInRole("Admin")){
+
         <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
-            @Model.Course.Name Posts
-            <a asp-controller="Post" asp-action="Create" asp-route-id ="@Model.Course.CourseId" class="btn btn-default">Create Post</a>
+            All Posts
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Post" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Post</a>
+
+            }
         </h3>
-        }
+
         <hr />
-        <a asp-route="PostDetails" asp-route-id="@Model.Course.CourseId" asp-route-postId="13" asp-route-categoryId="1">alsdkjfkajsdf</a>
-        @if (Model.Posts.Count() < 1)
+        @if (Model.CodeSnippets.Count() <= 0 && Model.MultipleChoices.Count() <= 0 && Model.CodeSnippetNoAnswers.Count() <= 0)
         {
             <h5>
                 No posts...
@@ -25,15 +28,31 @@
         }
         else
         {
-            @foreach (var post in Model.Posts)
+            <h3>Multiple Choice Posts</h3>
+
+            @foreach (MultipleChoice mc in Model.MultipleChoices)
             {
-                @*<div class="">
-                    <h5><a asp-controller="Post" asp-action="Details" asp-route-id="@post.PostId" style="color: #0366d6;">@post.Title</a></h5>
-                    <p style="padding-top: 10px; padding-bottom: 10px;">
-                        @post.Description
-                    </p>
-                </div>*@
-                <hr />
+                <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">@mc.Name</a>
+                <br />
+            }
+            <hr />
+
+
+            <h3>Code Snippet Posts</h3>
+
+            @foreach (CodeSnippet cs in Model.CodeSnippets)
+            {
+                <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2">@cs.Name</a>
+                <br />
+            }
+            <hr />
+
+            <h3>Code Snippet No Answer Posts</h3>
+
+            @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
+            {
+                <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">@cs.Name</a>
+                <br />
             }
         }
     </div>

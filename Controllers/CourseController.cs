@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using CodingBlogDemo2.Data;
 using Microsoft.AspNetCore.Authorization;
 using CodingBlogDemo2.Models;
+using CodingBlogDemo2.Models.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -76,14 +77,52 @@ namespace CodingBlogDemo2.Controllers
 
         public IActionResult Show(int id)
         {
-            IEnumerable<Post> posts;
+            AssignmentViewModel allPosts = new AssignmentViewModel();
 
-            posts = _context.Posts.Where(p => p.CourseId == id);
+            //to get all posts of a current model we must first filter based on class
+            IEnumerable<Post> posts = _context.Posts.Where(p => p.CourseId == id);
 
-            return View(new CourseViewModel
+            //we now have all posts and its values (specifically the assignment ID and what tables they are in) based on a specific course id
+            //now we go to each table and grab them 
+
+            //we want to use list instead of Enumarable because we technically cant add to an enumerable set
+            List<MultipleChoice> mcs = new List<MultipleChoice>();
+            List<CodeSnippet> codeSnips = new List<CodeSnippet>();
+            List<CodeSnippetNoAnswer> codeSnipsNoAnswer = new List<CodeSnippetNoAnswer>();
+
+
+            foreach (Post post in posts)
             {
-                Course = _courseRepo.Courses.Where(c => c.CourseId == id).FirstOrDefault(),
-                Posts = posts
+                //based on category type, we append the assignment to the set
+
+                //grab from MC table
+                if (post.PostCategory == 1)
+                {
+                    mcs.Add(_context.MultipleChoices.Where(m => m.MultipleChoiceId == post.AssignmentId).SingleOrDefault());
+                }
+
+
+                else if (post.PostCategory == 2)
+                {
+                    codeSnips.Add(_context.CodeSnippets.Where(c => c.CodeSnippetId == post.AssignmentId).SingleOrDefault());
+                }
+
+
+                else if (post.PostCategory == 3)
+                {
+                    codeSnipsNoAnswer.Add(_context.CodeSnippetNoAnswers.Where
+                        (c => c.CodeSnippetNoAnswerId == post.AssignmentId).SingleOrDefault());
+                }
+            }
+
+            //this view bag is used when the Create Post link is clicked
+            ViewBag.CourseId = id;
+
+            return View(new AssignmentViewModel
+            {
+                MultipleChoices = mcs,
+                CodeSnippets = codeSnips,
+                CodeSnippetNoAnswers = codeSnipsNoAnswer
             });
 
         }

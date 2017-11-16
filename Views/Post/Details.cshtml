@@ -74,7 +74,8 @@ else if (Model.CodeSnippetNoAnswer != null)
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         lineNumbers: true,
         matchBrackets: true,
-        mode: "text/x-java"
+        mode: "text/x-java",
+        theme: "base16-dark"
     });
 
     var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;

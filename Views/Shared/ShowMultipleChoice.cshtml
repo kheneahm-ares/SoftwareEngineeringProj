@@ -1,7 +1,6 @@
 ﻿@model CodingBlogDemo2.Models.MultipleChoice
 
 <div class="form-horizontal">
-    <h4>Post</h4>
     <hr />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden"  />
@@ -44,7 +43,7 @@
     
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Submit Answer" class="btn btn-default" />
         </div>
     </div>
 </div>
@@ -53,6 +52,8 @@
 {
 <div>
     <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1">Edit</a> |
-    <a href="#">Delete</a>
+    <form method="post" asp-route="DeletePost"  asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" >
+            <input type="submit" class="btn btn-danger" value="Delete"/>
+    </form>
 </div>
 }
