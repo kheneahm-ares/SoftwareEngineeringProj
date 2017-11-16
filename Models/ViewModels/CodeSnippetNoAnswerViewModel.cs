@@ -8,9 +8,6 @@ namespace CodingBlogDemo2.Models.ViewModels
 {
     public class CodeSnippetNoAnswerViewModel
     {
-        public int PostId { get; set; }
-        public int CategoryType { get; set; }
-
         [Required]
         public String Name { get; set; }
 
@@ -19,7 +16,7 @@ namespace CodingBlogDemo2.Models.ViewModels
         public String Description { get; set; }
 
         [Required]
-        [Display(Name = "Code Snippet")]
-        public String Code { get; set; }
+        [Display(Name = "Code Snippet below")]
+        public String Code1 { get; set; }
     }
 }

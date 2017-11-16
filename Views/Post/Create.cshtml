@@ -82,24 +82,6 @@
 
 
 <script>
-
-    //create code mirror instance for code snippets 
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        lineNumbers: true,
-        matchBrackets: true,
-        mode: "text/x-java"
-    });
-
-    //create code mirror instance for code snippets with no answer (had to have its own instance for some reason)
-    var editor2 = CodeMirror.fromTextArea(document.getElementById("code2"), {
-        lineNumbers: true,
-        matchBrackets: true,
-        mode: "text/x-java"
-    });
-
-    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
-    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
-
     $(document).ready(function () {
         $('#2').hide();
         $('#3').hide();
@@ -110,8 +92,33 @@
             $('#2').hide();
             $('#3').hide();
             $('#' + value).show("slow");
-            
+
         });
-      
+
     });
+
+
+    //create code mirror instance for code snippets 
+    function editor(id) {
+        CodeMirror.fromTextArea(document.getElementById(id), {
+            lineNumbers: true,
+            matchBrackets: true,
+            theme: "base16-dark",
+            mode: "text/x-java"
+        });
+    }
+
+    editor('Code');
+    editor('Code1');
+
+    ////create code mirror instance for code snippets with no answer (had to have its own instance for some reason)
+    //var editor2 = CodeMirror.fromTextArea(document.getElementById("code2"), {
+    //    lineNumbers: true,
+    //    matchBrackets: true,
+    //    theme: "base16-dark",
+    //    mode: "text/x-java"
+    //});
+
+    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
 </script>

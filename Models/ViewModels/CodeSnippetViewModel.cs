@@ -9,8 +9,7 @@ namespace CodingBlogDemo2.Models.ViewModels
     //this model is used when creating a code snippet
     public class CodeSnippetViewModel
     {
-        public int PostId { get; set; }
-        public int CategoryType { get; set; }
+ 
 
         [Required]
         public String Name { get; set; }

@@ -37,3 +37,14 @@
         </div>
     </div>
 </form>
+
+
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3">Edit</a> |
+        <form method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3">
+            <input type="submit" class="btn btn-danger" value="Delete" />
+        </form>
+    </div>
+}
