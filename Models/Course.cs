@@ -10,6 +10,14 @@ namespace CodingBlogDemo2.Models
 {
     public class Course
     {
+
+        public Course()
+        {
+
+            //everytime a course is created this will be called
+            WhenCreated = DateTime.Now;
+            WhenEdited = DateTime.Now; //initialize edit to now
+        }
         [BindNever]
         public int CourseId { get; set; }
 
@@ -19,5 +27,8 @@ namespace CodingBlogDemo2.Models
         public string Name { get; set; }
 
         public string UserEmail { get; set; }
+
+        public DateTime WhenCreated { get; set; }
+        public DateTime WhenEdited { get; set; }
     }
 }

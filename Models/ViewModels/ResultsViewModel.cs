@@ -9,6 +9,7 @@ namespace CodingBlogDemo2.Models.ViewModels
     public class ResultsViewModel
     {
         public IEnumerable<UserResultsViewModel> UserResults { get; set; }
+        public UserAnswersViewModel UserAnswers { get; set; }
         public int CorrectCount { get; set; }
         public int IncorrentCount { get; set; }
     }

@@ -74,7 +74,7 @@ namespace CodingBlogDemo2.Controllers
             });
         }
 
-        // GET: Post/Details/5
+        // this details page is the actual page where STUDENTS submit their ANSWERS
         [Route("/Course/{id}/Post/{assignmentId?}/{categoryId?}", Name = "PostDetails")]
         public IActionResult Details(int? id, int? assignmentId, int? categoryId)
         {
@@ -98,9 +98,20 @@ namespace CodingBlogDemo2.Controllers
                 return NotFound();
             }
 
+            //we need to check whether or not the Student accessing this page has submitted an answer for this assignment
+            bool hasSubmitted = false;
+            ViewBag.hasSubmitted = false;
+
             //if requests for a category of type Multiple Choice
             if (categoryId == 1)
             {
+                String currentUserEmail = User.Identity.Name;
+                hasSubmitted = _context.MultipleChoiceSubmissions.Any(s => s.AssignmentId == assignmentId && s.UserEmail == currentUserEmail);
+
+                if (hasSubmitted == true)
+                {
+                    ViewBag.hasSubmitted = true;
+                }
                 var mc = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
                 newModel.MC = mc;
@@ -138,6 +149,8 @@ namespace CodingBlogDemo2.Controllers
                 });
             }
 
+
+            
 
             return NotFound();
              
@@ -512,6 +525,14 @@ namespace CodingBlogDemo2.Controllers
             {
                 var specificAssignment = await _context.MultipleChoices.SingleOrDefaultAsync(m => m.MultipleChoiceId == assignmentId);
                 _context.MultipleChoices.Remove(specificAssignment);
+
+
+                //delete all the submissions for this specific assignment
+                var submissionsForAssignment = _context.MultipleChoiceSubmissions.Where(ms => ms.AssignmentId == assignmentId);
+                foreach(MultipleChoiceSubmission submission in submissionsForAssignment)
+                {
+                    _context.MultipleChoiceSubmissions.Remove(submission);
+                }
             }
             else if(categoryId == 2)
             {
@@ -601,12 +622,15 @@ namespace CodingBlogDemo2.Controllers
             int correctCount = 0;
             int incorrectCount = 0;
 
+            //used by MC
+            UserAnswersViewModel userAnswers = new UserAnswersViewModel();
+
             //grab all the submissions from the specific category table
             //grab from MCSubmissions table
             if (categoryId == 1)
             {
                 //get all submissions from table
-                IEnumerable<MultipleChoiceSubmission> mcSubmissions = _context.MultipleChoiceSubmissions;
+                IEnumerable<MultipleChoiceSubmission> mcSubmissions = _context.MultipleChoiceSubmissions.Where(m => m.AssignmentId == assignmentId);
 
                 foreach(MultipleChoiceSubmission mc in mcSubmissions)
                 {
@@ -619,6 +643,18 @@ namespace CodingBlogDemo2.Controllers
                     currentResult.FName = user.FirstName;
                     currentResult.LName = user.LastName;
                     currentResult.Answer = mc.Answer;
+
+                    switch (currentResult.Answer)
+                    {
+                        case "A": userAnswers.ACount++;break;
+                        case "B": userAnswers.BCount++;break;
+                        case "C": userAnswers.CCount++;break;
+                        case "D": userAnswers.DCount++;break;
+                        default: break;
+                       
+                    }
+                        
+
                     currentResult.IsCorrect = mc.IsCorrect;
 
                     if (currentResult.IsCorrect == true)
@@ -638,7 +674,8 @@ namespace CodingBlogDemo2.Controllers
             {
                 UserResults = userResults,
                 CorrectCount = correctCount,
-                IncorrentCount = incorrectCount
+                IncorrentCount = incorrectCount,
+                UserAnswers = userAnswers
             });
         }
 

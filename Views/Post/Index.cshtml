@@ -12,6 +12,7 @@
 @foreach(MultipleChoice mc in Model.MultipleChoices)
 {
     <p>@mc.Name</p>
+    <p>Updated: @mc.WhenEdited</p>
 
 }
 <hr />
@@ -22,6 +23,7 @@
 @foreach (CodeSnippet cs in Model.CodeSnippets)
 {
     <p>@cs.Name</p>
+    <p>Updated: @cs.WhenEdited</p>
 
 }
 <hr />
@@ -31,5 +33,6 @@
 @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
 {
     <p>@cs.Name</p>
+    <p>Updated: @cs.WhenEdited</p>
 
 }

@@ -47,11 +47,18 @@
             </div>
         </div>
 
+        @if (!ViewBag.hasSubmitted)
+        {
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Submit Answer" class="btn btn-default" />
             </div>
         </div>
+        }
+        else
+        {
+        <label style="color:darkgreen"> Already submitted an answer!</label>
+        }
     </div>
 </form>
 

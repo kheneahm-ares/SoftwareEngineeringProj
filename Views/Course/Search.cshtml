@@ -1,0 +1,31 @@
+﻿@model CourseListViewModel
+
+
+@{
+    ViewData["Title"] = "Results";
+}
+
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>Classes matching "@ViewBag.Search"</h3>
+        <hr />
+        @if(Model.CourseInfos.Count() <= 0)
+        {
+
+            <h5>We coudn't find any courses matching "@ViewBag.Search"</h5>
+        }
+        else
+        {
+            foreach (var course in Model.CourseInfos)
+            {
+                
+                <div>
+                    <h5 style="padding: 10px 15px;"><a asp-controller="Course" asp-action="Show" asp-route-id="@course.Course.CourseId">@course.Course.Name</a></h5>
+                    <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
+                    <hr style="margin:0px" />
+                </div>
+            }
+        }
+    </div>
+</div>

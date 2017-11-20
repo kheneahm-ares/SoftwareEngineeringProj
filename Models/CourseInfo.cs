@@ -8,11 +8,11 @@ namespace CodingBlogDemo2.Models
 {
 
     //this is used to show all the posts of the current course
-    public class CourseViewModel
+    public class CourseInfo
     {
-        public IEnumerable<Post> Posts { get; set; }
-        public IEnumerable<MultipleChoice> MultipleChoices { get; set; }
+        
         public Course Course { get; set; }
+        public String InstructorLName { get; set; }
 
     }
 }

@@ -12,7 +12,7 @@ using CodingBlogDemo2.Models.ViewModels;
 
 namespace CodingBlogDemo2.Controllers
 {
-     //should only be accessed by Admin, need to create custom authorization
+     [Authorize]
     public class CourseController : Controller
     {
         private ICourseRepository _courseRepo;
@@ -117,6 +117,8 @@ namespace CodingBlogDemo2.Controllers
             //this view bag is used when the Create Post link is clicked
             ViewBag.CourseId = id;
 
+            ViewBag.CourseName = _context.Courses.Where(c => c.CourseId == id).First().Name;
+
             return View(new AssignmentViewModel
             {
                 MultipleChoices = mcs,
@@ -182,6 +184,49 @@ namespace CodingBlogDemo2.Controllers
 
             });
 
+        }
+
+        public IActionResult Search(String searchQuery)
+        {
+            List<CourseInfo> courseInfos = new List<CourseInfo>();
+
+
+            //get courses where a name is like what was searched
+
+            var courses = from c in _context.Courses select c;
+
+            var coursesCount = courses.Count();
+
+            var specifiedCourses = courses.Where(c => c.Name.Contains(searchQuery));
+
+
+            //this code has occured at least twice, needs to be put in a repo so that it it can be reused
+
+            if (specifiedCourses != null)
+            {
+
+
+                foreach (Course course in specifiedCourses)
+                {
+
+                    CourseInfo newCourseInfo = new CourseInfo();
+                    newCourseInfo.Course = course;
+
+                    ApplicationUser user = _context.Users.Where(u => u.Email == course.UserEmail).First();
+                    newCourseInfo.InstructorLName = user.LastName;
+
+                    //add new course info
+                    courseInfos.Add(newCourseInfo);
+                }
+            }
+
+
+            ViewBag.Search = searchQuery;
+
+            return View(new CourseListViewModel
+            {
+                CourseInfos = courseInfos
+            });
         }
     }
 }
