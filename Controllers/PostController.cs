@@ -74,7 +74,7 @@ namespace CodingBlogDemo2.Controllers
             });
         }
 
-        // GET: Post/Details/5
+        // this details page is the actual page where STUDENTS submit their ANSWERS
         [Route("/Course/{id}/Post/{assignmentId?}/{categoryId?}", Name = "PostDetails")]
         public IActionResult Details(int? id, int? assignmentId, int? categoryId)
         {
@@ -98,9 +98,20 @@ namespace CodingBlogDemo2.Controllers
                 return NotFound();
             }
 
+            //we need to check whether or not the Student accessing this page has submitted an answer for this assignment
+            bool hasSubmitted = false;
+            ViewBag.hasSubmitted = false;
+
             //if requests for a category of type Multiple Choice
             if (categoryId == 1)
             {
+                String currentUserEmail = User.Identity.Name;
+                hasSubmitted = _context.MultipleChoiceSubmissions.Any(s => s.AssignmentId == assignmentId && s.UserEmail == currentUserEmail);
+
+                if (hasSubmitted == true)
+                {
+                    ViewBag.hasSubmitted = true;
+                }
                 var mc = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
                 newModel.MC = mc;
@@ -138,6 +149,8 @@ namespace CodingBlogDemo2.Controllers
                 });
             }
 
+
+            
 
             return NotFound();
              
@@ -498,6 +511,7 @@ namespace CodingBlogDemo2.Controllers
         }
 
         // POST: Post/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}", Name ="DeletePost")]
         public async Task<IActionResult> Delete(int id, int? assignmentId, int? categoryId)
@@ -511,6 +525,14 @@ namespace CodingBlogDemo2.Controllers
             {
                 var specificAssignment = await _context.MultipleChoices.SingleOrDefaultAsync(m => m.MultipleChoiceId == assignmentId);
                 _context.MultipleChoices.Remove(specificAssignment);
+
+
+                //delete all the submissions for this specific assignment
+                var submissionsForAssignment = _context.MultipleChoiceSubmissions.Where(ms => ms.AssignmentId == assignmentId);
+                foreach(MultipleChoiceSubmission submission in submissionsForAssignment)
+                {
+                    _context.MultipleChoiceSubmissions.Remove(submission);
+                }
             }
             else if(categoryId == 2)
             {
@@ -524,6 +546,12 @@ namespace CodingBlogDemo2.Controllers
             }
 
             //we also need to delete all the submissions that belong on that post
+            ///
+            //////
+            ////
+            ///
+            //
+            //
 
 
 
@@ -536,6 +564,124 @@ namespace CodingBlogDemo2.Controllers
                 controller = "Profile",
                 action = "Index"
             });
+        }
+
+
+        [HttpPost]
+        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/SubmitMultipleChoice", Name = "SubmitMultipleChoice")]
+        public IActionResult SubmitMultipleChoice(int id, int? assignmentId, int? categoryId, MultipleChoice submission)
+        {
+
+            //get the actual answer of the assignment
+            //since we know this is only for MC, we go directly to the MC table
+            MultipleChoice assignment = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).FirstOrDefault();
+            var assignmentAnswer = assignment.Answer;
+
+
+            //we want the user to only make one submission per assignment
+            //so we check if such a submission exist
+            bool subExist = _context.MultipleChoiceSubmissions.Any(m => m.AssignmentId == assignmentId && m.UserEmail == User.Identity.Name);
+
+            //only create submission if there isnt a submission already existing
+            if (!subExist)
+            {
+
+
+
+                var userSelectedAnswer = Request.Form["answer"];
+
+                MultipleChoiceSubmission newSubmission = new MultipleChoiceSubmission
+                {
+                    AssignmentId = (int)assignmentId,
+                    Answer = userSelectedAnswer,
+                    UserEmail = User.Identity.Name,
+                    IsCorrect = assignmentAnswer == userSelectedAnswer
+                };
+
+                _context.MultipleChoiceSubmissions.Add(newSubmission);
+
+                _context.SaveChanges();
+            }
+            
+
+            //for multiple choice we dont need the actual model to be submitted
+            //all we need is the actual radio button selected 
+            return RedirectToRoute(new
+            {
+                controller = "Profile",
+                action = "Index"
+            });
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/Results", Name = "PostResults")]
+        public IActionResult Results(int id, int? assignmentId, int? categoryId)
+        {
+            List<UserResultsViewModel> userResults = new List<UserResultsViewModel>();
+            int correctCount = 0;
+            int incorrectCount = 0;
+
+            //used by MC
+            UserAnswersViewModel userAnswers = new UserAnswersViewModel();
+
+            //grab all the submissions from the specific category table
+            //grab from MCSubmissions table
+            if (categoryId == 1)
+            {
+                //get all submissions from table
+                IEnumerable<MultipleChoiceSubmission> mcSubmissions = _context.MultipleChoiceSubmissions.Where(m => m.AssignmentId == assignmentId);
+
+                foreach(MultipleChoiceSubmission mc in mcSubmissions)
+                {
+
+                    UserResultsViewModel currentResult = new UserResultsViewModel();
+
+                    //get current user to get Fname and Lname
+                    ApplicationUser user = getUserByEmail(mc.UserEmail);
+
+                    currentResult.FName = user.FirstName;
+                    currentResult.LName = user.LastName;
+                    currentResult.Answer = mc.Answer;
+
+                    switch (currentResult.Answer)
+                    {
+                        case "A": userAnswers.ACount++;break;
+                        case "B": userAnswers.BCount++;break;
+                        case "C": userAnswers.CCount++;break;
+                        case "D": userAnswers.DCount++;break;
+                        default: break;
+                       
+                    }
+                        
+
+                    currentResult.IsCorrect = mc.IsCorrect;
+
+                    if (currentResult.IsCorrect == true)
+                    {
+                        correctCount++;
+                    }
+                    else
+                    {
+                        incorrectCount++;
+                    }
+
+                    userResults.Add(currentResult);
+
+                }
+            }
+            return View( new ResultsViewModel
+            {
+                UserResults = userResults,
+                CorrectCount = correctCount,
+                IncorrentCount = incorrectCount,
+                UserAnswers = userAnswers
+            });
+        }
+
+        private ApplicationUser getUserByEmail(string userEmail)
+        {
+            return _context.Users.Where(u => u.UserName == userEmail).FirstOrDefault();
         }
 
         private bool PostExists(int id)

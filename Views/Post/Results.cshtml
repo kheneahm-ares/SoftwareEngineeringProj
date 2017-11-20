@@ -1,0 +1,107 @@
+﻿@model CodingBlogDemo2.Models.ViewModels.ResultsViewModel
+
+@{
+    ViewData["Title"] = "Results";
+}
+
+<script src="~/lib/chartjs/dist/Chart.min.js"></script>
+
+
+
+<div class="col-md-6 col-md-offset-3">
+    <div>
+        <select class="form-control" id="myselect" name="myselect" required>
+            <option value="correctChart" selected="selected"> Correct Vs Incorrect</option>
+            <option value="answersChart">Student Answers</option>
+
+        </select>
+    </div>
+    <canvas id="correctChart" width="20" height="20"></canvas>
+    <canvas id="answersChart" width="20" height="20"></canvas>
+
+    <div class="panel panel-default">
+        <table class="table table-bordered table-hover" >
+            <thead>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Answer</th>
+                <th>Is Correct</th>
+
+            </thead>
+            <tbody>
+                @foreach (var userResults in Model.UserResults) {
+                        <tr>
+                            <td>@userResults.FName</td>
+                            <td>@userResults.LName</td>
+                            <td>@userResults.Answer</td>
+                            <td>@userResults.IsCorrect</td>
+                        </tr>
+                 }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#answersChart').hide();
+        $('#correctChart').show("slow");
+        $("#myselect").change(function () {
+            var value = $(this).val();
+            $('#correctChart').hide();
+            $('#answersChart').hide();
+            $('#' + value).show("slow");
+
+        });
+        var correctCanvas = document.getElementById("correctChart");
+
+        var myChart = new Chart(correctCanvas, {
+            type: 'pie',
+            data: {
+                labels: ["Correct", "Incorrect"],
+                datasets: [{
+                    label: "Results",
+                    backgroundColor: ["#3cba9f", "#c45850"],
+                    data: [@Model.CorrectCount, @Model.IncorrentCount]
+
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Correct vs Incorrect Results"
+
+                }
+
+            }
+        });
+
+        var answersCanvas = document.getElementById("answersChart");
+        var myBarChart = new Chart(answersCanvas, {
+            type: 'bar',
+            data: {
+                labels: ["A", "B", "C", "D"],
+                datasets: [
+                    {
+                        label: "Student Answers",
+                        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+                        data: [@Model.UserAnswers.ACount, @Model.UserAnswers.BCount, @Model.UserAnswers.CCount, @Model.UserAnswers.DCount]
+
+                    }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Student Answers"
+
+                }
+
+            }
+
+
+        });
+
+    });
+
+</script>

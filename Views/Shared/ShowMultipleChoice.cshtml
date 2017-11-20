@@ -1,59 +1,75 @@
 ﻿@model CodingBlogDemo2.Models.MultipleChoice
 
-<div class="form-horizontal">
-    <hr />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden"  />
-    <div class="form-group">
-        <label asp-for="Name" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.Name);
+<form asp-route="SubmitMultipleChoice" role="form" method="post">
+    <div class="form-horizontal col-md-6 col-md-offset-3">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" />
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Name);
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.Description);
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Description);
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="A" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.A);
+        <div class="form-group">
+            <input type="radio" value="A" name="answer" required/>
+            <label asp-for="A" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.A);
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="B" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.B);
+        <div class="form-group">
+            <input type="radio" value="B" name="answer" />
+            <label asp-for="B" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.B);
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="C" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.C);
+        <div class="form-group">
+            <input type="radio" value="C" name="answer" />
+            <label asp-for="C" class="col-md-2 control-label"></label>
+
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.C);
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="D" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.D);
+        <div class="form-group">
+            <input type="radio" value="D" name="answer" />
+            <label asp-for="D" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.D);
+            </div>
         </div>
-    </div>
-    
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Submit Answer" class="btn btn-default" />
+
+        @if (!ViewBag.hasSubmitted)
+        {
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit Answer" class="btn btn-default" />
+            </div>
         </div>
+        }
+        else
+        {
+        <label style="color:darkgreen"> Already submitted an answer!</label>
+        }
     </div>
-</div>
+</form>
 
 @if (User.IsInRole("Admin"))
 {
 <div>
-    <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1">Edit</a> |
+    <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-warning">Edit</a> 
     <form method="post" asp-route="DeletePost"  asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" >
             <input type="submit" class="btn btn-danger" value="Delete"/>
     </form>
+    <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-success">Results</a>
+
 </div>
 }

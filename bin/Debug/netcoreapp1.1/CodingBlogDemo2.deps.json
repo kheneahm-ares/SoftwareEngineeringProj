@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "67a68eb155ac1fd37ae4727ac6b1a134a031832e"
+    "signature": "18da50db7e30ef16ee93efc9c26561475184fb83"
   },
   "compilationOptions": {
     "defines": [
@@ -23,6 +23,7 @@
     ".NETCoreApp,Version=v1.1": {
       "CodingBlogDemo2/1.0.0": {
         "dependencies": {
+          "Chart.js": "2.6.0",
           "CodeMirror": "2.37.0",
           "Microsoft.ApplicationInsights.AspNetCore": "2.0.0",
           "Microsoft.AspNetCore": "1.1.2",
@@ -50,6 +51,7 @@
           "CodingBlogDemo2.dll": {}
         }
       },
+      "Chart.js/2.6.0": {},
       "CodeMirror/2.37.0": {},
       "jQuery/3.2.1": {},
       "Libuv/1.9.2": {
@@ -3592,6 +3594,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Chart.js/2.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ysANhHgsuS9UUSqQlzbrM28acMbK7fBTIess2tUKuKj6NnsknR5LknGhj3fBSbqJ5lglWnOEBcyjIcoK7VqEOw==",
+      "path": "chart.js/2.6.0",
+      "hashPath": "chart.js.2.6.0.nupkg.sha512"
     },
     "CodeMirror/2.37.0": {
       "type": "package",
