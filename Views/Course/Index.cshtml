@@ -14,7 +14,7 @@
                     </div>
                     @if (Model.Courses.Count() < 1)
                     {
-                        <div class="panel-body">No courses created...</div>
+                        <div class="panel-body">No courses...</div>
                     }
                     else
                     {
@@ -34,15 +34,17 @@
                                                     <span class="glyphicon glyphicon-eye-open"></span> View
                                                 </a>
                                                 <span>&nbsp</span>
-                                                <a asp-controller="Course" asp-action="Edit" asp-route-id="@course.CourseId" class="btn btn-default btn-sm" style="color: black;">
-                                                    <span class="glyphicon glyphicon-pencil"></span> Edit
-                                                </a>
-                                                <span>&nbsp</span>
-                                                <form style="display:inline" asp-controller="Course" asp-action="Delete" asp-route-id="@course.CourseId" method="post">
-                                                    <button type="submit" class="btn btn-default btn-sm" style="color: black;">
-                                                        <span class="glyphicon glyphicon-erase"></span> Delete
-                                                    </button>
-                                                </form>
+                                                    @if (User.IsInRole("Admin")) { 
+                                                    <a asp-controller="Course" asp-action="Edit" asp-route-id="@course.CourseId" class="btn btn-default btn-sm" style="color: black;">
+                                                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                                                    </a>
+                                                    <span>&nbsp</span>
+                                                    <form style="display:inline" asp-controller="Course" asp-action="Delete" asp-route-id="@course.CourseId" method="post">
+                                                        <button type="submit" class="btn btn-default btn-sm" style="color: black;">
+                                                            <span class="glyphicon glyphicon-erase"></span> Delete
+                                                        </button>
+                                                    </form>
+                                                }
                                             </td>
                                         </tr>
                                     }

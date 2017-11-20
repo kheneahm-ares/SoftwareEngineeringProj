@@ -2,6 +2,9 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v1.1": {
+      "Chart.js/2.6.0": {
+        "type": "package"
+      },
       "CodeMirror/2.37.0": {
         "type": "package"
       },
@@ -4264,6 +4267,17 @@
     }
   },
   "libraries": {
+    "Chart.js/2.6.0": {
+      "sha512": "ysANhHgsuS9UUSqQlzbrM28acMbK7fBTIess2tUKuKj6NnsknR5LknGhj3fBSbqJ5lglWnOEBcyjIcoK7VqEOw==",
+      "type": "package",
+      "path": "chart.js/2.6.0",
+      "files": [
+        "chart.js.2.6.0.nupkg.sha512",
+        "chart.js.nuspec",
+        "content/Scripts/Chart.js",
+        "content/Scripts/Chart.min.js"
+      ]
+    },
     "CodeMirror/2.37.0": {
       "sha512": "ndtgiHttYmFVJv9W84jl3Ktl8IIxPYwBE1P+fL1NU6JbMglNQczojXQgFotXsOc1wIIL/HGnZiMI3dW4OmtxQg==",
       "type": "package",
@@ -11104,6 +11118,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v1.1": [
+      "Chart.js >= 2.6.0",
       "CodeMirror >= 2.37.0",
       "Microsoft.ApplicationInsights.AspNetCore >= 2.0.0",
       "Microsoft.AspNetCore >= 1.1.2",
@@ -11185,6 +11200,10 @@
           "jQuery": {
             "target": "Package",
             "version": "3.2.1"
+          },
+          "Chart.js": {
+            "target": "Package",
+            "version": "2.6.0"
           },
           "Microsoft.EntityFrameworkCore.Tools": {
             "suppressParent": "All",

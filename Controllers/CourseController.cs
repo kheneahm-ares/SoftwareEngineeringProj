@@ -29,7 +29,6 @@ namespace CodingBlogDemo2.Controllers
             _context = context;
         }
         // GET: /<controller>/
-        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
 

@@ -12,6 +12,7 @@
     <UserSecretsId>aspnet-CodingBlogDemo2-8bbd85b5-591e-440e-9077-f7fbe43dac2d</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Chart.js" Version="2.6.0" />
     <PackageReference Include="CodeMirror" Version="2.37.0" />
     <PackageReference Include="jQuery" Version="3.2.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -34,10 +35,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Post\" />
   </ItemGroup>
 
 </Project>

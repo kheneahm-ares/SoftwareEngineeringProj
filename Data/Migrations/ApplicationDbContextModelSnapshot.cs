@@ -164,6 +164,24 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.ToTable("MultipleChoices");
                 });
 
+            modelBuilder.Entity("CodingBlogDemo2.Models.MultipleChoiceSubmission", b =>
+                {
+                    b.Property<int>("MultipleChoiceSubmissionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Answer");
+
+                    b.Property<int>("AssignmentId");
+
+                    b.Property<bool>("IsCorrect");
+
+                    b.Property<string>("UserEmail");
+
+                    b.HasKey("MultipleChoiceSubmissionId");
+
+                    b.ToTable("MultipleChoiceSubmissions");
+                });
+
             modelBuilder.Entity("CodingBlogDemo2.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
