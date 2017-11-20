@@ -30,13 +30,15 @@
             </div>
         </div>
         <div class="form-group">
-            @*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@
-            <button class="btn btn-primary">Compile</button>
-
             <input type="submit" class="btn btn-success col-md-offset-5 col-md-2" value="Submit Assignment" />
         </div>
     </div>
 </form>
+
+@*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@
+<button class="btn btn-primary" onclick="CompileCode()">Compile</button>
+
+
 
 @if (User.IsInRole("Admin")) 
 {
@@ -47,3 +49,21 @@
         </form>
     </div>
 }
+
+<script>
+    function CompileCode() {
+        var code = $("#code").val();
+        $.ajax({
+            type: 'GET',
+            url: '/api/compile/',
+            data: {code: code},
+            dataType: 'text',
+            success: function (data) {
+                console.log(data);
+
+            }
+
+        });
+
+    };
+</script>
