@@ -37,6 +37,13 @@
                     <li><a asp-area="" asp-controller="Profile" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li>
+                        <div style="margin-top: 10px; margin-left: 40px;">
+                            <form asp-controller="Course" asp-action="Search" role="search">
+                                <input style="width: 400px" class="form-control" type="text" placeholder="Search classes" id="searchQuery" name="searchQuery" required>
+                            </form>
+                        </div>
+                    </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

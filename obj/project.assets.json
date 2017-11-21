@@ -2,6 +2,9 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v1.1": {
+      "Chart.js/2.6.0": {
+        "type": "package"
+      },
       "CodeMirror/2.37.0": {
         "type": "package"
       },
@@ -4264,6 +4267,17 @@
     }
   },
   "libraries": {
+    "Chart.js/2.6.0": {
+      "sha512": "ysANhHgsuS9UUSqQlzbrM28acMbK7fBTIess2tUKuKj6NnsknR5LknGhj3fBSbqJ5lglWnOEBcyjIcoK7VqEOw==",
+      "type": "package",
+      "path": "chart.js/2.6.0",
+      "files": [
+        "chart.js.2.6.0.nupkg.sha512",
+        "chart.js.nuspec",
+        "content/Scripts/Chart.js",
+        "content/Scripts/Chart.min.js"
+      ]
+    },
     "CodeMirror/2.37.0": {
       "sha512": "ndtgiHttYmFVJv9W84jl3Ktl8IIxPYwBE1P+fL1NU6JbMglNQczojXQgFotXsOc1wIIL/HGnZiMI3dW4OmtxQg==",
       "type": "package",
@@ -4611,7 +4625,7 @@
       ]
     },
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore/1.1.2": {
-      "sha512": "AmxoIViWS7lqPLN96W7lXTW2bcO4YEqUNw/v/6crE1Nx+4d6BeldYjqtB8xnScmZqp1Hdiq7CEDUmGngPtUEdQ==",
+      "sha512": "r75SdbrOQyRJ37XcWFIwIIjA2s1hZaMs6jvUAzCPphXMVoTzz7c9HMYHSIHqF0Cd5Sh4+pdx9Z6vAt60LTfJNw==",
       "type": "package",
       "path": "microsoft.aspnetcore.diagnostics.entityframeworkcore/1.1.2",
       "files": [
@@ -5492,7 +5506,7 @@
       ]
     },
     "Microsoft.Extensions.Configuration.UserSecrets/1.1.2": {
-      "sha512": "YIy96i+3yxH/HjhX7eNy7lpWRhW2ZzaGyhSpYlg92iYX5BfHSmwUgXnKQ7T2zu3WC8UMlO+r8JwnqXtBsEXIoQ==",
+      "sha512": "GB5O9KxoGOAu5UWpZ/62tSPaYDosZ8XYkxyTdHpRO2QDyTVGa1404U4lUN/95XCipebdRX77e286qpP6hjbdMg==",
       "type": "package",
       "path": "microsoft.extensions.configuration.usersecrets/1.1.2",
       "files": [
@@ -5669,7 +5683,7 @@
       ]
     },
     "Microsoft.Extensions.Logging.Debug/1.1.2": {
-      "sha512": "HJiIs2WN4g9pAxus8It/S2epy5ROVMbQM48NLi0EfL+N1uC2nkDQk9ITtJn2rvDmVaQb7AzBsGT3ziBQUQcuYg==",
+      "sha512": "r7VCI7bjYsfrjzrMVuV7dbD3U4V7e4Z7z86xLQptXrPk2+tHJxHLq3KmZWzurrJo+84li5j0l3U9dkWSu5QJFg==",
       "type": "package",
       "path": "microsoft.extensions.logging.debug/1.1.2",
       "files": [
@@ -5921,7 +5935,7 @@
       ]
     },
     "Microsoft.VisualStudio.Web.BrowserLink/1.1.2": {
-      "sha512": "QOu+6RH3j+ncittuC5iZNAhOWyYy1BqVb7KPzeRk/s94Yl23+TOUqzH7NBdchObenhGqmFXT654VJEdSF1JERQ==",
+      "sha512": "muiZ8eKVMR+FaqAjZfv9JEJaacvCkJ1JZ4qDd+sWHvJkvazWYDTJJ1IbfTwgQYc5DtqXkvYVGmoCrFACfk7noA==",
       "type": "package",
       "path": "microsoft.visualstudio.web.browserlink/1.1.2",
       "files": [
@@ -11104,6 +11118,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v1.1": [
+      "Chart.js >= 2.6.0",
       "CodeMirror >= 2.37.0",
       "Microsoft.ApplicationInsights.AspNetCore >= 2.0.0",
       "Microsoft.AspNetCore >= 1.1.2",
@@ -11126,7 +11141,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Pablo\\.nuget\\packages\\": {}
+    "C:\\Users\\khene\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -11134,14 +11149,14 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Pablo\\Documents\\Software Engineering\\Final Project\\CodingBlogDemo2\\CodingBlogDemo2\\CodingBlogDemo2.csproj",
+      "projectUniqueName": "C:\\Users\\khene\\CSharpNet2017\\CodingBlogDemo2\\CodingBlogDemo2\\CodingBlogDemo2.csproj",
       "projectName": "CodingBlogDemo2",
-      "projectPath": "C:\\Users\\Pablo\\Documents\\Software Engineering\\Final Project\\CodingBlogDemo2\\CodingBlogDemo2\\CodingBlogDemo2.csproj",
-      "packagesPath": "C:\\Users\\Pablo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Pablo\\Documents\\Software Engineering\\Final Project\\CodingBlogDemo2\\CodingBlogDemo2\\obj\\",
+      "projectPath": "C:\\Users\\khene\\CSharpNet2017\\CodingBlogDemo2\\CodingBlogDemo2\\CodingBlogDemo2.csproj",
+      "packagesPath": "C:\\Users\\khene\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\khene\\CSharpNet2017\\CodingBlogDemo2\\CodingBlogDemo2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Pablo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\khene\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11185,6 +11200,10 @@
           "jQuery": {
             "target": "Package",
             "version": "3.2.1"
+          },
+          "Chart.js": {
+            "target": "Package",
+            "version": "2.6.0"
           },
           "Microsoft.EntityFrameworkCore.Tools": {
             "suppressParent": "All",

@@ -36,11 +36,11 @@ namespace CodingBlogDemo2.Controllers
             //we now have all posts and its values (specifically the assignment ID and what tables they are in) based on a specific course id
             //now we go to each table and grab them 
 
-
-
             //we want to use list instead of Enumarable because we technically cant add to an enumerable set
             List<MultipleChoice> mcs = new List<MultipleChoice>();
             List<CodeSnippet> codeSnips = new List<CodeSnippet>();
+            List<CodeSnippetNoAnswer> codeSnipsNoAnswer = new List<CodeSnippetNoAnswer>();
+
 
             foreach (Post post in posts)
             {
@@ -61,22 +61,20 @@ namespace CodingBlogDemo2.Controllers
 
                 else if (post.PostCategory == 3)
                 {
-                    //codensippnoresult
-                }
-                else
-                {
-                    return NotFound();
+                    codeSnipsNoAnswer.Add(_context.CodeSnippetNoAnswers.Where
+                        (c => c.CodeSnippetNoAnswerId == post.AssignmentId).SingleOrDefault());
                 }
             }
 
             return View(new AssignmentViewModel
             {
                 MultipleChoices = mcs,
-                CodeSnippets = codeSnips
+                CodeSnippets = codeSnips,
+                CodeSnippetNoAnswers = codeSnipsNoAnswer
             });
         }
 
-        // GET: Post/Details/5
+        // this details page is the actual page where STUDENTS submit their ANSWERS
         [Route("/Course/{id}/Post/{assignmentId?}/{categoryId?}", Name = "PostDetails")]
         public IActionResult Details(int? id, int? assignmentId, int? categoryId)
         {
@@ -89,10 +87,31 @@ namespace CodingBlogDemo2.Controllers
             ViewBag.courseId = id;
             ViewBag.categoryId = categoryId;
 
+            //we first check whether there exists an assignment based on the assignmentId, categoryId, and courseId
+            var coursesPosts = _context.Posts.Where(p => p.CourseId == id && p.AssignmentId == assignmentId && p.PostCategory == p.PostCategory);
+            
+
+            //if there isnt an exiting assignment
+
+            if(coursesPosts.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            //we need to check whether or not the Student accessing this page has submitted an answer for this assignment
+            bool hasSubmitted = false;
+            ViewBag.hasSubmitted = false;
 
             //if requests for a category of type Multiple Choice
             if (categoryId == 1)
             {
+                String currentUserEmail = User.Identity.Name;
+                hasSubmitted = _context.MultipleChoiceSubmissions.Any(s => s.AssignmentId == assignmentId && s.UserEmail == currentUserEmail);
+
+                if (hasSubmitted == true)
+                {
+                    ViewBag.hasSubmitted = true;
+                }
                 var mc = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
                 newModel.MC = mc;
@@ -118,7 +137,7 @@ namespace CodingBlogDemo2.Controllers
             }
 
             //if requests for category of type code snippet without an answer
-            else if(categoryId == 3)
+            else if (categoryId == 3)
             {
                 var codeSnipNoAnswer = _context.CodeSnippetNoAnswers.Where
                     (c => c.CodeSnippetNoAnswerId == assignmentId).SingleOrDefault();
@@ -130,6 +149,8 @@ namespace CodingBlogDemo2.Controllers
                 });
             }
 
+
+            
 
             return NotFound();
              
@@ -258,7 +279,6 @@ namespace CodingBlogDemo2.Controllers
             return View(model);
         }
 
-        // POST: Post/Create
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -276,7 +296,7 @@ namespace CodingBlogDemo2.Controllers
                 newCodeSnip.Name = model.Name;
                 newCodeSnip.Description = model.Description;
 
-                newCodeSnip.Code = model.Code;
+                newCodeSnip.Code = model.Code1;
 
                 _context.CodeSnippetNoAnswers.Add(newCodeSnip);
                 await _context.SaveChangesAsync();
@@ -309,6 +329,7 @@ namespace CodingBlogDemo2.Controllers
         }
 
 
+
         // GET:
         [Authorize(Roles = "Admin")]
         [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}", Name ="EditPost")]
@@ -324,7 +345,7 @@ namespace CodingBlogDemo2.Controllers
 
             if(categoryId == 1)
             {
-                newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
+              newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
             }
             else if(categoryId == 2)
@@ -351,48 +372,124 @@ namespace CodingBlogDemo2.Controllers
             
         }
 
-        //[Authorize(Roles = "Admin")]
-        //// POST: Post/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, Post post)
-        //{
-        //    if (id != post.PostId)
-        //    {
-        //        return NotFound();
-        //    }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}/MultipleChoice", Name ="SaveMultipleChoice")]
+        public async Task<IActionResult> EditMultipleChoice(int id, int? assignmentId, int? categoryId, MultipleChoice post)
+        {
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            var postToUpdate = _context.Set<Post>().Where(c => c.PostId == id).SingleOrDefault();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var postToUpdate = _context.Set<MultipleChoice>().Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
-        //            postToUpdate.Title = post.Title;
-        //            postToUpdate.Description = post.Description;
 
-        //            //_context.Update(post);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!PostExists(post.PostId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToRoute(new
-        //        {
-        //            controller = "Profile",
-        //            action = "Index"
-        //        });
-        //    }
-        //    return View(post);
-        //}
+                    postToUpdate.Name = post.Name;
+                    postToUpdate.Description = post.Description;
+                    postToUpdate.A = post.A;
+                    postToUpdate.B = post.B;
+                    postToUpdate.C = post.C;
+                    postToUpdate.D = post.D;
+                    postToUpdate.Answer = post.Answer;
+
+                    //_context.Update(post);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                TempData["Success"] = "Assignment Successfully Edited and Saved!";
+
+                return RedirectToRoute(new
+                {
+                    controller = "Profile",
+                    action = "Index"
+                });
+            }
+            return View(post);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}/CodeSnippet", Name = "SaveCodeSnippet")]
+        public async Task<IActionResult> EditCodeSnippet(int id, int? assignmentId, int? categoryId, CodeSnippet post)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    //grab post to update
+                    var postToUpdate = _context.Set<CodeSnippet>().Where(c => c.CodeSnippetId == assignmentId).SingleOrDefault();
+
+
+                    postToUpdate.Name = post.Name;
+                    postToUpdate.Description = post.Description;
+                    postToUpdate.Answer = post.Answer;
+                    postToUpdate.Code = post.Code;
+                    
+
+                    //_context.Update(post);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                TempData["Success"] = "Assignment Successfully Edited and Saved!";
+
+                return RedirectToRoute(new
+                {
+                    controller = "Profile",
+                    action = "Index"
+                });
+            }
+            return View(post);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}/CodeSnippetNoAnswer", Name = "SaveCodeSnippetNoAnswer")]
+        public async Task<IActionResult> EditCodeSnippetNoAnswer(int id, int? assignmentId, int? categoryId, CodeSnippetNoAnswer post)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var postToUpdate = _context.Set<CodeSnippetNoAnswer>().Where(c => c.CodeSnippetNoAnswerId == assignmentId).SingleOrDefault();
+
+
+                    postToUpdate.Name = post.Name;
+                    postToUpdate.Description = post.Description;
+                    postToUpdate.Code = post.Code;
+
+
+                    //_context.Update(post);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                TempData["Success"] = "Assignment Successfully Edited and Saved!";
+
+                return RedirectToRoute(new
+                {
+                    controller = "Profile",
+                    action = "Index"
+                });
+            }
+            return View(post);
+        }
 
         // GET: Post/Delete/5
         [Authorize(Roles = "Admin")]
@@ -414,18 +511,177 @@ namespace CodingBlogDemo2.Controllers
         }
 
         // POST: Post/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}", Name ="DeletePost")]
+        public async Task<IActionResult> Delete(int id, int? assignmentId, int? categoryId)
         {
-            var post = await _context.Posts.SingleOrDefaultAsync(m => m.PostId == id);
+
+            //when we want to delete a post, we delete from the post table and the table that assignment belongs to 
+            var post = await _context.Posts.SingleOrDefaultAsync(p => p.CourseId == id && p.AssignmentId == assignmentId && p.PostCategory == categoryId);
             _context.Posts.Remove(post);
+
+            if(categoryId == 1)
+            {
+                var specificAssignment = await _context.MultipleChoices.SingleOrDefaultAsync(m => m.MultipleChoiceId == assignmentId);
+                _context.MultipleChoices.Remove(specificAssignment);
+
+
+                //delete all the submissions for this specific assignment
+                var submissionsForAssignment = _context.MultipleChoiceSubmissions.Where(ms => ms.AssignmentId == assignmentId);
+                foreach(MultipleChoiceSubmission submission in submissionsForAssignment)
+                {
+                    _context.MultipleChoiceSubmissions.Remove(submission);
+                }
+            }
+            else if(categoryId == 2)
+            {
+                var specificAssignment = await _context.CodeSnippet.SingleOrDefaultAsync(c => c.CodeSnippetId == assignmentId);
+                _context.CodeSnippet.Remove(specificAssignment);
+            }
+            else if(categoryId == 3)
+            {
+                var specificAssignment = await _context.CodeSnippetNoAnswers.SingleOrDefaultAsync(c => c.CodeSnippetNoAnswerId == assignmentId);
+                _context.CodeSnippetNoAnswers.Remove(specificAssignment);
+            }
+
+            //we also need to delete all the submissions that belong on that post
+            ///
+            //////
+            ////
+            ///
+            //
+            //
+
+
+
             await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Assignment Post successfully deleted!";
+
             return RedirectToRoute(new
             {
                 controller = "Profile",
                 action = "Index"
             });
+        }
+
+
+        [HttpPost]
+        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/SubmitMultipleChoice", Name = "SubmitMultipleChoice")]
+        public IActionResult SubmitMultipleChoice(int id, int? assignmentId, int? categoryId, MultipleChoice submission)
+        {
+
+            //get the actual answer of the assignment
+            //since we know this is only for MC, we go directly to the MC table
+            MultipleChoice assignment = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).FirstOrDefault();
+            var assignmentAnswer = assignment.Answer;
+
+
+            //we want the user to only make one submission per assignment
+            //so we check if such a submission exist
+            bool subExist = _context.MultipleChoiceSubmissions.Any(m => m.AssignmentId == assignmentId && m.UserEmail == User.Identity.Name);
+
+            //only create submission if there isnt a submission already existing
+            if (!subExist)
+            {
+
+
+
+                var userSelectedAnswer = Request.Form["answer"];
+
+                MultipleChoiceSubmission newSubmission = new MultipleChoiceSubmission
+                {
+                    AssignmentId = (int)assignmentId,
+                    Answer = userSelectedAnswer,
+                    UserEmail = User.Identity.Name,
+                    IsCorrect = assignmentAnswer == userSelectedAnswer
+                };
+
+                _context.MultipleChoiceSubmissions.Add(newSubmission);
+
+                _context.SaveChanges();
+            }
+            
+
+            //for multiple choice we dont need the actual model to be submitted
+            //all we need is the actual radio button selected 
+            return RedirectToRoute(new
+            {
+                controller = "Profile",
+                action = "Index"
+            });
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/Results", Name = "PostResults")]
+        public IActionResult Results(int id, int? assignmentId, int? categoryId)
+        {
+            List<UserResultsViewModel> userResults = new List<UserResultsViewModel>();
+            int correctCount = 0;
+            int incorrectCount = 0;
+
+            //used by MC
+            UserAnswersViewModel userAnswers = new UserAnswersViewModel();
+
+            //grab all the submissions from the specific category table
+            //grab from MCSubmissions table
+            if (categoryId == 1)
+            {
+                //get all submissions from table
+                IEnumerable<MultipleChoiceSubmission> mcSubmissions = _context.MultipleChoiceSubmissions.Where(m => m.AssignmentId == assignmentId);
+
+                foreach(MultipleChoiceSubmission mc in mcSubmissions)
+                {
+
+                    UserResultsViewModel currentResult = new UserResultsViewModel();
+
+                    //get current user to get Fname and Lname
+                    ApplicationUser user = getUserByEmail(mc.UserEmail);
+
+                    currentResult.FName = user.FirstName;
+                    currentResult.LName = user.LastName;
+                    currentResult.Answer = mc.Answer;
+
+                    switch (currentResult.Answer)
+                    {
+                        case "A": userAnswers.ACount++;break;
+                        case "B": userAnswers.BCount++;break;
+                        case "C": userAnswers.CCount++;break;
+                        case "D": userAnswers.DCount++;break;
+                        default: break;
+                       
+                    }
+                        
+
+                    currentResult.IsCorrect = mc.IsCorrect;
+
+                    if (currentResult.IsCorrect == true)
+                    {
+                        correctCount++;
+                    }
+                    else
+                    {
+                        incorrectCount++;
+                    }
+
+                    userResults.Add(currentResult);
+
+                }
+            }
+            return View( new ResultsViewModel
+            {
+                UserResults = userResults,
+                CorrectCount = correctCount,
+                IncorrentCount = incorrectCount,
+                UserAnswers = userAnswers
+            });
+        }
+
+        private ApplicationUser getUserByEmail(string userEmail)
+        {
+            return _context.Users.Where(u => u.UserName == userEmail).FirstOrDefault();
         }
 
         private bool PostExists(int id)

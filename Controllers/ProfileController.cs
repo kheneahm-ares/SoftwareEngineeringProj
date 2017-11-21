@@ -36,17 +36,32 @@ namespace CodingBlogDemo2.Controllers
             IEnumerable<Post> posts;
             ApplicationUser currentUser;
 
+            List<CourseInfo> courseInfos = new List<CourseInfo>();
+
 
             courses = _courseRepository.Courses.Where(p => p.UserEmail == User.Identity.Name);
+
+            foreach (Course cs in courses)
+            {
+                CourseInfo newCourseInfo = new CourseInfo();
+                newCourseInfo.Course = cs;
+
+
+                ApplicationUser user = _context.Users.Where(c => c.Email == cs.UserEmail).First();
+                newCourseInfo.InstructorLName = user.LastName;
+
+                courseInfos.Add(newCourseInfo);
+            }
+
+            //get posts based on who you follow and/or created
             posts = _context.Posts;
             currentUser = _accountRepository.getUserByEmail(User.Identity.Name);
 
 
             return View(new CourseListViewModel
             {
-                Courses = courses,
-                Posts = posts,
-                ProfessorName = currentUser.LastName
+                CourseInfos = courseInfos,
+
             });
 
         }

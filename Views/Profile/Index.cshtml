@@ -14,7 +14,7 @@
     <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
         <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">All Posts</h3>
         <hr />
-        @if (Model.Posts.Count() < 1)
+        @*@if (Model.Posts.Count() < 1)
         {
             <h5>
                 No posts...
@@ -22,17 +22,8 @@
         }
         else
         {
-            @foreach (var post in Model.Posts)
-            {
-                @*<div class="">
-                    <h5><a asp-controller="Post" asp-action="Details" asp-route-id="@post.PostId" style="color: #0366d6;">@post.PostCategory</a></h5>
-                    <p style="padding-top: 10px; padding-bottom: 10px;">
-                        @post.Description
-                    </p>
-                </div>*@
-                <hr />
-            }
-        }
+            
+        }*@
     </div>
 
     <div class="col-md-3" style="margin-left: 15px;">
@@ -41,7 +32,7 @@
                 <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Courses</a>
             </div>
 
-            @foreach (var course in Model.Courses)
+            @foreach (var course in Model.CourseInfos)
             {
                 @*if(Model.Courses.Count() > 5)
                 {
@@ -49,8 +40,8 @@
                     <p>hello</p>
                 }*@
                 <div class="panel-body" style="padding: 0px">
-                    <h5 style="padding: 10px 15px;"><a asp-controller="Course" asp-action="Show" asp-route-id="@course.CourseId">@course.Name</a></h5>
-                    <p style="padding-left: 15px"><span style="font-weight: bold">Instructor: </span>Professor @Model.ProfessorName</p>
+                    <h5 style="padding: 10px 15px;"><a asp-controller="Course" asp-action="Show" asp-route-id="@course.Course.CourseId">@course.Course.Name</a></h5>
+                    <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
                     <hr style="margin:0px"/>
                 </div>
             }

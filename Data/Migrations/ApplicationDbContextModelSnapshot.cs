@@ -99,6 +99,10 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<int>("PostId");
 
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
                     b.HasKey("CodeSnippetId");
 
                     b.ToTable("CodeSnippet");
@@ -117,6 +121,10 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<int>("PostId");
 
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
                     b.HasKey("CodeSnippetNoAnswerId");
 
                     b.ToTable("CodeSnippetNoAnswers");
@@ -132,6 +140,10 @@ namespace CodingBlogDemo2.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("UserEmail");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
 
                     b.HasKey("CourseId");
 
@@ -159,9 +171,35 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<int>("PostId");
 
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
                     b.HasKey("MultipleChoiceId");
 
                     b.ToTable("MultipleChoices");
+                });
+
+            modelBuilder.Entity("CodingBlogDemo2.Models.MultipleChoiceSubmission", b =>
+                {
+                    b.Property<int>("MultipleChoiceSubmissionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Answer");
+
+                    b.Property<int>("AssignmentId");
+
+                    b.Property<bool>("IsCorrect");
+
+                    b.Property<string>("UserEmail");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
+                    b.HasKey("MultipleChoiceSubmissionId");
+
+                    b.ToTable("MultipleChoiceSubmissions");
                 });
 
             modelBuilder.Entity("CodingBlogDemo2.Models.Post", b =>
