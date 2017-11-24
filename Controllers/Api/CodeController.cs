@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CodingBlogDemo2.Data;
+using System.IO;
 
 namespace CodingBlogDemo2.Controllers.Api
 {
@@ -21,11 +22,7 @@ namespace CodingBlogDemo2.Controllers.Api
         [Route("/api/compile/{code?}")]
         public string CompileCode(String code)
         {
-            //we are assuming that the code is wholesome, meaning it can just be ran with javac as is
-            
-            //before anything, we need to know what operating system this application is hosted on
-            
-            return code;
+           
         }
 
 
