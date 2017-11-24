@@ -675,7 +675,8 @@ namespace CodingBlogDemo2.Controllers
                 UserResults = userResults,
                 CorrectCount = correctCount,
                 IncorrentCount = incorrectCount,
-                UserAnswers = userAnswers
+                UserAnswers = userAnswers,
+                
             });
         }
 

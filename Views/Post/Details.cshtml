@@ -66,18 +66,3 @@ else if (Model.CodeSnippetNoAnswer != null)
     <a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a> |
     <a asp-action="Delete" asp-route-id="@Model.PostId">Delete</a>
 </div>*@
-
-
-<script>
-
-    //create code mirror instance for code snippets
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        lineNumbers: true,
-        matchBrackets: true,
-        mode: "text/x-java",
-        theme: "base16-dark"
-    });
-
-    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
-    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
-</script>

@@ -34,6 +34,7 @@ namespace CodingBlogDemo2.Controllers
 
             IEnumerable<Course> courses;
 
+           
 
             courses = _courseRepo.Courses.Where(p => p.UserEmail == User.Identity.Name);
 

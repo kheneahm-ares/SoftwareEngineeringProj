@@ -21,12 +21,13 @@
             </div>
         </div>
 
+
+
+
         <div class="form-group">
             <label asp-for="Code" class="col-md-5 control-label"></label>
             <div>
-                <textarea name="code" id="code" asp-for="Code" class="col-md-2 form-control">
-                    @Html.DisplayFor(model => model.Code)
-                </textarea>
+                <textarea type="text" asp-for="Code" class="col-md-2 form-control"></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -35,12 +36,13 @@
     </div>
 </form>
 
+
 @*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@
 <button class="btn btn-primary" onclick="CompileCode()">Compile</button>
 
 
 
-@if (User.IsInRole("Admin")) 
+@if (User.IsInRole("Admin"))
 {
     <div>
         <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2">Edit</a> |
@@ -51,12 +53,29 @@
 }
 
 <script>
+
+    //create code mirror instance for code snippets
+    //we want to load code mirror individually so we can grab the editor and
+    var editor = CodeMirror.fromTextArea(document.getElementById("Code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java",
+        theme: "base16-dark"
+    });
+
+    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+
+
     function CompileCode() {
-        var code = $("#code").val();
+
+        //since we turned the textarea into an instance of codemirror, we have to treat it as such
+        var code = editor.getValue();
+
         $.ajax({
             type: 'GET',
             url: '/api/compile/',
-            data: {code: code},
+            data: { code: code },
             dataType: 'text',
             success: function (data) {
                 console.log(data);
