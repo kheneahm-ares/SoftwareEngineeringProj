@@ -3,17 +3,19 @@
 <div class="row">
     @if (User.IsInRole("Admin"))
     {
-        <div class="col-md-12 col-md-offset-10">
+        <div class="col-md-12 col-md-offset-9">
             <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2" class="btn btn-warning btn-lg">Edit</a> |
             <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2">
-                <input type="submit" class="btn btn-danger btn-lg" value="Delete" />
+                <input type="submit" class="btn btn-danger btn-lg" value="Delete" /> |
             </form>
+            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2" class="btn btn-lg btn-default">Results</a>
+
         </div>
     }
     <hr />
-    
 
-    <form asp-route="SubmitCodeSnippet" method="post" role="form" class="form-horizontal col-md-12 col-md-offset-3" id="codeSnippet" >
+
+    <form asp-route="SubmitCodeSnippet" method="post" role="form" class="form-horizontal col-md-12 col-md-offset-3" id="codeSnippet">
         <div asp-validation-summary="All" class="text-danger"></div>
         <input type="hidden" name="category" value="2" />
         <div>
@@ -38,20 +40,32 @@
                     <textarea type="text" asp-for="Code" class="col-md-2 form-control"></textarea>
                 </div>
             </div>
+
+
+
+
         </div>
-      
+
     </form>
 
     <div class="col-md-offset-3">
 
-        <input type="submit" class="btn btn-success" form="codeSnippet" value="Submit Assignment" /> |
+        @if (!ViewBag.hasSubmitted)
+        {
+            <input type="submit" class="btn btn-success" form="codeSnippet" value="Submit Assignment" />
+
+        }
+        else
+        {
+            <label style="color:darkgreen"> Already submitted an answer!</label>
+        }|
 
 
         @*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@
         <button class="btn btn-primary" onclick="CompileCode()">Compile</button>
 
         <hr />
-        
+
         <textarea type="text" id="Result" class="col-md-2 form-control">Compiled Code Result...</textarea>
 
     </div>
@@ -71,13 +85,13 @@
     });
 
 
-    //the results code mirror instance 
+    //the results code mirror instance
     var resultEditor = CodeMirror.fromTextArea(document.getElementById("Result"), {
         lineNumbers: false,
         matchBrackets: true,
         mode: "text/x-java",
         theme: "base16-dark",
-        
+
 
     });
 
@@ -98,7 +112,7 @@
             data: { code: code },
             dataType: 'text',
             success: function (data) {
-                resultEditor.setValue(data);
+                resultEditor.setValue(data); //set value of the result code mirror instance
                 console.log(data);
 
             }

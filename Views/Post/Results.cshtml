@@ -7,42 +7,86 @@
 <script src="~/lib/chartjs/dist/Chart.min.js"></script>
 
 
+@if (ViewBag.isMCResult)
+{
+    <div class="col-md-6 col-md-offset-3">
+        <div>
+            <select class="form-control" id="myselect" name="myselect" required>
+                <option value="correctChart" selected="selected"> Correct Vs Incorrect</option>
+                <option value="answersChart">Student Answers</option>
 
-<div class="col-md-6 col-md-offset-3">
-    <div>
-        <select class="form-control" id="myselect" name="myselect" required>
-            <option value="correctChart" selected="selected"> Correct Vs Incorrect</option>
-            <option value="answersChart">Student Answers</option>
+            </select>
+        </div>
+        <canvas id="correctChart" width="20" height="20"></canvas>
+        <canvas id="answersChart" width="20" height="20"></canvas>
 
-        </select>
-    </div>
-    <canvas id="correctChart" width="20" height="20"></canvas>
-    <canvas id="answersChart" width="20" height="20"></canvas>
-
-    <div class="panel panel-default">
-        <table class="table table-bordered table-hover" >
-            <thead>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-hover">
+                <thead>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Answer</th>
                 <th>Is Correct</th>
 
-            </thead>
-            <tbody>
-                @foreach (var userResults in Model.UserResults) {
+                </thead>
+                <tbody>
+                    @foreach (var userResults in Model.UserResults)
+                    {
                         <tr>
                             <td>@userResults.FName</td>
                             <td>@userResults.LName</td>
                             <td>@userResults.Answer</td>
                             <td>@userResults.IsCorrect</td>
                         </tr>
-                 }
-            </tbody>
-        </table>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<script>
+}
+else if (ViewBag.isCodeSnipResult)
+{
+    <div class="col-md-6 col-md-offset-3">
+        
+        <canvas id="correctChart" width="20" height="20"></canvas>
+
+
+
+        <div class="panel panel-default">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Code Length</th>
+                <th>Is Correct</th>
+                <th>Show Code</th>
+
+                </thead>
+                <tbody>
+                    @foreach (var userResults in Model.UserResults)
+                    {
+                        <tr>
+                            <td>@userResults.FName</td>
+                            <td>@userResults.LName</td>
+                            <td>@userResults.UserCodeLength</td>
+                            <td>@userResults.IsCorrect</td>
+                            <td>
+                                <a href="#">Code</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+}
+
+
+        <script>
     $(document).ready(function () {
         $('#answersChart').hide();
         $('#correctChart').show("slow");
@@ -104,4 +148,4 @@
 
     });
 
-</script>
+        </script>

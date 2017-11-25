@@ -10,7 +10,13 @@ namespace CodingBlogDemo2.Models.ViewModels
     {
         public String FName { get; set; }
         public String LName { get; set; }
-        public String Answer { get; set; }
         public bool IsCorrect { get; set; }
+
+        //used by MC
+        public String Answer { get; set; }
+
+        //used by CodeSnippet
+        public int UserCodeLength { get; set; }
+
     }
 }
