@@ -14,19 +14,48 @@ namespace CodingBlogDemo2.Controllers.Api
 
         private ApplicationDbContext _context;
 
-        public CodeController(ApplicationDbContext context)
+
+        public CodeController()
         {
-            _context = context;
+
         }
 
         [Route("/api/compile/{code?}")]
         public string GetResults(String code)
         {
             WriteToFile(code);
-            CompileCode();
-            string output = RunCode();
+
+            String output;
+
+            String errors = CompileCode();
+
+
+            //if there arent any errors that exist when compiling code, then run the code
+            if (errors == null || errors.Equals(""))
+            {
+                output = RunCode();
+            }
+            else 
+            {
+                output = errors;
+            }
+
+
+
+            //delete files
+            DeleteFiles();
+
 
             return output;
+        }
+
+        private void DeleteFiles()
+        {
+            var dir = new DirectoryInfo("./temp");
+        foreach (var file in Directory.GetFiles(dir.ToString()))
+        {
+            System.IO.File.Delete(file);
+        }
         }
 
         /* Writes code to file named "Code.java" (can be written anywhere, I just chose "temp" folder I created)
@@ -48,7 +77,7 @@ namespace CodingBlogDemo2.Controllers.Api
         }
 
         // Compiles a java file
-        private void CompileCode()
+        private string CompileCode()
         {
             // Compile code using javac
             Process process = new Process();
@@ -60,8 +89,17 @@ namespace CodingBlogDemo2.Controllers.Api
             process.Start();
             //* Read the error (if compile fails)
             string err = process.StandardError.ReadToEnd();
-            Console.WriteLine(err);
             process.WaitForExit();
+
+            if (err != null)
+            {
+
+                return err;
+
+            }
+            Console.WriteLine(err);
+
+            return "";
         }
 
         // Runs a compiled java file

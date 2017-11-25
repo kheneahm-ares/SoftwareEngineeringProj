@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using CodingBlogDemo2.Models;
 using Microsoft.EntityFrameworkCore;
 using CodingBlogDemo2.Models.ViewModels;
+using CodingBlogDemo2.Controllers.Api;
 
 namespace CodingBlogDemo2.Controllers
 {
@@ -405,8 +406,11 @@ namespace CodingBlogDemo2.Controllers
 
                 return RedirectToRoute(new
                 {
-                    controller = "Profile",
-                    action = "Index"
+                    controller = "Post",
+                    action = "Details",
+                    id = id,
+                    assignmentId = assignmentId,
+                    categoryId = categoryId
                 });
             }
             return View(post);
@@ -446,8 +450,11 @@ namespace CodingBlogDemo2.Controllers
 
                 return RedirectToRoute(new
                 {
-                    controller = "Profile",
-                    action = "Index"
+                    controller = "Post",
+                    action = "Details",
+                    id = id,
+                    assignmentId = assignmentId,
+                    categoryId = categoryId
                 });
             }
             return View(post);
@@ -484,8 +491,11 @@ namespace CodingBlogDemo2.Controllers
 
                 return RedirectToRoute(new
                 {
-                    controller = "Profile",
-                    action = "Index"
+                    controller = "Post",
+                    action = "Details",
+                    id = id,
+                    assignmentId = assignmentId,
+                    categoryId = categoryId
                 });
             }
             return View(post);
@@ -614,6 +624,57 @@ namespace CodingBlogDemo2.Controllers
 
         }
 
+        [HttpPost]
+        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/SubmitCodesnippet", Name = "SubmitCodeSnippet")]
+        public IActionResult SubmitCodeSnippet(int id, int? assignmentId, int? categoryId)
+        {
+            //we need to grab the code form the text area
+            string code = Request.Form["Code"];
+
+            //create instance of codecontroller to reuse code for compiling and running code
+            CodeController codeController = new CodeController();
+            string results = codeController.GetResults(code).Trim(); //we want to trim it from escape characters ex: \n \r, only works if they are @ end or beginning, which works perfectly with what we want
+
+            //grab the specific assignment
+            var assignment = _context.CodeSnippets.Where(c => c.CodeSnippetId == assignmentId).First();
+
+            //check if the results is equal to the answer in the specific assignment
+            bool isCorrect = false;
+            if(assignment.Answer == results)
+            {
+                isCorrect = true;
+            }
+
+
+
+            //get userEmail
+            string userEmail = User.Identity.Name;
+
+            //create new instance of submission
+            CodeSnippetSubmission newSubmission = new CodeSnippetSubmission
+            {
+                AssignmentId = (int)assignmentId,
+                UserEmail = userEmail,
+                UserCode = code,
+                IsCorrect = isCorrect
+            };
+
+            _context.Add(newSubmission);
+            _context.SaveChangesAsync();
+
+
+            TempData["Success"] = "Assignment Successfully Submitted!";
+
+
+
+            return RedirectToRoute(new
+            {
+                controller = "Profile",
+                action = "Index"
+            });
+        }
+
+
         [Authorize(Roles = "Admin")]
         [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/Results", Name = "PostResults")]
         public IActionResult Results(int id, int? assignmentId, int? categoryId)
@@ -644,6 +705,8 @@ namespace CodingBlogDemo2.Controllers
                     currentResult.LName = user.LastName;
                     currentResult.Answer = mc.Answer;
 
+
+                    //get counts of all results
                     switch (currentResult.Answer)
                     {
                         case "A": userAnswers.ACount++;break;
@@ -689,5 +752,8 @@ namespace CodingBlogDemo2.Controllers
         {
             return _context.Posts.Any(e => e.PostId == id);
         }
+
+
+
     }
 }

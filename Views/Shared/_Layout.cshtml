@@ -52,6 +52,10 @@
     <br />
     <br />
     <div class="container body-content">
+        @if (TempData["Success"] != null)
+        {
+            <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }
         @RenderBody()
         @*<hr />*@
         @*<footer>
