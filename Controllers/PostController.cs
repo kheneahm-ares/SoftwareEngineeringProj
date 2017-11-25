@@ -102,11 +102,12 @@ namespace CodingBlogDemo2.Controllers
             //we need to check whether or not the Student accessing this page has submitted an answer for this assignment
             bool hasSubmitted = false;
             ViewBag.hasSubmitted = false;
+            String currentUserEmail = User.Identity.Name;
+
 
             //if requests for a category of type Multiple Choice
             if (categoryId == 1)
             {
-                String currentUserEmail = User.Identity.Name;
                 hasSubmitted = _context.MultipleChoiceSubmissions.Any(s => s.AssignmentId == assignmentId && s.UserEmail == currentUserEmail);
 
                 if (hasSubmitted == true)
@@ -127,6 +128,13 @@ namespace CodingBlogDemo2.Controllers
             //if requests for category of type code snippet with an answer
             else if (categoryId == 2)
             {
+                hasSubmitted = _context.CodeSnippetSubmissions.Any(mc => mc.AssignmentId == assignmentId && mc.UserEmail == currentUserEmail);
+
+                if (hasSubmitted == true)
+                {
+                    ViewBag.hasSubmitted = true;
+                }
+
 
                 var codeSnip = _context.CodeSnippets.Where(c => c.CodeSnippetId == assignmentId).SingleOrDefault();
                 newModel.CodeSnippet = codeSnip;
@@ -679,6 +687,11 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/Results", Name = "PostResults")]
         public IActionResult Results(int id, int? assignmentId, int? categoryId)
         {
+            //used by the results view
+            ViewBag.isMCResult = false;
+            ViewBag.isCodeSnipResult = false;
+            ViewBag.isCodeSnipNoAnswerResult = false;
+
             List<UserResultsViewModel> userResults = new List<UserResultsViewModel>();
             int correctCount = 0;
             int incorrectCount = 0;
@@ -690,6 +703,8 @@ namespace CodingBlogDemo2.Controllers
             //grab from MCSubmissions table
             if (categoryId == 1)
             {
+                ViewBag.isMCResult = true;
+
                 //get all submissions from table
                 IEnumerable<MultipleChoiceSubmission> mcSubmissions = _context.MultipleChoiceSubmissions.Where(m => m.AssignmentId == assignmentId);
 
@@ -719,6 +734,42 @@ namespace CodingBlogDemo2.Controllers
                         
 
                     currentResult.IsCorrect = mc.IsCorrect;
+
+                    if (currentResult.IsCorrect == true)
+                    {
+                        correctCount++;
+                    }
+                    else
+                    {
+                        incorrectCount++;
+                    }
+
+                    userResults.Add(currentResult);
+
+                }
+            }
+
+            //for the code snippet results, we want to show who it belongs to, their code character count, and to check if it is correct
+            if(categoryId == 2)
+            {
+                ViewBag.isCodeSnipResult = true;
+
+                //get all submissions from the CodeSnipetSub table for the specific assignment
+                IEnumerable<CodeSnippetSubmission> submissions = _context.CodeSnippetSubmissions.Where(cs => cs.AssignmentId == assignmentId);
+
+                foreach(CodeSnippetSubmission sub in submissions)
+                {
+                    UserResultsViewModel currentResult = new UserResultsViewModel();
+
+                    //get current user to get Fname and Lname
+                    ApplicationUser user = getUserByEmail(sub.UserEmail);
+
+                    currentResult.FName = user.FirstName;
+                    currentResult.LName = user.LastName;
+
+                    currentResult.UserCodeLength = sub.UserCode.Length;
+
+                    currentResult.IsCorrect = sub.IsCorrect;
 
                     if (currentResult.IsCorrect == true)
                     {
