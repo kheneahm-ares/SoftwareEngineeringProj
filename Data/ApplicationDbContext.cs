@@ -28,6 +28,7 @@ namespace CodingBlogDemo2.Data
         public DbSet<CodeSnippet> CodeSnippets { get; set; }
         public DbSet<CodeSnippetNoAnswer> CodeSnippetNoAnswers { get; set; }
         public DbSet<MultipleChoiceSubmission> MultipleChoiceSubmissions { get; set; }
+        public DbSet<CodeSnippetSubmission> CodeSnippetSubmissions { get; set; }
 
 
 
