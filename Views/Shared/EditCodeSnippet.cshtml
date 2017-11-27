@@ -24,7 +24,7 @@
         <div class="form-group">
             <label asp-for="Code" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <textarea asp-for="Code" name="code" id="code"></textarea>
+                <textarea asp-for="Code"></textarea>
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
         </div>
@@ -39,7 +39,10 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" /> | 
+                <a href="javascript:autoFormatSelection()">
+                    Autoformat Selected
+                </a>
             </div>
         </div>
     </div>

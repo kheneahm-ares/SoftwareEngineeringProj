@@ -4,6 +4,7 @@
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/codemirror-5.31.0/lib/codemirror.js"></script>
+<script src="~/codemirror-5.31.0/lib/util/formatting.js"></script>
 <script src="~/codemirror-5.31.0/mode/clike/clike.js"></script>
 <link href="/codemirror-5.31.0/lib/codemirror.css" rel="stylesheet" type="text/css" />
 <link href="~/codemirror-5.31.0/theme/base16-dark.css" rel="stylesheet" type="text/css" />
@@ -34,34 +35,6 @@ else if(Model.CodeSnippetNoAnswer != null)
 {
     @Html.Partial("EditCodeSnippetNoAnswer", Model.CodeSnippetNoAnswer)
 }
-@*<form asp-action="Edit">
-    <div class="form-horizontal">
-        <h4>Post</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="PostId" />
-        <div class="form-group">
-            <label asp-for="Title" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-</form>*@
-
 @*<div>
     <a asp-action="Index">Back to List</a>
 </div>*@
@@ -69,7 +42,7 @@ else if(Model.CodeSnippetNoAnswer != null)
 <script>
 
     //create code mirror instance for code snippets
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    var editor = CodeMirror.fromTextArea(document.getElementById("Code"), {
         lineNumbers: true,
         matchBrackets: true,
         mode: "text/x-java"
@@ -77,4 +50,19 @@ else if(Model.CodeSnippetNoAnswer != null)
 
     var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
     CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+
+    function getSelectedRange() {
+        return { from: editor.getCursor(true), to: editor.getCursor(false) };
+    }
+
+    function autoFormatSelection() {
+        var range = getSelectedRange();
+        editor.autoFormatRange(range.from, range.to);
+    }
+
+    function commentSelection(isComment) {
+        var range = getSelectedRange();
+        editor.commentRange(isComment, range.from, range.to);
+    }   
+
 </script>

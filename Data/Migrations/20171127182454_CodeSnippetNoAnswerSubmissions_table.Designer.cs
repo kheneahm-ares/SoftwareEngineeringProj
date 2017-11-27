@@ -8,8 +8,8 @@ using CodingBlogDemo2.Data;
 namespace CodingBlogDemo2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171107040145_CodeSnippet")]
-    partial class CodeSnippet
+    [Migration("20171127182454_CodeSnippetNoAnswerSubmissions_table")]
+    partial class CodeSnippetNoAnswerSubmissions_table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,6 +85,96 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("CodingBlogDemo2.Models.CodeSnippet", b =>
+                {
+                    b.Property<int>("CodeSnippetId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Answer");
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PostId");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
+                    b.HasKey("CodeSnippetId");
+
+                    b.ToTable("CodeSnippets");
+                });
+
+            modelBuilder.Entity("CodingBlogDemo2.Models.CodeSnippetNoAnswer", b =>
+                {
+                    b.Property<int>("CodeSnippetNoAnswerId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PostId");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
+                    b.HasKey("CodeSnippetNoAnswerId");
+
+                    b.ToTable("CodeSnippetNoAnswers");
+                });
+
+            modelBuilder.Entity("CodingBlogDemo2.Models.CodeSnippetNoAnswerSubmission", b =>
+                {
+                    b.Property<int>("CodeSnippetNoAnswerSubmissionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssignmentId");
+
+                    b.Property<bool>("IsCorrect");
+
+                    b.Property<string>("UserCode");
+
+                    b.Property<string>("UserEmail");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
+                    b.HasKey("CodeSnippetNoAnswerSubmissionId");
+
+                    b.ToTable("CodeSnippetNoAnswerSubmissions");
+                });
+
+            modelBuilder.Entity("CodingBlogDemo2.Models.CodeSnippetSubmission", b =>
+                {
+                    b.Property<int>("CodeSnippetSubmissionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssignmentId");
+
+                    b.Property<bool>("IsCorrect");
+
+                    b.Property<string>("UserCode");
+
+                    b.Property<string>("UserEmail");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
+                    b.HasKey("CodeSnippetSubmissionId");
+
+                    b.ToTable("CodeSnippetSubmissions");
+                });
+
             modelBuilder.Entity("CodingBlogDemo2.Models.Course", b =>
                 {
                     b.Property<int>("CourseId")
@@ -95,6 +185,10 @@ namespace CodingBlogDemo2.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("UserEmail");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
 
                     b.HasKey("CourseId");
 
@@ -108,7 +202,7 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<string>("A");
 
-                    b.Property<char>("Answer");
+                    b.Property<string>("Answer");
 
                     b.Property<string>("B");
 
@@ -122,15 +216,43 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<int>("PostId");
 
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
                     b.HasKey("MultipleChoiceId");
 
                     b.ToTable("MultipleChoices");
+                });
+
+            modelBuilder.Entity("CodingBlogDemo2.Models.MultipleChoiceSubmission", b =>
+                {
+                    b.Property<int>("MultipleChoiceSubmissionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Answer");
+
+                    b.Property<int>("AssignmentId");
+
+                    b.Property<bool>("IsCorrect");
+
+                    b.Property<string>("UserEmail");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
+                    b.HasKey("MultipleChoiceSubmissionId");
+
+                    b.ToTable("MultipleChoiceSubmissions");
                 });
 
             modelBuilder.Entity("CodingBlogDemo2.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssignmentId");
 
                     b.Property<int>("CourseId");
 

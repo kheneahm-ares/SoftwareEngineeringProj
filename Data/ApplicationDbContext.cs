@@ -29,6 +29,7 @@ namespace CodingBlogDemo2.Data
         public DbSet<CodeSnippetNoAnswer> CodeSnippetNoAnswers { get; set; }
         public DbSet<MultipleChoiceSubmission> MultipleChoiceSubmissions { get; set; }
         public DbSet<CodeSnippetSubmission> CodeSnippetSubmissions { get; set; }
+        public DbSet<CodeSnippetNoAnswerSubmission> CodeSnippetNoAnswerSubmissions { get; set; }
 
 
 
@@ -40,8 +41,5 @@ namespace CodingBlogDemo2.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-
-
-        public DbSet<CodingBlogDemo2.Models.CodeSnippet> CodeSnippet { get; set; }
     }
 }

@@ -5,6 +5,7 @@
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/codemirror-5.31.0/lib/codemirror.js"></script>
+<script src="~/codemirror-5.31.0/lib/util/formatting.js"></script>
 <script src="~/codemirror-5.31.0/mode/clike/clike.js"></script>
 <link href="/codemirror-5.31.0/lib/codemirror.css" rel="stylesheet" type="text/css" />
 <link href="~/codemirror-5.31.0/theme/base16-dark.css" rel="stylesheet" type="text/css" />
@@ -38,31 +39,19 @@ else if (Model.CodeSnippetNoAnswer != null)
 
 }
 
-@*<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CourseId)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a> |
-    <a asp-action="Delete" asp-route-id="@Model.PostId">Delete</a>
-</div>*@
+<script>
+    function getSelectedRange() {
+        return { from: editor.getCursor(true), to: editor.getCursor(false) };
+    }
+
+    function autoFormatSelection() {
+        var range = getSelectedRange();
+        editor.autoFormatRange(range.from, range.to);
+    }
+
+    function commentSelection(isComment) {
+        var range = getSelectedRange();
+        editor.commentRange(isComment, range.from, range.to);
+    }
+
+</script>

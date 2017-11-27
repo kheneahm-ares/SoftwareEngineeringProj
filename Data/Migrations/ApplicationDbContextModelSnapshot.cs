@@ -105,7 +105,7 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.HasKey("CodeSnippetId");
 
-                    b.ToTable("CodeSnippet");
+                    b.ToTable("CodeSnippets");
                 });
 
             modelBuilder.Entity("CodingBlogDemo2.Models.CodeSnippetNoAnswer", b =>
@@ -128,6 +128,28 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.HasKey("CodeSnippetNoAnswerId");
 
                     b.ToTable("CodeSnippetNoAnswers");
+                });
+
+            modelBuilder.Entity("CodingBlogDemo2.Models.CodeSnippetNoAnswerSubmission", b =>
+                {
+                    b.Property<int>("CodeSnippetNoAnswerSubmissionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssignmentId");
+
+                    b.Property<bool>("IsCorrect");
+
+                    b.Property<string>("UserCode");
+
+                    b.Property<string>("UserEmail");
+
+                    b.Property<DateTime>("WhenCreated");
+
+                    b.Property<DateTime>("WhenEdited");
+
+                    b.HasKey("CodeSnippetNoAnswerSubmissionId");
+
+                    b.ToTable("CodeSnippetNoAnswerSubmissions");
                 });
 
             modelBuilder.Entity("CodingBlogDemo2.Models.CodeSnippetSubmission", b =>
