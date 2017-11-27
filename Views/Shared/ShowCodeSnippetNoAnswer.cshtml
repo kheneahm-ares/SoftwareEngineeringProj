@@ -1,56 +1,81 @@
 @model CodingBlogDemo2.Models.CodeSnippetNoAnswer
 
+<div class="row">
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="col-md-12 col-md-offset-9">
+            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-warning btn-lg">Edit</a> |
+            <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3">
+                <input type="submit" class="btn btn-danger btn-lg"  onclick="return confirm('Are you sure you want to Delete this assignment?')" value="Delete" /> |
+            </form>
+            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-lg btn-default">Results</a>
 
-<form asp-route="CodeSnippetNoAnswer" role="form" class="form-horizontal" id="3" name="3">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <input type="hidden" name="category" value="3" />
+        </div>
+    }
     <hr />
-    <div style="position: relative; right: 100px;">
-        <div class="form-group">
-            <label asp-for="Name" class="col-md-5 control-label"></label>
-            <div>
-                @Html.DisplayFor(model => model.Name)
+
+
+    <form asp-route="SubmitCodeSnippetNoAnswer" method="post" role="form" class="form-horizontal col-md-12 col-md-offset-3" id="codeSnippet">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input type="hidden" name="category" value="2" />
+        <div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <div>
+                    @Html.DisplayFor(model => model.Name)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <div>
+                    @Html.DisplayFor(model => model.Description)
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <div>
+                    <textarea type="text" asp-for="Code" class="col-md-2 form-control"></textarea>
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="Description" class="col-md-5 control-label"></label>
-            <div>
-                @Html.DisplayFor(model => model.Description)
+    </form>
 
-            </div>
-        </div>
+    <div class="col-md-offset-3">
 
-        <div class="form-group">
-            <label asp-for="Code" class="col-md-5 control-label"></label>
-            <div>
-                <textarea asp-for="Code" class="col-md-2 form-control">
-                    @Html.DisplayFor(model => model.Code)
-                </textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            @*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@
-            <button class="btn btn-primary">Compile</button>
+        @if (!ViewBag.hasSubmitted)
+        {
+            <input type="submit" class="btn btn-success" form="codeSnippet" value="Submit Assignment" />
 
-            <input type="submit" class="btn btn-success col-md-offset-5 col-md-2" value="Submit Assignment" />
-        </div>
+        }
+        else
+        {
+            <label style="color:darkgreen"> Already submitted an answer!</label>
+        }|
+
+
+        @*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@
+        <button class="btn btn-primary" onclick="CompileCode()">Compile</button> |
+        <a class="btn btn-info" href="javascript:autoFormatSelection()">
+            Autoformat Selected
+        </a>
+
+        <hr />
+
+        <textarea type="text" id="Result" class="col-md-2 form-control">Compiled Code Result...</textarea>
+
     </div>
-</form>
+</div>
 
 
-@if (User.IsInRole("Admin"))
-{
-    <div>
-        <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3">Edit</a> |
-        <form method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3">
-            <input type="submit" class="btn btn-danger" value="Delete" />
-        </form>
-    </div>
-}
 
 <script>
 
+    //create code mirror instance for code snippets
+    //we want to load code mirror individually so we can grab the editor and
     var editor = CodeMirror.fromTextArea(document.getElementById("Code"), {
         lineNumbers: true,
         matchBrackets: true,
@@ -58,7 +83,41 @@
         theme: "base16-dark"
     });
 
+
+    //the results code mirror instance
+    var resultEditor = CodeMirror.fromTextArea(document.getElementById("Result"), {
+        lineNumbers: false,
+        matchBrackets: true,
+        mode: "text/x-java",
+        theme: "base16-dark",
+
+
+    });
+
+
+    resultEditor.setSize("600", "100");
+
     var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
     CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
 
+
+    function CompileCode() {
+
+        //since we turned the textarea into an instance of codemirror, we have to treat it as such
+        var code = editor.getValue();
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/compile/',
+            data: { code: code },
+            dataType: 'text',
+            success: function (data) {
+                resultEditor.setValue(data); //set value of the result code mirror instance
+                console.log(data);
+
+            }
+
+        });
+
+    };
 </script>

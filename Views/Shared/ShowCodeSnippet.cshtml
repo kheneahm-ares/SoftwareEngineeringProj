@@ -6,7 +6,7 @@
         <div class="col-md-12 col-md-offset-9">
             <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2" class="btn btn-warning btn-lg">Edit</a> |
             <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2">
-                <input type="submit" class="btn btn-danger btn-lg" value="Delete" /> |
+                <input type="submit" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to Delete this assignment?')" value="Delete" /> |
             </form>
             <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetId" asp-route-categoryId="2" class="btn btn-lg btn-default">Results</a>
 
@@ -62,8 +62,10 @@
 
 
         @*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@
-        <button class="btn btn-primary" onclick="CompileCode()">Compile</button>
-
+        <button class="btn btn-primary" onclick="CompileCode()">Compile</button> |
+        <a class="btn btn-info" href="javascript:autoFormatSelection()">
+            Autoformat Selected
+        </a>
         <hr />
 
         <textarea type="text" id="Result" class="col-md-2 form-control">Compiled Code Result...</textarea>

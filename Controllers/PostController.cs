@@ -148,6 +148,13 @@ namespace CodingBlogDemo2.Controllers
             //if requests for category of type code snippet without an answer
             else if (categoryId == 3)
             {
+                hasSubmitted = _context.CodeSnippetNoAnswerSubmissions.Any(mc => mc.AssignmentId == assignmentId && mc.UserEmail == currentUserEmail);
+
+                if (hasSubmitted == true)
+                {
+                    ViewBag.hasSubmitted = true;
+                }
+
                 var codeSnipNoAnswer = _context.CodeSnippetNoAnswers.Where
                     (c => c.CodeSnippetNoAnswerId == assignmentId).SingleOrDefault();
                 newModel.CodeSnippetNoAnswer = codeSnipNoAnswer;
@@ -554,23 +561,29 @@ namespace CodingBlogDemo2.Controllers
             }
             else if(categoryId == 2)
             {
-                var specificAssignment = await _context.CodeSnippet.SingleOrDefaultAsync(c => c.CodeSnippetId == assignmentId);
-                _context.CodeSnippet.Remove(specificAssignment);
+                var specificAssignment = await _context.CodeSnippets.SingleOrDefaultAsync(c => c.CodeSnippetId == assignmentId);
+                _context.CodeSnippets.Remove(specificAssignment);
+
+                //delete all the submissions for this specific assignment
+                var submissionsForAssignment = _context.CodeSnippetSubmissions.Where(ms => ms.AssignmentId == assignmentId);
+                foreach (CodeSnippetSubmission submission in submissionsForAssignment)
+                {
+                    _context.CodeSnippetSubmissions.Remove(submission);
+                }
             }
             else if(categoryId == 3)
             {
                 var specificAssignment = await _context.CodeSnippetNoAnswers.SingleOrDefaultAsync(c => c.CodeSnippetNoAnswerId == assignmentId);
                 _context.CodeSnippetNoAnswers.Remove(specificAssignment);
+
+
+                //delete all the submissions for this specific assignment
+                var submissionsForAssignment = _context.CodeSnippetNoAnswerSubmissions.Where(ms => ms.AssignmentId == assignmentId);
+                foreach (CodeSnippetNoAnswerSubmission submission in submissionsForAssignment)
+                {
+                    _context.CodeSnippetNoAnswerSubmissions.Remove(submission);
+                }
             }
-
-            //we also need to delete all the submissions that belong on that post
-            ///
-            //////
-            ////
-            ///
-            //
-            //
-
 
 
             await _context.SaveChangesAsync();
@@ -586,7 +599,7 @@ namespace CodingBlogDemo2.Controllers
 
 
         [HttpPost]
-        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/SubmitMultipleChoice", Name = "SubmitMultipleChoice")]
+        [Route("/Course/{id?}/Post/{assignmentId?}/{categoryId?}/SubmitMultipleChoice", Name = "SubmitMultipleChoice")]
         public IActionResult SubmitMultipleChoice(int id, int? assignmentId, int? categoryId, MultipleChoice submission)
         {
 
@@ -633,7 +646,7 @@ namespace CodingBlogDemo2.Controllers
         }
 
         [HttpPost]
-        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/SubmitCodesnippet", Name = "SubmitCodeSnippet")]
+        [Route("/Course/{id?}/Post/{assignmentId?}/{categoryId?}/SubmitCodesnippet", Name = "SubmitCodeSnippet")]
         public IActionResult SubmitCodeSnippet(int id, int? assignmentId, int? categoryId)
         {
             //we need to grab the code form the text area
@@ -677,8 +690,50 @@ namespace CodingBlogDemo2.Controllers
 
             return RedirectToRoute(new
             {
-                controller = "Profile",
-                action = "Index"
+                controller = "Post",
+                action = "Details",
+                id = id,
+                assignmentId = assignmentId,
+                categoryId = categoryId
+            });
+        }
+
+        [HttpPost]
+        [Route("/Course/{id?}/Post/{assignmentId?}/{categoryId?}/SubmitCodesnippetNoAnswer", Name = "SubmitCodeSnippetNoAnswer")]
+        public IActionResult SubmitCodeSnippetNoAnswer(int id, int assignmentId, int categoryId)
+        {
+
+            //we need to grab the code form the text area
+            string code = Request.Form["Code"];
+
+            bool isCorrect = false;
+
+            //get userEmail
+            string userEmail = User.Identity.Name;
+
+            //create new instance of submission
+            CodeSnippetNoAnswerSubmission newSubmission = new CodeSnippetNoAnswerSubmission
+            {
+                AssignmentId = assignmentId,
+                UserEmail = userEmail,
+                UserCode = code,
+                IsCorrect = isCorrect
+            };
+
+            _context.Add(newSubmission);
+            _context.SaveChangesAsync();
+
+
+
+            TempData["Success"] = "Assignment Successfully Submitted!";
+
+            return RedirectToRoute(new
+            {
+                controller = "Post",
+                action = "Details",
+                id = id,
+                assignmentId = assignmentId,
+                categoryId = categoryId
             });
         }
 
