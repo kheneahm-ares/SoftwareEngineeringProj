@@ -100,17 +100,22 @@
 
 
     //create code mirror instance for code snippets 
-    function editor(id) {
-        CodeMirror.fromTextArea(document.getElementById(id), {
-            lineNumbers: true,
-            matchBrackets: true,
-            theme: "base16-dark",
-            mode: "text/x-java"
-        });
-    }
+    var editor = CodeMirror.fromTextArea(document.getElementById("Code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java",
+        theme: "base16-dark"
+    });
 
-    editor('Code');
-    editor('Code1');
+    var editor2 = CodeMirror.fromTextArea(document.getElementById("Code1"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java",
+        theme: "base16-dark"
+    });
+
+    editor.setValue("public class Code {\n  public static void main(String[] args) {\n\n  }\n}\n");
+    editor2.setValue("public class Code {\n  public static void main(String[] args) {\n\n  }\n}\n");
 
     ////create code mirror instance for code snippets with no answer (had to have its own instance for some reason)
     //var editor2 = CodeMirror.fromTextArea(document.getElementById("code2"), {
