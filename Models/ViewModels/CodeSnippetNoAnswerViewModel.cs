@@ -16,7 +16,7 @@ namespace CodingBlogDemo2.Models.ViewModels
         public String Description { get; set; }
 
         [Required]
-        [Display(Name = "Code Snippet below")]
+        [Display(Name = "Code Snippet")]
         public String Code1 { get; set; }
     }
 }
