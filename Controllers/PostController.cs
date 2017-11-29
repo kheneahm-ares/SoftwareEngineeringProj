@@ -344,6 +344,7 @@ namespace CodingBlogDemo2.Controllers
                 newCodeSnip.Description = model.Description;
 
                 newCodeSnip.Code = model.Code1;
+                newCodeSnip.Answer = model.Answer;
 
                 _context.CodeSnippetNoAnswers.Add(newCodeSnip);
                 await _context.SaveChangesAsync();
@@ -530,6 +531,7 @@ namespace CodingBlogDemo2.Controllers
                     postToUpdate.Name = post.Name;
                     postToUpdate.Description = post.Description;
                     postToUpdate.Code = post.Code;
+                    postToUpdate.Answer = post.Answer;
 
 
                     //_context.Update(post);
@@ -779,7 +781,7 @@ namespace CodingBlogDemo2.Controllers
         {
 
             //we need to grab the code form the text area
-            string code = Request.Form["Code"];
+            string answer = Request.Form["Answer"];
 
             bool isCorrect = false;
 
@@ -791,7 +793,7 @@ namespace CodingBlogDemo2.Controllers
             {
                 AssignmentId = assignmentId,
                 UserEmail = userEmail,
-                UserCode = code,
+                UserAnswer = answer,
                 IsCorrect = isCorrect
             };
 

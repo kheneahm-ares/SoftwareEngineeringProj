@@ -17,7 +17,7 @@ namespace CodingBlogDemo2.Models
         public int CodeSnippetNoAnswerSubmissionId { get; set; }
         public int AssignmentId { get; set; }
         public string UserEmail { get; set; }
-        public string UserCode { get; set; }
+        public string UserAnswer { get; set; }
         public bool IsCorrect { get; set; }
 
         public DateTime WhenCreated { get; private set; }
