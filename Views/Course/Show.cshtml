@@ -98,16 +98,16 @@
     </div>
 
     <div class="col-md-4">
-        @if (ViewBag.isFollowing)
-        {
-            <form method="post" asp-controller="Course" asp-action="Unfollow" asp-route-courseId="@ViewBag.CourseId">
-                <button type="submit" class="btn btn-block btn-lg btn-danger">Unregister</button>
-            </form>
-
-        }
-        else if (User.Identity.Name == ViewBag.CourseCreator)
+        @if (User.Identity.Name == ViewBag.CourseCreator)
         {
             <h1 style="font-weight: bold">Welcome, Professor @ViewBag.CourseCreatorLName!</h1>
+
+        }
+        else if (ViewBag.isFollowing)
+        {
+        <form method="post" asp-controller="Course" asp-action="Unfollow" asp-route-courseId="@ViewBag.CourseId">
+            <button type="submit" class="btn btn-block btn-lg btn-danger">Unregister</button>
+        </form>
 
         }
         else
