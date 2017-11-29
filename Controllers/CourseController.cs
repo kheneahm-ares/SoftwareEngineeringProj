@@ -126,11 +126,15 @@ namespace CodingBlogDemo2.Controllers
                 //since submissions have a user email, we can just check how many times the user submitted to a course
                 newReport.Submissions = _context.Submissions.Where(s => s.CourseId == id && s.UserEmail == user.Email).Count();
 
+
+                if(newReport.Submissions > 0)
+                {
                 //we want to get their most recent submission
-                Submission sub = _context.Submissions.Where(s => s.CourseId == id && s.UserEmail == user.Email).OrderByDescending(s => s.DateCreated).First();
+                Submission sub = _context.Submissions.Where(s => s.CourseId == id && s.UserEmail == user.Email).OrderByDescending(s => s.DateCreated).FirstOrDefault();
 
                 newReport.SubmissionTime = sub.DateCreated;
 
+                }
                 newReport.CoursePostTotal = coursePostsTotal;
 
                 newReport.SubmissionActivityPercentage = ((double)newReport.Submissions / coursePostsTotal) * 100;
