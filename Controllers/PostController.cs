@@ -104,6 +104,15 @@ namespace CodingBlogDemo2.Controllers
             ViewBag.hasSubmitted = false;
             String currentUserEmail = User.Identity.Name;
 
+            //we check if the user is even able to submit
+            //we check in registration if the user is following the course based on its courseId
+            bool isFollowing = _context.Registers.Any(r => r.UserEmail == currentUserEmail && r.CourseId == id);
+            ViewBag.IsFollowing = isFollowing;
+
+            bool isCourseCreator = _context.Courses.Any(c => c.CourseId == id && c.UserEmail == currentUserEmail);
+
+            ViewBag.IsCourseCreator = isCourseCreator;
+
 
             //if requests for a category of type Multiple Choice
             if (categoryId == 1)
@@ -180,7 +189,29 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id}/Create")]
         public IActionResult Create(int id)
         {
+
+
+            //we check if there even exists a course with courseId = id
+            bool courseExists = _context.Courses.Any(c => c.CourseId == id);
+
+            if (!courseExists)
+            {
+                return NotFound();
+            }
+
+
             _courseId = id;
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
+
+
             ViewBag.Categories = _categoryRepo.Categories;
             return View();
         }
@@ -350,17 +381,23 @@ namespace CodingBlogDemo2.Controllers
         // GET:
         [Authorize(Roles = "Admin")]
         [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}", Name ="EditPost")]
-        public async Task<IActionResult> Edit(int? id, int? assignmentId, int? categoryId)
+        public async Task<IActionResult> Edit(int id, int? assignmentId, int? categoryId)
         {
 
             AssignmentViewModel newModel = new AssignmentViewModel();
-            if (id == null)
+        
+            
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
             {
-                return NotFound();
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
             }
-           
 
-            if(categoryId == 1)
+            if (categoryId == 1)
             {
               newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
@@ -519,23 +556,30 @@ namespace CodingBlogDemo2.Controllers
         }
 
         // GET: Post/Delete/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //[Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var post = await _context.Posts
-                .SingleOrDefaultAsync(m => m.PostId == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
+        //    var post = await _context.Posts
+        //        .SingleOrDefaultAsync(m => m.PostId == id);
 
-            return View(post);
-        }
+
+
+
+        //    if (post == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+            
+
+        //    return View(post);
+        //}
+
 
         // POST: Post/Delete/5
         [Authorize(Roles = "Admin")]
@@ -635,14 +679,31 @@ namespace CodingBlogDemo2.Controllers
 
                 _context.SaveChanges();
             }
-            
+
+            //create new submission to be used for report
+            Submission newSub = new Submission
+            {
+                AssignmentId = (int)assignmentId,
+                CategoryId = 1,
+                CourseId = id,
+                UserEmail = User.Identity.Name
+            };
+
+            _context.Add(newSub);
+            _context.SaveChanges();
+
+            TempData["Success"] = "Assignment Successfully Submitted!";
+
 
             //for multiple choice we dont need the actual model to be submitted
             //all we need is the actual radio button selected 
             return RedirectToRoute(new
             {
-                controller = "Profile",
-                action = "Index"
+                controller = "Post",
+                action = "Details",
+                id = id,
+                assignmentId = assignmentId,
+                categoryId = categoryId
             });
 
         }
@@ -651,6 +712,7 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id?}/Post/{assignmentId?}/{categoryId?}/SubmitCodesnippet", Name = "SubmitCodeSnippet")]
         public IActionResult SubmitCodeSnippet(int id, int? assignmentId, int? categoryId)
         {
+           
             //we need to grab the code form the text area
             string code = Request.Form["Code"];
 
@@ -680,10 +742,23 @@ namespace CodingBlogDemo2.Controllers
                 UserEmail = userEmail,
                 UserCode = code,
                 IsCorrect = isCorrect
+
             };
 
             _context.Add(newSubmission);
             _context.SaveChangesAsync();
+
+            //create new submission to be used for report
+            Submission newSub = new Submission
+            {
+                AssignmentId = (int)assignmentId,
+                CategoryId = 2,
+                CourseId = id,
+                UserEmail = User.Identity.Name
+            };
+
+            _context.Add(newSub);
+            _context.SaveChanges();
 
 
             TempData["Success"] = "Assignment Successfully Submitted!";
@@ -723,7 +798,21 @@ namespace CodingBlogDemo2.Controllers
             };
 
             _context.Add(newSubmission);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
+
+
+            //create new submission to be used for report
+            Submission newSub = new Submission
+            {
+                AssignmentId = assignmentId,
+                CategoryId = 3,
+                CourseId = id,
+                UserEmail = User.Identity.Name
+            };
+
+
+            _context.Add(newSub);
+            _context.SaveChanges();
 
 
 
@@ -741,9 +830,20 @@ namespace CodingBlogDemo2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/Results", Name = "PostResults")]
+        [Route("/Course/{id?}/Post/{assignmentId?}/{categoryId?}/Results", Name = "PostResults")]
         public IActionResult Results(int id, int? assignmentId, int? categoryId)
         {
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
+
+
             //used by the results view
             ViewBag.isMCResult = false;
             ViewBag.isCodeSnipResult = false;
@@ -861,6 +961,19 @@ namespace CodingBlogDemo2.Controllers
             return _context.Posts.Any(e => e.PostId == id);
         }
 
+        private bool IsOwner(int courseId)
+        {
+            //get specific post,
+            bool isOwner = false;
+            string currentUserEmail = User.Identity.Name;
+
+
+            //we can grab the user of the post by checking who the owner of the course it belongs to
+            var course = _context.Courses.Where(c => c.CourseId == courseId).First();
+
+
+            return isOwner = currentUserEmail == course.UserEmail; ;
+        }
 
 
     }

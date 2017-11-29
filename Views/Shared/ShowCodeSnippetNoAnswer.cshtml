@@ -1,7 +1,7 @@
 @model CodingBlogDemo2.Models.CodeSnippetNoAnswer
 
 <div class="row">
-    @if (User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin") && ViewBag.IsCourseCreator)
     {
         <div class="col-md-12 col-md-offset-9">
             <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-warning btn-lg">Edit</a> |
@@ -15,7 +15,7 @@
     <hr />
 
 
-    <form asp-route="SubmitCodeSnippetNoAnswer" method="post" role="form" class="form-horizontal col-md-12 col-md-offset-3" id="codeSnippet">
+    <form asp-route="SubmitCodeSnippetNoAnswer" method="post" role="form" class="form-horizontal col-md-12 col-md-offset-3" id="assignment">
         <div asp-validation-summary="All" class="text-danger"></div>
         <input type="hidden" name="category" value="2" />
         <div>
@@ -53,6 +53,7 @@
 
     <div class="col-md-offset-3">
 
+<<<<<<< HEAD
         @if (!ViewBag.hasSubmitted)
         {
             <input type="submit" class="btn btn-success" form="codeSnippet" value="Submit Assignment" />
@@ -62,6 +63,9 @@
         {
             <label style="color:darkgreen"> Already submitted an answer!</label>
         }@*|
+=======
+        @{Html.RenderPartial("_SubmissionPartial");}|
+>>>>>>> 6a3eed9047ed1917526b898390661272c7b45db7
 
 
         this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh

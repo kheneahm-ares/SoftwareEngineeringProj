@@ -8,9 +8,10 @@ using CodingBlogDemo2.Data;
 namespace CodingBlogDemo2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171128210613_register")]
+    partial class register
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.3")
@@ -113,8 +114,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.Property<int>("CodeSnippetNoAnswerId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Answer");
-
                     b.Property<string>("Code");
 
                     b.Property<string>("Description");
@@ -141,7 +140,7 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<bool>("IsCorrect");
 
-                    b.Property<string>("UserAnswer");
+                    b.Property<string>("UserCode");
 
                     b.Property<string>("UserEmail");
 
@@ -280,26 +279,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.HasKey("RegisterId");
 
                     b.ToTable("Registers");
-                });
-
-            modelBuilder.Entity("CodingBlogDemo2.Models.Submission", b =>
-                {
-                    b.Property<int>("SubmissionId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AssignmentId");
-
-                    b.Property<int>("CategoryId");
-
-                    b.Property<int>("CourseId");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<string>("UserEmail");
-
-                    b.HasKey("SubmissionId");
-
-                    b.ToTable("Submissions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
