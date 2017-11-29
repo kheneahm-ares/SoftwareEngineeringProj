@@ -5,10 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CodingBlogDemo2</title>
+    
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -35,6 +37,13 @@
                     <li><a asp-area="" asp-controller="Profile" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li>
+                        <div style="margin-top: 10px; margin-left: 40px;">
+                            <form asp-controller="Course" asp-action="Search" role="search">
+                                <input style="width: 400px" class="form-control" type="text" placeholder="Search classes" id="searchQuery" name="searchQuery" required>
+                            </form>
+                        </div>
+                    </li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -43,6 +52,10 @@
     <br />
     <br />
     <div class="container body-content">
+        @if (TempData["Success"] != null)
+        {
+            <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }
         @RenderBody()
         @*<hr />*@
         @*<footer>

@@ -10,6 +10,8 @@ namespace CodingBlogDemo2.Models
     public class ApplicationUser : IdentityUser
     {
 
+//        public virtual ICollection<Course> Courses { get; set; }
+
         public bool IsAdmin { get; set; }
 
         public string FirstName { get; set; }

@@ -1,0 +1,130 @@
+@{
+    ViewData["Title"] = "Create";
+}
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/codemirror-5.31.0/lib/codemirror.js"></script>
+<script src="~/codemirror-5.31.0/lib/util/formatting.js"></script>
+<script src="~/codemirror-5.31.0/mode/clike/clike.js"></script>
+<link href="/codemirror-5.31.0/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<link href="~/codemirror-5.31.0/theme/base16-dark.css" rel="stylesheet" type="text/css" />
+
+<style>
+    .CodeMirror {
+        border: 1px solid #334;
+        width: 400px;
+    }
+</style>
+
+
+<div class="container">
+    <div class="col-md-4">
+        <label> Select Form Type</label>
+        <select class="form-control" id="myselect" name="myselect" required>
+            @foreach (var category in ViewBag.Categories)
+            {
+
+                if (category.CategoryId == '1')
+                {
+
+                    <option value="@category.CategoryId" selected="selected">@category.Name</option>
+
+                }
+                else
+                {
+                    <option value="@category.CategoryId">@category.Name</option>
+                }
+
+
+            }
+        </select>
+
+    </div>
+
+    <div class="col-md-8 col-md-offset-4" style="position:relative; top: -50px;">
+        @{ await Html.RenderPartialAsync("MultipleChoice");}
+
+        @{ await Html.RenderPartialAsync("CodeSnippet");}
+
+        @{ await Html.RenderPartialAsync("CodeSnippetNoAnswer");}
+
+    </div>
+</div>
+@*<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Post</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Categories" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select name="category" asp-for="Categories" size="1">
+                    @foreach(var category in Model.Categories)
+                    {
+                        <option value="@category.CategoryId">@category.Name</option>
+
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>*@
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#2').hide();
+        $('#3').hide();
+        $('#1').show("slow");
+        $("#myselect").change(function () {
+            var value = $(this).val();
+            $('#1').hide();
+            $('#2').hide();
+            $('#3').hide();
+            $('#' + value).show("slow");
+
+        });
+
+    });
+
+
+    //create code mirror instance for code snippets 
+    var editor = CodeMirror.fromTextArea(document.getElementById("Code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java",
+        theme: "base16-dark"
+    });
+
+    var editor2 = CodeMirror.fromTextArea(document.getElementById("Code1"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java",
+        theme: "base16-dark"
+    });
+
+    editor.setValue("public class Code {\n  public static void main(String[] args) {\n\n  }\n}\n");
+    editor2.setValue("public class Code {\n  public static void main(String[] args) {\n\n  }\n}\n");
+
+    ////create code mirror instance for code snippets with no answer (had to have its own instance for some reason)
+    //var editor2 = CodeMirror.fromTextArea(document.getElementById("code2"), {
+    //    lineNumbers: true,
+    //    matchBrackets: true,
+    //    theme: "base16-dark",
+    //    mode: "text/x-java"
+    //});
+
+    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+</script>

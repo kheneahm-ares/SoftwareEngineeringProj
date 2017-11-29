@@ -1,0 +1,68 @@
+@model CodingBlogDemo2.Models.ViewModels.AssignmentViewModel
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/codemirror-5.31.0/lib/codemirror.js"></script>
+<script src="~/codemirror-5.31.0/lib/util/formatting.js"></script>
+<script src="~/codemirror-5.31.0/mode/clike/clike.js"></script>
+<link href="/codemirror-5.31.0/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<link href="~/codemirror-5.31.0/theme/base16-dark.css" rel="stylesheet" type="text/css" />
+
+<style>
+    .CodeMirror {
+        border: 1px solid #334;
+        width: 400px;
+    }
+</style>
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+@if(Model.MC != null)
+{
+    @Html.Partial("EditMultipleChoice", Model.MC);
+
+}
+else if(Model.CodeSnippet != null)
+{
+    @Html.Partial("EditCodeSnippet", Model.CodeSnippet)
+}
+else if(Model.CodeSnippetNoAnswer != null)
+{
+    @Html.Partial("EditCodeSnippetNoAnswer", Model.CodeSnippetNoAnswer)
+}
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+<script>
+
+    //create code mirror instance for code snippets
+    var editor = CodeMirror.fromTextArea(document.getElementById("Code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "text/x-java"
+    });
+
+    var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+    CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+
+    function getSelectedRange() {
+        return { from: editor.getCursor(true), to: editor.getCursor(false) };
+    }
+
+    function autoFormatSelection() {
+        var range = getSelectedRange();
+        editor.autoFormatRange(range.from, range.to);
+    }
+
+    function commentSelection(isComment) {
+        var range = getSelectedRange();
+        editor.commentRange(isComment, range.from, range.to);
+    }   
+
+</script>

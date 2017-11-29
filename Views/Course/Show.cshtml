@@ -1,23 +1,98 @@
-﻿@model CourseViewModel
+﻿@model CodingBlogDemo2.Models.ViewModels.AssignmentViewModel
 @{
     ViewData["Title"] = "Show Course";
 }
 
 <div class="row">
-    <div class="col-md-8" style="border: 2px dashed rgba(27,31,34,0.3)">
-        <h3>@Model.Course.Name 's Posts</h3>
+    <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
+
+        <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
+            @ViewBag.CourseName
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Post" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Post</a>
+
+            }
+        </h3>
+
         <hr />
-        <h5>
-            No Posts...
-        </h5>
+        @if (Model.CodeSnippets.Count() <= 0 && Model.MultipleChoices.Count() <= 0 && Model.CodeSnippetNoAnswers.Count() <= 0)
+        {
+            <h5>
+                No posts...
+            </h5>
+        }
+        else
+        {
+            <h3>Multiple Choice Posts</h3>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                <th>Assignment Name</th>
+                <th>Updated</th>
+                </thead>
+                <tbody>
+
+                    @foreach (MultipleChoice mc in Model.MultipleChoices)
+                    {
+                        <tr>
+
+                            <td><a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">@mc.Name</a></td>
+                            <td>@mc.WhenEdited</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            <hr />
+
+            <h3>Code Snippet Posts</h3>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                <th>Assignment Name</th>
+                <th>Updated</th>
+                </thead>
+                @foreach (CodeSnippet cs in Model.CodeSnippets)
+                {
+
+                    <tr>
+                        <td>
+                            <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2">@cs.Name</a>
+                        </td>
+                        <td>
+                            @cs.WhenEdited
+                        </td>
+
+                    </tr>
+                }
+            </table>
+
+            <hr />
+
+
+
+            <h3>Code Snippet No Answer Posts</h3>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                <th>Assignment Name</th>
+                <th>Updated</th>
+                </thead>
+
+                @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
+                {
+                    <tr>
+                        <td>
+                            <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">@cs.Name</a>
+                        </td>
+                        <td>
+                            @cs.WhenEdited
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
     </div>
 
-    <div class="col-md-3" style="margin-left: 15px;">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Modules</a>
-            </div>
-
-        </div>
-    </div>
 </div>

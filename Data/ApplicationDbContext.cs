@@ -17,11 +17,20 @@ namespace CodingBlogDemo2.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
 
         public DbSet<Course> Courses { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Register> Registers { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<MultipleChoice> MultipleChoices { get; set; }
+        public DbSet<CodeSnippet> CodeSnippets { get; set; }
+        public DbSet<CodeSnippetNoAnswer> CodeSnippetNoAnswers { get; set; }
+        public DbSet<MultipleChoiceSubmission> MultipleChoiceSubmissions { get; set; }
+        public DbSet<CodeSnippetSubmission> CodeSnippetSubmissions { get; set; }
+        public DbSet<CodeSnippetNoAnswerSubmission> CodeSnippetNoAnswerSubmissions { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -31,5 +40,6 @@ namespace CodingBlogDemo2.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
     }
 }

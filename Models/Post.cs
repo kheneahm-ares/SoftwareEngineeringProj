@@ -10,10 +10,16 @@ namespace CodingBlogDemo2.Models
     public class Post
     {
         public int PostId { get; set; }
-        public string Title { get; set; }
+        public int CourseId { get; set; }
 
-        [DataType(DataType.Text)]
-        public string Description { get; set; }
-        public int ClassId { get; set; }
+        //category instead of type because type is so widely used in programming,
+        //dont want system to get confused
+        public int PostCategory { get; set; }
+
+
+        //the id in each of the assignment types
+        public int AssignmentId { get; set; }
+
+
     }
 }

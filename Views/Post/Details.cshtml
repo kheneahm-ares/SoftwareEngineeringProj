@@ -1,0 +1,57 @@
+@model CodingBlogDemo2.Models.ViewModels.AssignmentViewModel
+
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/codemirror-5.31.0/lib/codemirror.js"></script>
+<script src="~/codemirror-5.31.0/lib/util/formatting.js"></script>
+<script src="~/codemirror-5.31.0/mode/clike/clike.js"></script>
+<link href="/codemirror-5.31.0/lib/codemirror.css" rel="stylesheet" type="text/css" />
+<link href="~/codemirror-5.31.0/theme/base16-dark.css" rel="stylesheet" type="text/css" />
+
+<style>
+    .CodeMirror {
+        border: 1px solid #334;
+        width: 600px;
+    }
+</style>
+
+@{
+    ViewData["Title"] = "Assignment";
+}
+
+<h2>Assignment</h2>
+
+@if(Model.MC != null)
+{
+    @Html.Partial("ShowMultipleChoice", Model.MC);
+
+}
+else if(Model.CodeSnippet != null)
+{
+    @Html.Partial("ShowCodeSnippet", Model.CodeSnippet)
+
+}
+else if (Model.CodeSnippetNoAnswer != null)
+{
+    @Html.Partial("ShowCodeSnippetNoAnswer", Model.CodeSnippetNoAnswer)
+
+}
+
+<script>
+    function getSelectedRange() {
+        return { from: editor.getCursor(true), to: editor.getCursor(false) };
+    }
+
+    function autoFormatSelection() {
+        var range = getSelectedRange();
+        editor.autoFormatRange(range.from, range.to);
+    }
+
+    function commentSelection(isComment) {
+        var range = getSelectedRange();
+        editor.commentRange(isComment, range.from, range.to);
+    }
+
+</script>
