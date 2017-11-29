@@ -12,37 +12,62 @@
         <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">All Posts</h3>
         <hr />
         @*@if (Model.Posts.Count() < 1)
-        {
-            <h5>
-                No posts...
-            </h5>
-        }
-        else
-        {
-            
-        }*@
+            {
+                <h5>
+                    No posts...
+                </h5>
+            }
+            else
+            {
+
+            }*@
     </div>
 
     <div class="col-md-3" style="margin-left: 15px;">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Courses</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Courses</a>
+                </div>
+
+                @foreach (var course in Model.CourseInfos)
+                {
+                    @*if(Model.Courses.Count() > 5)
+                        {
+
+                            <p>hello</p>
+                        }*@
+                    <div class="panel-body" style="padding: 0px">
+                        <h5 style="padding: 10px 15px;"><a asp-controller="Course" asp-action="Show" asp-route-id="@course.Course.CourseId">@course.Course.Name</a></h5>
+                        <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
+                        <hr style="margin:0px" />
+                    </div>
+                }
+
             </div>
 
-            @foreach (var course in Model.CourseInfos)
-            {
-                @*if(Model.Courses.Count() > 5)
+        }
+        
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Course Registrations
+                
+                    <span class="img-rounded" style="color: navy; background-color:lightblue; font-size:medium">@Model.CoursesRegistered.Count()</span>
+                </a>
+            </div>
+            <div class="panel-body" style="padding: 0px">
+                @foreach (var course in Model.CoursesRegistered)
                 {
 
-                    <p>hello</p>
-                }*@
-                <div class="panel-body" style="padding: 0px">
                     <h5 style="padding: 10px 15px;"><a asp-controller="Course" asp-action="Show" asp-route-id="@course.Course.CourseId">@course.Course.Name</a></h5>
-                    <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
-                    <hr style="margin:0px"/>
-                </div>
-            }
-            
+                        <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
+                        <hr style="margin:0px" />
+
+                }
+            </div>
+
         </div>
     </div>
 </div>

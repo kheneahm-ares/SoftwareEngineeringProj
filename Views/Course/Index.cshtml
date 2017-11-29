@@ -1,5 +1,71 @@
 ﻿@model CourseListViewModel
 
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="font-weight: 600; color: #586069; padding: 4px 15px 4px 15px; height: 48px;">
+                            <h4 style="margin-top: 15px;">
+                                <span style="font-weight: bold;">
+                                    Your Classes
+                                </span>
+                            </h4>
+                        </div>
+                        @if (Model.Courses.Count() < 1)
+                        {
+                            <div class="panel-body">No courses...</div>
+                        }
+                        else
+                        {
+                            <div class="panel-body" style="padding: 0px;">
+                                <table class="table" style="margin-bottom: 0px;">
+                                    <tbody>
+                                        @foreach (var course in Model.Courses)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="title-custom">@course.Name</span>
+
+                                                    @*<span style="font-weight: bold;">created on</span> {{date('M j, Y h:i A', strtotime($workout->created_at))}}*@
+                                                </td>
+                                                <td style="width: 300px;">
+                                                    <a asp-controller="Course" asp-action="Show" asp-route-id="@course.CourseId" class="btn btn-default btn-sm" style="color: black; margin-left: 48px;">
+                                                        <span class="glyphicon glyphicon-eye-open"></span> View
+                                                    </a>
+                                                    <span>&nbsp</span>
+                                                    @if (User.IsInRole("Admin"))
+                                                    {
+                                                        <a asp-controller="Course" asp-action="Edit" asp-route-id="@course.CourseId" class="btn btn-default btn-sm" style="color: black;">
+                                                            <span class="glyphicon glyphicon-pencil"></span> Edit
+                                                        </a>
+                                                        <span>&nbsp</span>
+                                                        <form style="display:inline" asp-controller="Course" asp-action="Delete" asp-route-id="@course.CourseId" method="post">
+                                                            <button type="submit" class="btn btn-default btn-sm" style="color: black;">
+                                                                <span class="glyphicon glyphicon-erase"></span> Delete
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="row" style="margin-top: 20px;">
@@ -8,11 +74,11 @@
                     <div class="panel-heading" style="font-weight: 600; color: #586069; padding: 4px 15px 4px 15px; height: 48px;">
                         <h4 style="margin-top: 15px;">
                             <span style="font-weight: bold;">
-                                Your Classes
+                                Your Registrations
                             </span>
                         </h4>
                     </div>
-                    @if (Model.Courses.Count() < 1)
+                    @if (Model.CoursesRegistered.Count() < 1)
                     {
                         <div class="panel-body">No courses...</div>
                     }
@@ -21,30 +87,17 @@
                         <div class="panel-body" style="padding: 0px;">
                             <table class="table" style="margin-bottom: 0px;">
                                 <tbody>
-                                    @foreach (var course in Model.Courses)
+                                    @foreach (var course in Model.CoursesRegistered)
                                     {
                                         <tr>
                                             <td>
-                                                <span class="title-custom">@course.Name</span>
-
-                                                @*<span style="font-weight: bold;">created on</span> {{date('M j, Y h:i A', strtotime($workout->created_at))}}*@
+                                                <span class="title-custom">@course.Course.Name</span>
                                             </td>
                                             <td style="width: 300px;">
-                                                <a asp-controller="Course" asp-action="Show" asp-route-id="@course.CourseId" class="btn btn-default btn-sm" style="color: black; margin-left: 48px;">
+                                                <a asp-controller="Course" asp-action="Show" asp-route-id="@course.Course.CourseId" class="btn btn-default btn-sm" style="color: black; margin-left: 48px;">
                                                     <span class="glyphicon glyphicon-eye-open"></span> View
                                                 </a>
                                                 <span>&nbsp</span>
-                                                    @if (User.IsInRole("Admin")) { 
-                                                    <a asp-controller="Course" asp-action="Edit" asp-route-id="@course.CourseId" class="btn btn-default btn-sm" style="color: black;">
-                                                        <span class="glyphicon glyphicon-pencil"></span> Edit
-                                                    </a>
-                                                    <span>&nbsp</span>
-                                                    <form style="display:inline" asp-controller="Course" asp-action="Delete" asp-route-id="@course.CourseId" method="post">
-                                                        <button type="submit" class="btn btn-default btn-sm" style="color: black;">
-                                                            <span class="glyphicon glyphicon-erase"></span> Delete
-                                                        </button>
-                                                    </form>
-                                                }
                                             </td>
                                         </tr>
                                     }

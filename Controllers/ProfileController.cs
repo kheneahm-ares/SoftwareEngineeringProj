@@ -38,6 +38,26 @@ namespace CodingBlogDemo2.Controllers
 
             List<CourseInfo> courseInfos = new List<CourseInfo>();
 
+            List<CourseInfo> courseRegistrationInfos = new List<CourseInfo>();
+
+            string currentUserEmail = User.Identity.Name;
+
+            //get all registrations of current user
+            IEnumerable<Register> registrations = _context.Registers.Where(r => r.UserEmail == currentUserEmail);
+
+            foreach (Register r in registrations)
+            {
+                CourseInfo newCourseInfo = new CourseInfo();
+                Course cs = _context.Courses.Where(c => c.CourseId == r.CourseId).First();
+                newCourseInfo.Course = cs;
+
+                ApplicationUser user = _context.Users.Where(c => c.Email == cs.UserEmail).First();
+                newCourseInfo.InstructorLName = user.LastName;
+
+                courseRegistrationInfos.Add(newCourseInfo);
+            }
+
+
 
             courses = _courseRepository.Courses.Where(p => p.UserEmail == User.Identity.Name);
 
@@ -61,6 +81,7 @@ namespace CodingBlogDemo2.Controllers
             return View(new CourseListViewModel
             {
                 CourseInfos = courseInfos,
+                CoursesRegistered = courseRegistrationInfos
 
             });
 

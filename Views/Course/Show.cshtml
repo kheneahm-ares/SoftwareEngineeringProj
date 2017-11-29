@@ -101,7 +101,7 @@
         @if (ViewBag.isFollowing)
         {
             <form method="post" asp-controller="Course" asp-action="Unfollow" asp-route-courseId="@ViewBag.CourseId">
-                <button type="submit" class="btn btn-block btn-lg btn-danger">Unfollow</button>
+                <button type="submit" class="btn btn-block btn-lg btn-danger">Unregister</button>
             </form>
 
         }
@@ -113,7 +113,7 @@
         else
         {
             <form method="post" asp-controller="Course" asp-action="Follow" asp-route-courseId="@ViewBag.CourseId">
-                <button type="submit" class="btn btn-block btn-lg btn-success">Follow</button>
+                <button type="submit" class="btn btn-block btn-lg btn-success">Register</button>
             </form>
 
         }
