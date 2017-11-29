@@ -8,9 +8,10 @@ using CodingBlogDemo2.Data;
 namespace CodingBlogDemo2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171128210613_register")]
+    partial class register
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.3")
@@ -278,26 +279,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.HasKey("RegisterId");
 
                     b.ToTable("Registers");
-                });
-
-            modelBuilder.Entity("CodingBlogDemo2.Models.Submission", b =>
-                {
-                    b.Property<int>("SubmissionId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AssignmentId");
-
-                    b.Property<int>("CategoryId");
-
-                    b.Property<int>("CourseId");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<string>("UserEmail");
-
-                    b.HasKey("SubmissionId");
-
-                    b.ToTable("Submissions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

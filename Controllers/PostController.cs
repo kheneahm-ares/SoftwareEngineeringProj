@@ -104,6 +104,15 @@ namespace CodingBlogDemo2.Controllers
             ViewBag.hasSubmitted = false;
             String currentUserEmail = User.Identity.Name;
 
+            //we check if the user is even able to submit
+            //we check in registration if the user is following the course based on its courseId
+            bool isFollowing = _context.Registers.Any(r => r.UserEmail == currentUserEmail && r.CourseId == id);
+            ViewBag.IsFollowing = isFollowing;
+
+            bool isCourseCreator = _context.Courses.Any(c => c.CourseId == id && c.UserEmail == currentUserEmail);
+
+            ViewBag.IsCourseCreator = isCourseCreator;
+
 
             //if requests for a category of type Multiple Choice
             if (categoryId == 1)
@@ -633,14 +642,31 @@ namespace CodingBlogDemo2.Controllers
 
                 _context.SaveChanges();
             }
-            
+
+            //create new submission to be used for report
+            Submission newSub = new Submission
+            {
+                AssignmentId = (int)assignmentId,
+                CategoryId = 1,
+                CourseId = id,
+                UserEmail = User.Identity.Name
+            };
+
+            _context.Add(newSub);
+            _context.SaveChanges();
+
+            TempData["Success"] = "Assignment Successfully Submitted!";
+
 
             //for multiple choice we dont need the actual model to be submitted
             //all we need is the actual radio button selected 
             return RedirectToRoute(new
             {
-                controller = "Profile",
-                action = "Index"
+                controller = "Post",
+                action = "Details",
+                id = id,
+                assignmentId = assignmentId,
+                categoryId = categoryId
             });
 
         }
@@ -649,6 +675,7 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id?}/Post/{assignmentId?}/{categoryId?}/SubmitCodesnippet", Name = "SubmitCodeSnippet")]
         public IActionResult SubmitCodeSnippet(int id, int? assignmentId, int? categoryId)
         {
+           
             //we need to grab the code form the text area
             string code = Request.Form["Code"];
 
@@ -678,10 +705,23 @@ namespace CodingBlogDemo2.Controllers
                 UserEmail = userEmail,
                 UserCode = code,
                 IsCorrect = isCorrect
+
             };
 
             _context.Add(newSubmission);
             _context.SaveChangesAsync();
+
+            //create new submission to be used for report
+            Submission newSub = new Submission
+            {
+                AssignmentId = (int)assignmentId,
+                CategoryId = 2,
+                CourseId = id,
+                UserEmail = User.Identity.Name
+            };
+
+            _context.Add(newSub);
+            _context.SaveChanges();
 
 
             TempData["Success"] = "Assignment Successfully Submitted!";
@@ -721,7 +761,21 @@ namespace CodingBlogDemo2.Controllers
             };
 
             _context.Add(newSubmission);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
+
+
+            //create new submission to be used for report
+            Submission newSub = new Submission
+            {
+                AssignmentId = assignmentId,
+                CategoryId = 3,
+                CourseId = id,
+                UserEmail = User.Identity.Name
+            };
+
+
+            _context.Add(newSub);
+            _context.SaveChanges();
 
 
 

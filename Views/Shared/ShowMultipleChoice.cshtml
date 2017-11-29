@@ -13,9 +13,8 @@
     }
     <hr />
 
-    <form asp-route="SubmitMultipleChoice" role="form" method="post">
-        <div class="form-horizontal col-md-6 col-md-offset-3">
-            <hr />
+    <form asp-route="SubmitMultipleChoice" role="form" class="form-horizontal col-md-12 col-md-offset-3" method="post" id="assignment">
+        <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" />
             <div class="form-group">
@@ -59,19 +58,9 @@
                     @Html.DisplayFor(model => model.D);
                 </div>
             </div>
-
-            @if (!ViewBag.hasSubmitted)
-            {
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Submit Answer" class="btn btn-default" />
-                    </div>
-                </div>
-            }
-            else
-            {
-                <label style="color:darkgreen"> Already submitted an answer!</label>
-            }
-        </div>
     </form>
+
+    <div class="col-md-offset-3">
+        @{ Html.RenderPartial("_SubmissionPartial");}
+    </div>
 </div>
