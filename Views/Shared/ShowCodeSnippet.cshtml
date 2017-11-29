@@ -14,8 +14,7 @@
     }
     <hr />
 
-
-    <form asp-route="SubmitCodeSnippet" method="post" role="form" class="form-horizontal col-md-12 col-md-offset-3" id="codeSnippet">
+    <form asp-route="SubmitCodeSnippet" method="post" role="form" class="form-horizontal col-md-12 col-md-offset-3" id="assignment">
         <div asp-validation-summary="All" class="text-danger"></div>
         <input type="hidden" name="category" value="2" />
         <div>
@@ -40,25 +39,12 @@
                     <textarea type="text" asp-for="Code" class="col-md-2 form-control"></textarea>
                 </div>
             </div>
-
-
-
-
         </div>
 
     </form>
 
     <div class="col-md-offset-3">
-
-        @if (!ViewBag.hasSubmitted)
-        {
-            <input type="submit" class="btn btn-success" form="codeSnippet" value="Submit Assignment" />
-
-        }
-        else
-        {
-            <label style="color:darkgreen"> Already submitted an answer!</label>
-        }|
+       @{Html.RenderPartial("_SubmissionPartial");} |
 
 
         @*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@

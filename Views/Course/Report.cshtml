@@ -1,0 +1,52 @@
+﻿@model CodingBlogDemo2.Models.ViewModels.ReportViewModel
+
+@{
+    ViewData["Title"] = "Course Report";
+}
+
+
+<div class="row">
+    <div>
+        <h1>Class Report</h1>
+    </div>
+    <hr />
+</div>
+
+<div class="row">
+
+    <table class="table table-bordered table-responsive table-hover">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Submissions</th>
+            <th>Course Assignments Total</th>
+            <th>Activity %</th>
+            <th>Most Recent Submission</th>
+        </tr>
+        @foreach (Report rep in Model.Reports)
+            {
+            <tr>
+
+                <td>@rep.FirstName</td>
+                <td>@rep.LastName</td>
+                <td>@rep.UserEmail</td>
+                <td>@rep.Submissions</td>
+                <td>@rep.CoursePostTotal</td>
+                @if (rep.SubmissionActivityPercentage < 50)
+                {
+                    <td style="color:red">@rep.SubmissionActivityPercentage %</td>
+
+                }
+                else
+                {
+
+                    <td style="color:green">@rep.SubmissionActivityPercentage %</td>
+
+                }
+                <td>@rep.SubmissionTime</td>
+            </tr>
+        }
+
+    </table>
+</div>
