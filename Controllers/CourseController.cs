@@ -34,7 +34,25 @@ namespace CodingBlogDemo2.Controllers
 
             IEnumerable<Course> courses;
 
-           
+            List<CourseInfo> courseRegistrationInfos = new List<CourseInfo>();
+
+            string currentUserEmail = User.Identity.Name;
+
+            //get all registrations of current user
+            IEnumerable<Register> registrations = _context.Registers.Where(r => r.UserEmail == currentUserEmail);
+
+            foreach (Register r in registrations)
+            {
+                CourseInfo newCourseInfo = new CourseInfo();
+                Course cs = _context.Courses.Where(c => c.CourseId == r.CourseId).First();
+                newCourseInfo.Course = cs;
+
+                ApplicationUser user = _context.Users.Where(c => c.Email == cs.UserEmail).First();
+                newCourseInfo.InstructorLName = user.LastName;
+
+                courseRegistrationInfos.Add(newCourseInfo);
+            }
+
 
             courses = _courseRepo.Courses.Where(p => p.UserEmail == User.Identity.Name);
 
@@ -42,6 +60,7 @@ namespace CodingBlogDemo2.Controllers
             return View(new CourseListViewModel
             {
                 Courses = courses,
+                CoursesRegistered = courseRegistrationInfos
             });
         }
 
@@ -78,6 +97,16 @@ namespace CodingBlogDemo2.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Report(int id)
         {
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
+
             List<Report> reports = new List<Report>();
 
             //we want to grab all the users that are registered this course
@@ -194,6 +223,16 @@ namespace CodingBlogDemo2.Controllers
         public IActionResult Edit(int id)
         {
 
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
+
             var course = _courseRepo.Courses.Where(c => c.CourseId == id).FirstOrDefault();
             return View(course);
 
@@ -228,6 +267,8 @@ namespace CodingBlogDemo2.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
+
+
 
             //for now it will just be the data in the course table,
             //however, when we delete a course that has relationships with modules and assignments, we have to delete every data
@@ -334,8 +375,9 @@ namespace CodingBlogDemo2.Controllers
         [HttpPost]
         public IActionResult Unfollow(int courseId)
         {
-
-            Register reg = _context.Set<Register>().Where(r => r.CourseId == courseId).SingleOrDefault(); //grab specific registration
+            //we want the current user to be unregistered
+            string currentUserEmail = User.Identity.Name;
+            Register reg = _context.Registers.Where(r => r.CourseId == courseId && r.UserEmail == currentUserEmail).SingleOrDefault(); //grab specific registration
             _context.Entry(reg).State = Microsoft.EntityFrameworkCore.EntityState.Deleted; //delete
             _context.SaveChanges();
 
@@ -350,6 +392,20 @@ namespace CodingBlogDemo2.Controllers
                 action = "Show",
                 id = courseId
             });
+        }
+
+        private bool IsOwner(int courseId)
+        {
+            //get specific post,
+            bool isOwner = false;
+            string currentUserEmail = User.Identity.Name;
+
+
+            //we can grab the user of the post by checking who the owner of the course it belongs to
+            var course = _context.Courses.Where(c => c.CourseId == courseId).First();
+
+
+            return isOwner = currentUserEmail == course.UserEmail; ;
         }
     }
 }

@@ -1,7 +1,7 @@
 @model CodingBlogDemo2.Models.CodeSnippetNoAnswer
 
 <div class="row">
-    @if (User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin") && ViewBag.IsCourseCreator)
     {
         <div class="col-md-12 col-md-offset-9">
             <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-warning btn-lg">Edit</a> |

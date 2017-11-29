@@ -189,7 +189,29 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id}/Create")]
         public IActionResult Create(int id)
         {
+
+
+            //we check if there even exists a course with courseId = id
+            bool courseExists = _context.Courses.Any(c => c.CourseId == id);
+
+            if (!courseExists)
+            {
+                return NotFound();
+            }
+
+
             _courseId = id;
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
+
+
             ViewBag.Categories = _categoryRepo.Categories;
             return View();
         }
@@ -358,17 +380,23 @@ namespace CodingBlogDemo2.Controllers
         // GET:
         [Authorize(Roles = "Admin")]
         [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}", Name ="EditPost")]
-        public async Task<IActionResult> Edit(int? id, int? assignmentId, int? categoryId)
+        public async Task<IActionResult> Edit(int id, int? assignmentId, int? categoryId)
         {
 
             AssignmentViewModel newModel = new AssignmentViewModel();
-            if (id == null)
+        
+            
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
             {
-                return NotFound();
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
             }
-           
 
-            if(categoryId == 1)
+            if (categoryId == 1)
             {
               newModel.MC = _context.MultipleChoices.Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
 
@@ -526,23 +554,30 @@ namespace CodingBlogDemo2.Controllers
         }
 
         // GET: Post/Delete/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //[Authorize(Roles = "Admin")]
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var post = await _context.Posts
-                .SingleOrDefaultAsync(m => m.PostId == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
+        //    var post = await _context.Posts
+        //        .SingleOrDefaultAsync(m => m.PostId == id);
 
-            return View(post);
-        }
+
+
+
+        //    if (post == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+            
+
+        //    return View(post);
+        //}
+
 
         // POST: Post/Delete/5
         [Authorize(Roles = "Admin")]
@@ -793,9 +828,20 @@ namespace CodingBlogDemo2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [Route("/Course/{id?}/Delete/{assignmentId?}/{categoryId?}/Results", Name = "PostResults")]
+        [Route("/Course/{id?}/Post/{assignmentId?}/{categoryId?}/Results", Name = "PostResults")]
         public IActionResult Results(int id, int? assignmentId, int? categoryId)
         {
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
+
+
             //used by the results view
             ViewBag.isMCResult = false;
             ViewBag.isCodeSnipResult = false;
@@ -913,6 +959,19 @@ namespace CodingBlogDemo2.Controllers
             return _context.Posts.Any(e => e.PostId == id);
         }
 
+        private bool IsOwner(int courseId)
+        {
+            //get specific post,
+            bool isOwner = false;
+            string currentUserEmail = User.Identity.Name;
+
+
+            //we can grab the user of the post by checking who the owner of the course it belongs to
+            var course = _context.Courses.Where(c => c.CourseId == courseId).First();
+
+
+            return isOwner = currentUserEmail == course.UserEmail; ;
+        }
 
 
     }
