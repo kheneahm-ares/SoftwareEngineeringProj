@@ -18,5 +18,8 @@ namespace CodingBlogDemo2.Models.ViewModels
         [Required]
         [Display(Name = "Code Snippet")]
         public String Code1 { get; set; }
+
+        [Required]
+        public String Answer { get; set; }
     }
 }

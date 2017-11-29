@@ -17,6 +17,7 @@ namespace CodingBlogDemo2.Models
         public String Name { get; set; }
         public String Description { get; set; }
         public String Code { get; set; }
+        public String Answer { get; set; }
         public int PostId { get; set; }
         public DateTime WhenCreated { get; private set; }
         public DateTime WhenEdited { get; private set; }

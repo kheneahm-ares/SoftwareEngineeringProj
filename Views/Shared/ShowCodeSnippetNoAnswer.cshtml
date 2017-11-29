@@ -40,6 +40,13 @@
                     <textarea type="text" asp-for="Code" class="col-md-2 form-control"></textarea>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="control-label">Answer</label>
+                <div>
+                    <input name="Answer" class="form-control" />
+                </div>
+            </div>
         </div>
 
     </form>
@@ -54,10 +61,10 @@
         else
         {
             <label style="color:darkgreen"> Already submitted an answer!</label>
-        }|
+        }@*|
 
 
-        @*this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh*@
+        this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh
         <button class="btn btn-primary" onclick="CompileCode()">Compile</button> |
         <a class="btn btn-info" href="javascript:autoFormatSelection()">
             Autoformat Selected
@@ -65,7 +72,7 @@
 
         <hr />
 
-        <textarea type="text" id="Result" class="col-md-2 form-control">Compiled Code Result...</textarea>
+        <textarea type="text" id="Result" class="col-md-2 form-control">Compiled Code Result...</textarea>*@
 
     </div>
 </div>
@@ -77,6 +84,7 @@
     //create code mirror instance for code snippets
     //we want to load code mirror individually so we can grab the editor and
     var editor = CodeMirror.fromTextArea(document.getElementById("Code"), {
+        readOnly: true,
         lineNumbers: true,
         matchBrackets: true,
         mode: "text/x-java",
