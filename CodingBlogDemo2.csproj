@@ -31,6 +31,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
+    <PackageReference Include="Pioneer.Pagination" Version="1.0.1" />
+    <PackageReference Include="Sakura.AspNetCore.Mvc.PagedList" Version="2.0.12" />
+    <PackageReference Include="Sakura.AspNetCore.PagedList" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>

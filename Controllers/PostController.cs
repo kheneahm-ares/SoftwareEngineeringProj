@@ -221,7 +221,7 @@ namespace CodingBlogDemo2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("/Course/{id}/Create/MultipleChoice", Name ="MultipleChoice")]
-        public async Task<IActionResult> CreateMultipleChoice(MultipleChoiceViewModel model)
+        public async Task<IActionResult> CreateMultipleChoice(int id, MultipleChoiceViewModel model)
         {
             ViewBag.Categories = _categoryRepo.Categories;
             if (ModelState.IsValid)
@@ -261,6 +261,11 @@ namespace CodingBlogDemo2.Controllers
                 await _context.SaveChangesAsync();
 
                 TempData["Success"] = "Assignment Successfully Created!";
+
+
+                //to be used for views to show activity of Curse
+                UpdateCourse(id);
+
                 return RedirectToRoute(new
                 {
                     controller = "Course",
@@ -273,13 +278,12 @@ namespace CodingBlogDemo2.Controllers
         }
 
 
-
         // POST: Post/Create
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("/Course/{id}/Create/CodeSnippet", Name = "CodeSnippet")]
-        public async Task<IActionResult> CreateCodeSnippet(CodeSnippetViewModel model)
+        public async Task<IActionResult> CreateCodeSnippet(int id, CodeSnippetViewModel model)
         {
             ViewBag.Categories = _categoryRepo.Categories;
             if (ModelState.IsValid)
@@ -314,6 +318,9 @@ namespace CodingBlogDemo2.Controllers
                 _context.Posts.Add(newPost);
                 await _context.SaveChangesAsync();
 
+                //to be used for views to show activity of Curse
+                UpdateCourse(id);
+
                 TempData["Success"] = "Assignment Successfully Created!";
                 return RedirectToRoute(new
                 {
@@ -330,7 +337,7 @@ namespace CodingBlogDemo2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("/Course/{id}/Create/CodeSnippetNoAnswer", Name = "CodeSnippetNoAnswer")]
-        public async Task<IActionResult> CreateCodeSnippetNoAnswer(CodeSnippetNoAnswerViewModel model)
+        public async Task<IActionResult> CreateCodeSnippetNoAnswer(int id, CodeSnippetNoAnswerViewModel model)
         {
             ViewBag.Categories = _categoryRepo.Categories;
             if (ModelState.IsValid)
@@ -363,6 +370,9 @@ namespace CodingBlogDemo2.Controllers
 
                 _context.Posts.Add(newPost);
                 await _context.SaveChangesAsync();
+
+                //to be used for views to show activity of Curse
+                UpdateCourse(id);
 
                 TempData["Success"] = "Assignment Successfully Created!";
                 return RedirectToRoute(new
@@ -447,6 +457,7 @@ namespace CodingBlogDemo2.Controllers
                     postToUpdate.C = post.C;
                     postToUpdate.D = post.D;
                     postToUpdate.Answer = post.Answer;
+                    postToUpdate.WhenEdited = DateTime.Now;
 
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
@@ -455,6 +466,10 @@ namespace CodingBlogDemo2.Controllers
                 {
                     throw;
                 }
+
+                //to be used for views to show activity of Curse
+                UpdateCourse(id);
+
                 TempData["Success"] = "Assignment Successfully Edited and Saved!";
 
                 return RedirectToRoute(new
@@ -490,7 +505,9 @@ namespace CodingBlogDemo2.Controllers
                     postToUpdate.Description = post.Description;
                     postToUpdate.Answer = post.Answer;
                     postToUpdate.Code = post.Code;
-                    
+                    postToUpdate.WhenEdited = DateTime.Now;
+
+
 
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
@@ -499,6 +516,10 @@ namespace CodingBlogDemo2.Controllers
                 {
                     throw;
                 }
+
+                //to be used for views to show activity of Curse
+                UpdateCourse(id);
+
                 TempData["Success"] = "Assignment Successfully Edited and Saved!";
 
                 return RedirectToRoute(new
@@ -532,6 +553,7 @@ namespace CodingBlogDemo2.Controllers
                     postToUpdate.Description = post.Description;
                     postToUpdate.Code = post.Code;
                     postToUpdate.Answer = post.Answer;
+                    postToUpdate.WhenEdited = DateTime.Now;
 
 
                     //_context.Update(post);
@@ -541,6 +563,10 @@ namespace CodingBlogDemo2.Controllers
                 {
                     throw;
                 }
+
+                //to be used for views to show activity of Curse
+                UpdateCourse(id);
+
                 TempData["Success"] = "Assignment Successfully Edited and Saved!";
 
                 return RedirectToRoute(new
@@ -632,14 +658,18 @@ namespace CodingBlogDemo2.Controllers
             }
 
 
+            //to be used for views to show activity of Curse
+            UpdateCourse(id);
+
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Assignment Post successfully deleted!";
 
             return RedirectToRoute(new
             {
-                controller = "Profile",
-                action = "Index"
+                controller = "Course",
+                action = "Show",
+                id = id
             });
         }
 
@@ -746,7 +776,7 @@ namespace CodingBlogDemo2.Controllers
             };
 
             _context.Add(newSubmission);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             //create new submission to be used for report
             Submission newSub = new Submission
@@ -907,7 +937,7 @@ namespace CodingBlogDemo2.Controllers
             }
 
             //for the code snippet results, we want to show who it belongs to, their code character count, and to check if it is correct
-            if(categoryId == 2)
+            else if(categoryId == 2)
             {
                 ViewBag.isCodeSnipResult = true;
 
@@ -941,6 +971,46 @@ namespace CodingBlogDemo2.Controllers
 
                 }
             }
+
+            else if (categoryId == 3)
+            {
+                ViewBag.isCodeSnipNoAnswerResult = true;
+
+                //get all submissions from the CodeSnipetSub table for the specific assignment
+                IEnumerable<CodeSnippetNoAnswerSubmission> submissions = _context.CodeSnippetNoAnswerSubmissions.Where(cs => cs.AssignmentId == assignmentId);
+
+                foreach (CodeSnippetNoAnswerSubmission sub in submissions)
+                {
+                    UserResultsViewModel currentResult = new UserResultsViewModel();
+
+                    //get current user to get Fname and Lname
+                    ApplicationUser user = getUserByEmail(sub.UserEmail);
+
+                    currentResult.FName = user.FirstName;
+                    currentResult.LName = user.LastName;
+
+                    currentResult.Answer = sub.UserAnswer;
+
+
+                    //get assignment
+                    var assignment = _context.CodeSnippetNoAnswers.Where(cs => cs.CodeSnippetNoAnswerId == assignmentId).First();
+
+                    currentResult.IsCorrect = (assignment.Answer == sub.UserAnswer);
+
+                    if (currentResult.IsCorrect == true)
+                    {
+                        correctCount++;
+                    }
+                    else
+                    {
+                        incorrectCount++;
+                    }
+
+                    userResults.Add(currentResult);
+
+                }
+            }
+
             return View( new ResultsViewModel
             {
                 UserResults = userResults,
@@ -975,6 +1045,25 @@ namespace CodingBlogDemo2.Controllers
             return isOwner = currentUserEmail == course.UserEmail; ;
         }
 
+
+        private void UpdateCourse(int id)
+        {
+
+            try
+            {
+            //find course and change updated at to "now"
+            var course = _context.Courses.Where(c => c.CourseId == id).First();
+
+            course.WhenEdited = DateTime.Now;
+
+            _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+           
+        }
 
     }
 }

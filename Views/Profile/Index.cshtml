@@ -1,5 +1,6 @@
-﻿@model CourseListViewModel
+﻿@model CodingBlogDemo2.Models.ViewModels.HomePageViewModel
 @inject UserManager<ApplicationUser> UserManager
+
 
 @{
     ViewData["Title"] = "Home Page";
@@ -8,22 +9,111 @@
 <div class="row">
 
 
-    <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
-        <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">All Posts</h3>
+    <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px; padding-right: 15px;">
+        <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">Your Activity</h3>
         <hr />
-        @*@if (Model.Posts.Count() < 1)
+        @foreach (Activity a in Model.Activities)
+        {
+            @if (a.Type == "CourseCreation")
             {
-                <h5>
-                    No posts...
-                </h5>
-            }
-            else
-            {
+                <div class="col-md-10">
+                    <p>You created course: <b>@a.CourseName</b></p>
+                </div>
+                <div class="col-md-2">
+                    @{
+                        var timeDifference = (DateTime.Now - a.Time);
+                    }
+                    @if (timeDifference.Minutes < 60)
+                    {
+                        <p>@String.Format("{0:mm}", timeDifference) mins ago</p>
 
-            }*@
+
+                    }
+                    else
+                    {
+                        <p>@String.Format("{0:hh}", timeDifference) hours ago</p>
+
+                    }
+                </div>
+                        }
+                        else if (a.Type == "CourseEdit")
+                        {
+                            <div class="col-md-10">
+                                <p>You edited course: <b>@a.CourseName</b></p>
+                            </div>
+                            <div class="col-md-2">
+                                @{
+                                    var timeDifference = (DateTime.Now - a.Time);
+                                }
+                                @if (timeDifference.Minutes < 60)
+                                {
+                                    <p>@String.Format("{0:mm}", timeDifference) mins ago</p>
+
+
+                                }
+                                else
+                                {
+                                    <p>@String.Format("{0:hh}", timeDifference) hours ago</p>
+
+                                }
+                            </div>
+                                    }
+                                    else if (a.Type == "PostCreation")
+                                    {
+                                        <div class="col-md-10">
+                                            <p>You created a post: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @{
+                                                var timeDifference = (DateTime.Now - a.Time);
+                                            }
+                                            @if (timeDifference.Minutes < 60)
+                                            {
+                                                <p>@String.Format("{0:mm}", timeDifference) mins ago</p>
+
+
+                                            }
+                                            else
+                                            {
+                                                <p>@String.Format("{0:hh}", timeDifference) hours ago</p>
+
+                                            }
+                                        </div>
+                                                }
+
+                                                else if (a.Type == "PostEdit")
+                                                {
+                                                    <div class="col-md-10">
+                                                        <p>You edited a post: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @{
+                                                            var timeDifference = (DateTime.Now - a.Time);
+                                                        }
+                                                        @if (timeDifference.Minutes < 60)
+                                                        {
+                                                            <p>@String.Format("{0:mm}", timeDifference) mins ago</p>
+
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>@String.Format("{0:hh}", timeDifference) hours ago</p>
+
+                                                        }
+                                                    </div>
+                                                            }
+
+                                                            }
+        <div class="text-center">
+            <ul class="pagination ">
+                <pager source="(Sakura.AspNetCore.IPagedList)@Model.Activities" />
+            </ul>
+        </div>
+        
     </div>
 
-    <div class="col-md-3" style="margin-left: 15px;">
+    <div class="col-md-4">
         @if (User.IsInRole("Admin"))
         {
             <div class="panel panel-default">
@@ -31,7 +121,7 @@
                     <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Courses</a>
                 </div>
 
-                @foreach (var course in Model.CourseInfos)
+                @foreach (var course in Model.CourseList.CourseInfos)
                 {
                     @*if(Model.Courses.Count() > 5)
                         {
@@ -41,29 +131,32 @@
                     <div class="panel-body" style="padding: 0px">
                         <h5 style="padding: 10px 15px;"><a asp-controller="Course" asp-action="Show" asp-route-id="@course.Course.CourseId">@course.Course.Name</a></h5>
                         <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
-                        <hr style="margin:0px" />
+                        <p style="padding-left: 15px">Recent Activity: @String.Format("{0:MMM dd, yyyy hh:mm tt}", @course.Course.WhenEdited)</p>
+
                     </div>
                 }
 
             </div>
 
         }
-        
+
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;"> Course Registrations
-                
-                    <span class="img-rounded" style="color: navy; background-color:lightblue; font-size:medium">@Model.CoursesRegistered.Count()</span>
+                <a asp-controller="Course" asp-action="Index" style="font-weight: 500; font-size: 14px;">
+                    Course Registrations
+
+                    <span class="glyphicon glyphicon-education" style="color: navy; font-size:medium">@Model.CourseList.CoursesRegistered.Count()</span>
                 </a>
             </div>
             <div class="panel-body" style="padding: 0px">
-                @foreach (var course in Model.CoursesRegistered)
+                @foreach (var course in Model.CourseList.CoursesRegistered)
                 {
 
                     <h5 style="padding: 10px 15px;"><a asp-controller="Course" asp-action="Show" asp-route-id="@course.Course.CourseId">@course.Course.Name</a></h5>
-                        <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
-                        <hr style="margin:0px" />
+                    <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
+                        <p style="padding-left: 15px">Recent Activity: @String.Format("{0:MMM dd, yyyy hh:mm tt}", @course.Course.WhenEdited)</p>
+
 
                 }
             </div>
