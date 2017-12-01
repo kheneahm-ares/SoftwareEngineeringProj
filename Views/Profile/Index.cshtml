@@ -14,93 +14,88 @@
         <hr />
         @foreach (Activity a in Model.Activities)
         {
+            var timeDifference = (DateTime.Now - a.Time);
+
             @if (a.Type == "CourseCreation")
             {
-                <div class="col-md-10">
+                            
+                <div class="col-md-9">
                     <p>You created course: <b>@a.CourseName</b></p>
                 </div>
-                <div class="col-md-2">
-                    @{
-                        var timeDifference = (DateTime.Now - a.Time);
-                    }
-                    @if (timeDifference.Minutes < 60)
-                    {
-                        <p>@String.Format("{0:mm}", timeDifference) mins ago</p>
+                <div class="col-md-3">
 
+                    @if (timeDifference.Days > 0)
+                    {
+
+                        <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
 
                     }
                     else
                     {
-                        <p>@String.Format("{0:hh}", timeDifference) hours ago</p>
 
+                        <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
                     }
                 </div>
                         }
                         else if (a.Type == "CourseEdit")
                         {
-                            <div class="col-md-10">
+                            <div class="col-md-9">
                                 <p>You edited course: <b>@a.CourseName</b></p>
                             </div>
-                            <div class="col-md-2">
-                                @{
-                                    var timeDifference = (DateTime.Now - a.Time);
-                                }
-                                @if (timeDifference.Minutes < 60)
+                            <div class="col-md-3">
+                                @if (timeDifference.Days > 0)
                                 {
-                                    <p>@String.Format("{0:mm}", timeDifference) mins ago</p>
 
+                                    <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
 
                                 }
                                 else
                                 {
-                                    <p>@String.Format("{0:hh}", timeDifference) hours ago</p>
 
+                                    <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
                                 }
                             </div>
                                     }
                                     else if (a.Type == "PostCreation")
                                     {
-                                        <div class="col-md-10">
+                                        <div class="col-md-9">
                                             <p>You created a post: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
                                         </div>
-                                        <div class="col-md-2">
-                                            @{
-                                                var timeDifference = (DateTime.Now - a.Time);
-                                            }
-                                            @if (timeDifference.Minutes < 60)
+                                        <div class="col-md-3">
+                                            @if (timeDifference.Days > 0)
                                             {
-                                                <p>@String.Format("{0:mm}", timeDifference) mins ago</p>
 
+                                                <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
 
                                             }
                                             else
                                             {
-                                                <p>@String.Format("{0:hh}", timeDifference) hours ago</p>
 
+                                                <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
                                             }
+                 
                                         </div>
                                                 }
 
                                                 else if (a.Type == "PostEdit")
                                                 {
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-9">
                                                         <p>You edited a post: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
                                                     </div>
-                                                    <div class="col-md-2">
-                                                        @{
-                                                            var timeDifference = (DateTime.Now - a.Time);
-                                                        }
-                                                        @if (timeDifference.Minutes < 60)
-                                                        {
-                                                            <p>@String.Format("{0:mm}", timeDifference) mins ago</p>
+                                                    <div class="col-md-3">
+                                                         @if (timeDifference.Days > 0)
+                                                         {
 
+                                                            <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
 
-                                                        }
-                                                        else
-                                                        {
-                                                            <p>@String.Format("{0:hh}", timeDifference) hours ago</p>
+                                                         }
+                                                         else
+                                                         {
 
-                                                        }
+                                                            <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
+                                                         }
+                                                        
+
                                                     </div>
                                                             }
 
