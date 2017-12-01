@@ -30,7 +30,7 @@ namespace CodingBlogDemo2.Data
         public DbSet<CodeSnippetSubmission> CodeSnippetSubmissions { get; set; }
         public DbSet<CodeSnippetNoAnswerSubmission> CodeSnippetNoAnswerSubmissions { get; set; }
         public DbSet<Submission> Submissions { get; set; }
-
+        public DbSet<Folder> Folders { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
