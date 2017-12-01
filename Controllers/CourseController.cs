@@ -120,6 +120,9 @@ namespace CodingBlogDemo2.Controllers
 
             ViewBag.CourseName = _context.Courses.Where(c => c.CourseId == id).First().Name;
 
+            // ViewBag for folders
+            ViewBag.Folders = _context.Folders.Where(f => f.CourseId == id);
+
             return View(new AssignmentViewModel
             {
                 MultipleChoices = mcs,

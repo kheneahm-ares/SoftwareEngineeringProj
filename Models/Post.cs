@@ -20,6 +20,6 @@ namespace CodingBlogDemo2.Models
         //the id in each of the assignment types
         public int AssignmentId { get; set; }
 
-
+        public int FolderId { get; set; }
     }
 }

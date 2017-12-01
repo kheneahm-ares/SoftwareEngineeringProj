@@ -41,12 +41,15 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label">Answer</label>
-                <div>
-                    <input name="Answer" class="form-control" />
+            @if (!ViewBag.hasSubmitted)
+            {
+                <div class="form-group">
+                    <label class="control-label">Answer</label>
+                    <div>
+                        <input name="Answer" class="form-control" />
+                    </div>
                 </div>
-            </div>
+            }
         </div>
 
     </form>

@@ -1,0 +1,42 @@
+@model IEnumerable<CodingBlogDemo2.Models.Folder>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@ViewBag.course.Name Folders</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <form asp-controller="Folder" asp-action="Delete" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" method="POST">
+                    <div class="form-actions no-color">
+                        <a asp-action="Edit" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" class="btn btn-default">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" class="btn btn-default">Details</a>
+                        <input type="submit" value="Delete" class="btn btn-default" />
+                    </div>
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<p>
+    <a asp-controller="Course" asp-action="Show" asp-route-id="@ViewBag.course.CourseId">Back</a>
+</p>

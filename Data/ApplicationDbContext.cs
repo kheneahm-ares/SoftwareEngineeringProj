@@ -30,6 +30,7 @@ namespace CodingBlogDemo2.Data
         public DbSet<MultipleChoiceSubmission> MultipleChoiceSubmissions { get; set; }
         public DbSet<CodeSnippetSubmission> CodeSnippetSubmissions { get; set; }
         public DbSet<CodeSnippetNoAnswerSubmission> CodeSnippetNoAnswerSubmissions { get; set; }
+        public DbSet<Folder> Folders { get; set; }
 
 
 
