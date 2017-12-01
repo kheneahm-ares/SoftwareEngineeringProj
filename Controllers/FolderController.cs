@@ -32,7 +32,7 @@ namespace CodingBlogDemo2.Controllers
 
         // GET: Folder/Details/5
         [Route("/Course/{courseId}/Folder/Details/{id}", Name = "FolderDetails")]
-        public IActionResult Details(int? id, int? courseId)
+        public IActionResult Details(int? id, int courseId)
         {
             if (id == null)
             {
@@ -69,7 +69,14 @@ namespace CodingBlogDemo2.Controllers
 
             ViewBag.courseId = courseId;
 
-            ViewBag.folder = _context.Folders.Where(f => f.FolderId == id).SingleOrDefault();
+            if (id == 0)
+            {
+                ViewBag.folder = new Folder { FolderId = 0, Name = "Other", CourseId = courseId };
+            }
+            else
+            {
+                ViewBag.folder = _context.Folders.Where(f => f.FolderId == id).SingleOrDefault();
+            }        
 
             return View(new AssignmentViewModel
             {

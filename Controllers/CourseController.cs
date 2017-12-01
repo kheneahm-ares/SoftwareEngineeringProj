@@ -121,7 +121,17 @@ namespace CodingBlogDemo2.Controllers
             ViewBag.CourseName = _context.Courses.Where(c => c.CourseId == id).First().Name;
 
             // ViewBag for folders
-            ViewBag.Folders = _context.Folders.Where(f => f.CourseId == id);
+            var folders = _context.Folders.Where(f => f.CourseId == id);
+
+            if(folders.Count() == 0)
+            {
+                ViewBag.Folders = null;
+            }
+            else
+            {
+                ViewBag.Folders = folders;
+            }
+            
 
             return View(new AssignmentViewModel
             {

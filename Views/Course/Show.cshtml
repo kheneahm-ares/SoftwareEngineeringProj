@@ -106,7 +106,7 @@
             }
         </h3>
         <hr />
-        @if (ViewBag.Folders == null) // not working
+        @if (ViewBag.Folders == null)
         {
             <h5>No folders...</h5>
 
@@ -121,7 +121,7 @@
             }
 
         }
-
+        <a asp-route="FolderDetails" asp-route-id="0" asp-route-courseId="@ViewBag.CourseId">Other</a>
     </div>
 
 </div>
