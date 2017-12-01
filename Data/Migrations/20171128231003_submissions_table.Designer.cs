@@ -8,9 +8,10 @@ using CodingBlogDemo2.Data;
 namespace CodingBlogDemo2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171128231003_submissions_table")]
+    partial class submissions_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.3")
@@ -113,8 +114,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.Property<int>("CodeSnippetNoAnswerId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Answer");
-
                     b.Property<string>("Code");
 
                     b.Property<string>("Description");
@@ -141,7 +140,7 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<bool>("IsCorrect");
 
-                    b.Property<string>("UserAnswer");
+                    b.Property<string>("UserCode");
 
                     b.Property<string>("UserEmail");
 
@@ -194,20 +193,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
-                });
-
-            modelBuilder.Entity("CodingBlogDemo2.Models.Folder", b =>
-                {
-                    b.Property<int>("FolderId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CourseId");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("FolderId");
-
-                    b.ToTable("Folders");
                 });
 
             modelBuilder.Entity("CodingBlogDemo2.Models.MultipleChoice", b =>
@@ -271,8 +256,6 @@ namespace CodingBlogDemo2.Data.Migrations
 
                     b.Property<int>("CourseId");
 
-                    b.Property<int>("FolderId");
-
                     b.Property<int>("PostCategory");
 
                     b.HasKey("PostId");
@@ -308,10 +291,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.Property<int>("CategoryId");
 
                     b.Property<int>("CourseId");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<string>("UserEmail");
 
                     b.HasKey("SubmissionId");
 

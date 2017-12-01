@@ -1,0 +1,16 @@
+﻿@if (!ViewBag.isFollowing && !ViewBag.IsCourseCreator) //if user is not following & not the professor then they cant submit, put first bc priority
+{
+
+    <label style="color:darkred"> Not following course!</label>
+
+}
+
+else if (!ViewBag.hasSubmitted)
+{
+    <input type="submit" class="btn btn-success" form="assignment" value="Submit Assignment" />
+
+}
+else
+{
+    <label style="color:darkgreen"> Already submitted an answer!</label>
+}

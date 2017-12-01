@@ -19,7 +19,6 @@ namespace CodingBlogDemo2.Data
         {
 
         }
-
         public DbSet<Course> Courses { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Register> Registers { get; set; }
@@ -30,7 +29,7 @@ namespace CodingBlogDemo2.Data
         public DbSet<MultipleChoiceSubmission> MultipleChoiceSubmissions { get; set; }
         public DbSet<CodeSnippetSubmission> CodeSnippetSubmissions { get; set; }
         public DbSet<CodeSnippetNoAnswerSubmission> CodeSnippetNoAnswerSubmissions { get; set; }
-        public DbSet<Folder> Folders { get; set; }
+        public DbSet<Submission> Submissions { get; set; }
 
 
 

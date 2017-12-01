@@ -4,13 +4,15 @@
 }
 
 <div class="row">
+ 
     <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
 
         <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
             @ViewBag.CourseName
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") && User.Identity.Name == ViewBag.CourseCreator)
             {
                 <a asp-controller="Post" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Post</a>
+                <a asp-controller="Course" asp-action="Report" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Class Report</a>
 
             }
         </h3>
@@ -124,4 +126,26 @@
         <a asp-route="FolderDetails" asp-route-id="0" asp-route-courseId="@ViewBag.CourseId">Other</a>
     </div>
 
+    <div class="col-md-4">
+        @if (User.Identity.Name == ViewBag.CourseCreator)
+        {
+            <h1 style="font-weight: bold">Welcome, Professor @ViewBag.CourseCreatorLName!</h1>
+
+        }
+        else if (ViewBag.isFollowing)
+        {
+        <form method="post" asp-controller="Course" asp-action="Unfollow" asp-route-courseId="@ViewBag.CourseId">
+            <button type="submit" class="btn btn-block btn-lg btn-danger">Unregister</button>
+        </form>
+
+        }
+        else
+        {
+            <form method="post" asp-controller="Course" asp-action="Follow" asp-route-courseId="@ViewBag.CourseId">
+                <button type="submit" class="btn btn-block btn-lg btn-success">Register</button>
+            </form>
+
+        }
+    </div>
+   
 </div>

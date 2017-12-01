@@ -34,7 +34,25 @@ namespace CodingBlogDemo2.Controllers
 
             IEnumerable<Course> courses;
 
-           
+            List<CourseInfo> courseRegistrationInfos = new List<CourseInfo>();
+
+            string currentUserEmail = User.Identity.Name;
+
+            //get all registrations of current user
+            IEnumerable<Register> registrations = _context.Registers.Where(r => r.UserEmail == currentUserEmail);
+
+            foreach (Register r in registrations)
+            {
+                CourseInfo newCourseInfo = new CourseInfo();
+                Course cs = _context.Courses.Where(c => c.CourseId == r.CourseId).First();
+                newCourseInfo.Course = cs;
+
+                ApplicationUser user = _context.Users.Where(c => c.Email == cs.UserEmail).First();
+                newCourseInfo.InstructorLName = user.LastName;
+
+                courseRegistrationInfos.Add(newCourseInfo);
+            }
+
 
             courses = _courseRepo.Courses.Where(p => p.UserEmail == User.Identity.Name);
 
@@ -42,6 +60,7 @@ namespace CodingBlogDemo2.Controllers
             return View(new CourseListViewModel
             {
                 Courses = courses,
+                CoursesRegistered = courseRegistrationInfos
             });
         }
 
@@ -75,6 +94,67 @@ namespace CodingBlogDemo2.Controllers
             return View(newCourse);
         }
 
+        [Authorize(Roles = "Admin")]
+        public IActionResult Report(int id)
+        {
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
+
+            List<Report> reports = new List<Report>();
+
+            //we want to grab all the users that are registered this course
+            IEnumerable<Register> registrations = _context.Registers.Where(r => r.CourseId == id);
+
+            int coursePostsTotal = _context.Posts.Where(p => p.CourseId == id).Count();
+
+
+            //we want to show the users, how many submissions they made and how many 
+            foreach(Register r in registrations)
+            {
+                Report newReport = new Report();
+                ApplicationUser user = _context.Users.Where(u => u.Email == r.UserEmail).First();
+                newReport.FirstName = user.FirstName;
+                newReport.LastName = user.LastName;
+
+                //since submissions have a user email, we can just check how many times the user submitted to a course
+                newReport.Submissions = _context.Submissions.Where(s => s.CourseId == id && s.UserEmail == user.Email).Count();
+
+
+                if(newReport.Submissions > 0)
+                {
+                //we want to get their most recent submission
+                Submission sub = _context.Submissions.Where(s => s.CourseId == id && s.UserEmail == user.Email).OrderByDescending(s => s.DateCreated).FirstOrDefault();
+
+                newReport.SubmissionTime = sub.DateCreated;
+
+                }
+                newReport.CoursePostTotal = coursePostsTotal;
+
+                newReport.SubmissionActivityPercentage = ((double)newReport.Submissions / coursePostsTotal) * 100;
+
+                newReport.UserEmail = user.Email;
+
+                reports.Add(newReport);
+            }
+
+
+
+
+
+
+            return View(new ReportViewModel
+            {
+                Reports = reports
+            });
+        }
+
         public IActionResult Show(int id)
         {
             AssignmentViewModel allPosts = new AssignmentViewModel();
@@ -89,6 +169,7 @@ namespace CodingBlogDemo2.Controllers
             List<MultipleChoice> mcs = new List<MultipleChoice>();
             List<CodeSnippet> codeSnips = new List<CodeSnippet>();
             List<CodeSnippetNoAnswer> codeSnipsNoAnswer = new List<CodeSnippetNoAnswer>();
+
 
 
             foreach (Post post in posts)
@@ -120,18 +201,15 @@ namespace CodingBlogDemo2.Controllers
 
             ViewBag.CourseName = _context.Courses.Where(c => c.CourseId == id).First().Name;
 
-            // ViewBag for folders
-            var folders = _context.Folders.Where(f => f.CourseId == id);
+            //used to show follow or unfollow
+            string userEmail = User.Identity.Name;
 
-            if(folders.Count() == 0)
-            {
-                ViewBag.Folders = null;
-            }
-            else
-            {
-                ViewBag.Folders = folders;
-            }
-            
+            ViewBag.isFollowing = _context.Registers.Any(r => r.UserEmail == userEmail);
+
+
+            string courseCreatorEmail = _context.Courses.Where(c => c.CourseId == id).First().UserEmail;
+            ViewBag.CourseCreator = courseCreatorEmail;
+            ViewBag.CourseCreatorLName = _context.Users.Where(c => c.Email == courseCreatorEmail).First().LastName;
 
             return View(new AssignmentViewModel
             {
@@ -146,6 +224,16 @@ namespace CodingBlogDemo2.Controllers
         //this just gets the view and returns the course model with initialized variables87ytfdxzaa
         public IActionResult Edit(int id)
         {
+
+            //an admin can only do "CUD" functionalities if he/she is the creator of the course
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
 
             var course = _courseRepo.Courses.Where(c => c.CourseId == id).FirstOrDefault();
             return View(course);
@@ -163,6 +251,7 @@ namespace CodingBlogDemo2.Controllers
             courseToUpdate.CourseId = id;
             courseToUpdate.Name = course.Name;
             courseToUpdate.UserEmail = User.Identity.Name;
+            courseToUpdate.WhenEdited = DateTime.Now;
 
             _context.SaveChanges();
 
@@ -181,6 +270,8 @@ namespace CodingBlogDemo2.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
+
+
 
             //for now it will just be the data in the course table,
             //however, when we delete a course that has relationships with modules and assignments, we have to delete every data
@@ -241,6 +332,83 @@ namespace CodingBlogDemo2.Controllers
             {
                 CourseInfos = courseInfos
             });
+        }
+
+        [HttpPost]
+        public IActionResult Follow(int courseId)
+        {
+            string userEmail = User.Identity.Name;
+
+
+            //we have to check whether or not the courseId is even existen
+            //if somehow they are able to get into this controller with a non-existing courseId 
+            bool isACourse = _context.Courses.Any(c => c.CourseId == courseId);
+            if (!isACourse)
+            {
+                return NotFound(); 
+            }
+
+
+            //in registers table, add user with the corresponding courseId
+            //create new registration
+            Register newRegistration = new Register
+            {
+                CourseId = courseId,
+                UserEmail = userEmail
+            };
+
+
+            //add and save to database
+            _context.Add(newRegistration);
+            _context.SaveChanges();
+
+            string courseName = _context.Courses.Where(c => c.CourseId == courseId).First().Name;
+            TempData["Success"] = $"You are now following {courseName}!";
+
+
+            return RedirectToRoute(new
+            {
+                controller = "Course",
+                action = "Show",
+                id = courseId
+            });
+        }
+
+
+        [HttpPost]
+        public IActionResult Unfollow(int courseId)
+        {
+            //we want the current user to be unregistered
+            string currentUserEmail = User.Identity.Name;
+            Register reg = _context.Registers.Where(r => r.CourseId == courseId && r.UserEmail == currentUserEmail).SingleOrDefault(); //grab specific registration
+            _context.Entry(reg).State = Microsoft.EntityFrameworkCore.EntityState.Deleted; //delete
+            _context.SaveChanges();
+
+
+
+            string courseName = _context.Courses.Where(c => c.CourseId == courseId).First().Name;
+            TempData["Success"] = $"You have now unfollowed {courseName}!";
+
+            return RedirectToRoute(new
+            {
+                controller = "Course",
+                action = "Show",
+                id = courseId
+            });
+        }
+
+        private bool IsOwner(int courseId)
+        {
+            //get specific post,
+            bool isOwner = false;
+            string currentUserEmail = User.Identity.Name;
+
+
+            //we can grab the user of the post by checking who the owner of the course it belongs to
+            var course = _context.Courses.Where(c => c.CourseId == courseId).First();
+
+
+            return isOwner = currentUserEmail == course.UserEmail; ;
         }
     }
 }

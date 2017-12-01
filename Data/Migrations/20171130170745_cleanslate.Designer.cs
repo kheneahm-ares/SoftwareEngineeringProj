@@ -8,9 +8,10 @@ using CodingBlogDemo2.Data;
 namespace CodingBlogDemo2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171130170745_cleanslate")]
+    partial class cleanslate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.3")
@@ -196,20 +197,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("CodingBlogDemo2.Models.Folder", b =>
-                {
-                    b.Property<int>("FolderId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CourseId");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("FolderId");
-
-                    b.ToTable("Folders");
-                });
-
             modelBuilder.Entity("CodingBlogDemo2.Models.MultipleChoice", b =>
                 {
                     b.Property<int>("MultipleChoiceId")
@@ -270,8 +257,6 @@ namespace CodingBlogDemo2.Data.Migrations
                     b.Property<int>("AssignmentId");
 
                     b.Property<int>("CourseId");
-
-                    b.Property<int>("FolderId");
 
                     b.Property<int>("PostCategory");
 

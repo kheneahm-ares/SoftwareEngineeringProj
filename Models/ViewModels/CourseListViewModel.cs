@@ -13,6 +13,7 @@ namespace CodingBlogDemo2.Models
         public IEnumerable<Post> Posts { get; set; }
 
         public IEnumerable<CourseInfo> CourseInfos { get; set; }
+        public IEnumerable<CourseInfo> CoursesRegistered { get; set; }
 
     }
 }
