@@ -53,19 +53,17 @@
 
     <div class="col-md-offset-3">
 
-<<<<<<< HEAD
         @if (!ViewBag.hasSubmitted)
         {
-            <input type="submit" class="btn btn-success" form="codeSnippet" value="Submit Assignment" />
+            <input type="submit" class="btn btn-success" form="assignment" value="Submit Assignment" />
 
         }
         else
         {
             <label style="color:darkgreen"> Already submitted an answer!</label>
         }@*|
-=======
+
         @{Html.RenderPartial("_SubmissionPartial");}|
->>>>>>> 6a3eed9047ed1917526b898390661272c7b45db7
 
 
         this compile button will create an ajax request to a web api that will return a value of the compiled code!! will not refresh

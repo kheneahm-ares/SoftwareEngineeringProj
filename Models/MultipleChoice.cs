@@ -23,7 +23,7 @@ namespace CodingBlogDemo2.Models
         public String D { get; set; }
         public String Answer { get; set; }
         public int PostId { get; set; }
-        public DateTime WhenCreated { get; private set; }
-        public DateTime WhenEdited { get; private set; }
+        public DateTime WhenCreated { get;  set; }
+        public DateTime WhenEdited { get;  set; }
     }
 }

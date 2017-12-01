@@ -253,6 +253,7 @@ namespace CodingBlogDemo2.Controllers
             courseToUpdate.CourseId = id;
             courseToUpdate.Name = course.Name;
             courseToUpdate.UserEmail = User.Identity.Name;
+            courseToUpdate.WhenEdited = DateTime.Now;
 
             _context.SaveChanges();
 

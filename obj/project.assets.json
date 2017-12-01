@@ -2021,6 +2021,19 @@
           "lib/netstandard1.3/NuGet.Frameworks.dll": {}
         }
       },
+      "Pioneer.Pagination/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc": "1.0.0",
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "lib/netstandard1.6/Pioneer.Pagination.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/Pioneer.Pagination.dll": {}
+        }
+      },
       "Remotion.Linq/2.1.1": {
         "type": "package",
         "dependencies": {
@@ -2250,6 +2263,47 @@
             "assetType": "native",
             "rid": "win7-x86"
           }
+        }
+      },
+      "Sakura.AspNetCore.Mvc.PagedList/2.0.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.0",
+          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
+          "NETStandard.Library": "1.6.1",
+          "Sakura.AspNetCore.PagedList.Abstractions": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard1.6/Sakura.AspNetCore.Mvc.PagedList.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/Sakura.AspNetCore.Mvc.PagedList.dll": {}
+        }
+      },
+      "Sakura.AspNetCore.PagedList/2.0.2": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Sakura.AspNetCore.PagedList.Abstractions": "2.0.1",
+          "System.Linq.Queryable": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/Sakura.AspNetCore.PagedList.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Sakura.AspNetCore.PagedList.dll": {}
+        }
+      },
+      "Sakura.AspNetCore.PagedList.Abstractions/2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.0/Sakura.AspNetCore.PagedList.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Sakura.AspNetCore.PagedList.Abstractions.dll": {}
         }
       },
       "System.AppContext/4.3.0": {
@@ -6190,6 +6244,17 @@
         "nuget.frameworks.nuspec"
       ]
     },
+    "Pioneer.Pagination/1.0.1": {
+      "sha512": "uNzUOPZH3k9EK1GGxsAIONmsyLdrCYVNCpoTKpz1QEui3Twyz7DaC+NYwIjbs5Q+vPPIiPp7GOPuJrB5hVyZeA==",
+      "type": "package",
+      "path": "pioneer.pagination/1.0.1",
+      "files": [
+        "lib/net46/Pioneer.Pagination.dll",
+        "lib/netstandard1.6/Pioneer.Pagination.dll",
+        "pioneer.pagination.1.0.1.nupkg.sha512",
+        "pioneer.pagination.nuspec"
+      ]
+    },
     "Remotion.Linq/2.1.1": {
       "sha512": "wShsTCKHAXkEwMKl/e/YtCkH+73BwtXoN84lDRkm73ko6i8qTH77la/tVPbAmhmb+RZHFaSPOfeiCn5txQ7o3Q==",
       "type": "package",
@@ -6448,6 +6513,41 @@
         "runtime.win7-x86.runtime.native.system.data.sqlclient.sni.4.3.0.nupkg.sha512",
         "runtime.win7-x86.runtime.native.system.data.sqlclient.sni.nuspec",
         "runtimes/win7-x86/native/sni.dll"
+      ]
+    },
+    "Sakura.AspNetCore.Mvc.PagedList/2.0.12": {
+      "sha512": "Yxt4NwyUxIZD8k9Z4pKCeJm3gdpap0HjI1QyzsOXjbbHuRWXCu897xTi+YFcmBV+zaZOrYurxcVxWch8AyJa6Q==",
+      "type": "package",
+      "path": "sakura.aspnetcore.mvc.pagedlist/2.0.12",
+      "files": [
+        "lib/net451/Sakura.AspNetCore.Mvc.PagedList.dll",
+        "lib/net451/Sakura.AspNetCore.Mvc.PagedList.xml",
+        "lib/netstandard1.6/Sakura.AspNetCore.Mvc.PagedList.dll",
+        "lib/netstandard1.6/Sakura.AspNetCore.Mvc.PagedList.xml",
+        "sakura.aspnetcore.mvc.pagedlist.2.0.12.nupkg.sha512",
+        "sakura.aspnetcore.mvc.pagedlist.nuspec"
+      ]
+    },
+    "Sakura.AspNetCore.PagedList/2.0.2": {
+      "sha512": "anCFSp+RjoFN2oKA/4NuwIrD4YXpVE6EYo/Jtp+M3NYZaeqzJelAbvPnzgnmqx9codtsxTGy4tM6z5wVC+F4iQ==",
+      "type": "package",
+      "path": "sakura.aspnetcore.pagedlist/2.0.2",
+      "files": [
+        "lib/netstandard1.0/Sakura.AspNetCore.PagedList.dll",
+        "lib/netstandard1.0/Sakura.AspNetCore.PagedList.xml",
+        "sakura.aspnetcore.pagedlist.2.0.2.nupkg.sha512",
+        "sakura.aspnetcore.pagedlist.nuspec"
+      ]
+    },
+    "Sakura.AspNetCore.PagedList.Abstractions/2.0.1": {
+      "sha512": "V0WukB335lQfqEtShHo3O50benGsbiSBv5e/Y9pmz7xH9E470j31moiMPCdEONgGtyFLYBrSG9l2v/WMTgI9+A==",
+      "type": "package",
+      "path": "sakura.aspnetcore.pagedlist.abstractions/2.0.1",
+      "files": [
+        "lib/netstandard1.0/Sakura.AspNetCore.PagedList.Abstractions.dll",
+        "lib/netstandard1.0/Sakura.AspNetCore.PagedList.Abstractions.xml",
+        "sakura.aspnetcore.pagedlist.abstractions.2.0.1.nupkg.sha512",
+        "sakura.aspnetcore.pagedlist.abstractions.nuspec"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -11137,6 +11237,9 @@
       "Microsoft.NETCore.App >= 1.1.2",
       "Microsoft.VisualStudio.Web.BrowserLink >= 1.1.2",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 1.1.2",
+      "Pioneer.Pagination >= 1.0.1",
+      "Sakura.AspNetCore.Mvc.PagedList >= 2.0.12",
+      "Sakura.AspNetCore.PagedList >= 2.0.2",
       "jQuery >= 3.2.1"
     ]
   },
@@ -11181,6 +11284,14 @@
     "frameworks": {
       "netcoreapp1.1": {
         "dependencies": {
+          "Pioneer.Pagination": {
+            "target": "Package",
+            "version": "1.0.1"
+          },
+          "Sakura.AspNetCore.Mvc.PagedList": {
+            "target": "Package",
+            "version": "2.0.12"
+          },
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
             "target": "Package",
             "version": "1.1.2"
@@ -11214,6 +11325,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "1.1.2"
+          },
+          "Sakura.AspNetCore.PagedList": {
+            "target": "Package",
+            "version": "2.0.2"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "suppressParent": "All",

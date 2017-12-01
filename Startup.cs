@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using CodingBlogDemo2.Data;
 using CodingBlogDemo2.Models;
 using CodingBlogDemo2.Services;
+using Sakura.AspNetCore.Mvc;
 
 namespace CodingBlogDemo2
 {
@@ -50,6 +51,12 @@ namespace CodingBlogDemo2
             services.AddSession();
             services.AddMvc();
 
+            services.AddBootstrapPagerGenerator(options =>
+            {
+                // Use default pager options.
+                options.ConfigureDefault();
+            });
+            services.Configure<PagerOptions>(Configuration.GetSection("Pager"));
 
 
             // Add application services.
