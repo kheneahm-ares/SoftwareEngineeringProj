@@ -1,0 +1,65 @@
+﻿@model CodingBlogDemo2.Models.MultipleChoice
+<div class="row">
+    @if (User.IsInRole("Admin")  && ViewBag.IsCourseCreator)
+    {
+        <div class="col-md-12 col-md-offset-9">
+            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-warning btn-lg">Edit</a> |
+            <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1">
+                <input type="submit" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to Delete this assignment?')" value="Delete" /> |
+            </form>
+            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-lg btn-default">Results</a>
+
+        </div>
+    }
+    <hr />
+
+    <form asp-route="SubmitMultipleChoice" role="form" class="form-horizontal col-md-12 col-md-offset-3" method="post" id="assignment">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" />
+            <div class="form-group">
+                <label asp-for="Name" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.Name);
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.Description);
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="radio" value="A" name="answer" required />
+                <label asp-for="A" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.A);
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="radio" value="B" name="answer" />
+                <label asp-for="B" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.B);
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="radio" value="C" name="answer" />
+                <label asp-for="C" class="col-md-2 control-label"></label>
+
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.C);
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="radio" value="D" name="answer" />
+                <label asp-for="D" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.D);
+                </div>
+            </div>
+    </form>
+
+    <div class="col-md-offset-3">
+        @{ Html.RenderPartial("_SubmissionPartial");}
+    </div>
+</div>

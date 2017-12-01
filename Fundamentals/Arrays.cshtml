@@ -1,0 +1,38 @@
+<h2>Arrays</h2>
+
+Java provides a data structure, the array, which stores a fixed-size sequential collection of elements of the same type.<br/>
+An array is used to store a collection of data, but it is often more useful to think of an array as a collection of variables <br/>
+of the same type. <br/>
+<br/>
+Instead of declaring individual variables, such as num1 and num2, developers can declare one array variable such as nums <br/>
+and use nums[0], and nums[1] to represent individual variables. <br/>
+<br/>
+When declaring array variables you must declare a variable to reference the array as well as specify the type of array the variable<br/>
+can reference. <br/>
+<br/>
+The Arrays Class contains various static methods for sorting and searching arrays, comparing arrays, and filling array elements.<br/> 
+These methods are overloaded for all primitive types. <br/>
+<br/>
+1.) public static int binarySearch(Object[] a, Object key)<br/>
+
+This searches the specified array of Objects for the specified value using the binary search algorithm.<br/>
+The array must be sorted prior to making this call.<br/>
+This returns index of the search key, if it is contained in the list; otherwise, it returns ( – (insertion point + 1)).<br/>
+<br/>
+2.) public static boolean equals(long[] a, long[] a2)<br/>
+This returns true if the two specified arrays of longs are equal to one another.<br/>
+Two arrays are considered equal if both arrays contain the same number of elements, and all corresponding pairs of<br/> 
+elements in the two arrays are equal.<br/>
+This returns true if the two arrays are equal. Same method could be used by all other primitive data types (Byte, short, Int, etc.)<br/>
+<br/>
+3.) public static void fill(int[] a, int val) <br/>
+This assigns the specified int value to each element of the specified array of ints. The same method could be used by all other <br/>
+primitive data types (Byte, short, Int, etc.) <br/>
+<br/>
+4.) public static void sort(Object[] a) <br/>
+This sorts the specified array of objects into an ascending order, according to the natural ordering of its elements.<br/>
+The same method could be used by all other primitive data types ( Byte, short, Int, etc.) <br/>
+
+<div data-pym-src="https://www.jdoodle.com/embed/v0/foS"></div>
+
+<script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
