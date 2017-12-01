@@ -201,6 +201,18 @@ namespace CodingBlogDemo2.Controllers
 
             ViewBag.CourseName = _context.Courses.Where(c => c.CourseId == id).First().Name;
 
+            // ViewBag for folders
+            var folders = _context.Folders.Where(f => f.CourseId == id);
+
+            if (folders.Count() == 0)
+            {
+                ViewBag.Folders = null;
+            }
+            else
+            {
+                ViewBag.Folders = folders;
+            }
+
             //used to show follow or unfollow
             string userEmail = User.Identity.Name;
 
@@ -210,8 +222,6 @@ namespace CodingBlogDemo2.Controllers
             string courseCreatorEmail = _context.Courses.Where(c => c.CourseId == id).First().UserEmail;
             ViewBag.CourseCreator = courseCreatorEmail;
             ViewBag.CourseCreatorLName = _context.Users.Where(c => c.Email == courseCreatorEmail).First().LastName;
-
-
 
             return View(new AssignmentViewModel
             {

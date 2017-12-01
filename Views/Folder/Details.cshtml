@@ -1,0 +1,73 @@
+@model CodingBlogDemo2.Models.ViewModels.AssignmentViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>@ViewBag.folder.Name Folder</h2>
+
+<div>
+    <h4>Posts</h4>
+    <hr />
+
+    @if (Model.CodeSnippets.Count() <= 0 && Model.MultipleChoices.Count() <= 0 && Model.CodeSnippetNoAnswers.Count() <= 0)
+    {
+        <h5>
+            No posts...
+        </h5>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Updated</th>
+                <th>Type</th>
+            </tr>
+
+            @foreach (MultipleChoice mc in Model.MultipleChoices)
+            {
+                <tr>
+                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">@mc.Name</a></td>
+                    <td>@mc.Description</td>
+                    <td>@mc.WhenEdited</td>
+                    <td>Multiple Choice</td>
+                </tr>
+            }
+            @foreach (CodeSnippet cs in Model.CodeSnippets)
+            {
+
+                <tr>
+                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2">@cs.Name</a></td>
+                    <td>@cs.Description</td>
+                    <td>@cs.WhenEdited</td>
+                    <td>Code Snippet</td>
+                </tr>
+            }
+            @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
+            {
+                <tr>
+                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">@cs.Name</a></td>
+                    <td>@cs.Description</td>
+                    <td>@cs.WhenEdited</td>
+                    <td>Short Answer</td>
+                </tr>
+            }
+
+        </table>
+    }
+    
+</div>
+@*
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        <form asp-controller="Folder" asp-action="Delete" asp-route-id="@ViewBag.folder.FolderId" asp-route-courseId="@ViewBag.courseId" method="POST">
+            <div class="form-actions no-color">
+                <a asp-action="Edit" asp-route-id="@ViewBag.folder.FolderId" asp-route-courseId="@ViewBag.courseId" class="btn btn-default">Edit Folder</a>
+                <input type="submit" value="Delete Folder" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+}*@

@@ -213,6 +213,7 @@ namespace CodingBlogDemo2.Controllers
 
 
             ViewBag.Categories = _categoryRepo.Categories;
+            ViewBag.Folders = _context.Folders.Where(f => f.CourseId == id);
             return View();
         }
 
@@ -223,6 +224,8 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id}/Create/MultipleChoice", Name ="MultipleChoice")]
         public async Task<IActionResult> CreateMultipleChoice(int id, MultipleChoiceViewModel model)
         {
+            var folderId = Int32.Parse(Request.Form["folder"]);
+
             ViewBag.Categories = _categoryRepo.Categories;
             if (ModelState.IsValid)
             {
@@ -256,6 +259,7 @@ namespace CodingBlogDemo2.Controllers
 
                 newPost.PostCategory = 1;
                 newPost.AssignmentId = newMC.MultipleChoiceId;
+                newPost.FolderId = folderId;
 
                 _context.Posts.Add(newPost);
                 await _context.SaveChangesAsync();
@@ -285,6 +289,8 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id}/Create/CodeSnippet", Name = "CodeSnippet")]
         public async Task<IActionResult> CreateCodeSnippet(int id, CodeSnippetViewModel model)
         {
+            var folderId = Int32.Parse(Request.Form["folder"]);
+
             ViewBag.Categories = _categoryRepo.Categories;
             if (ModelState.IsValid)
             {
@@ -314,6 +320,7 @@ namespace CodingBlogDemo2.Controllers
 
                 newPost.PostCategory = 2;
                 newPost.AssignmentId = newCodeSnip.CodeSnippetId;
+                newPost.FolderId = folderId;
 
                 _context.Posts.Add(newPost);
                 await _context.SaveChangesAsync();
@@ -339,6 +346,8 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id}/Create/CodeSnippetNoAnswer", Name = "CodeSnippetNoAnswer")]
         public async Task<IActionResult> CreateCodeSnippetNoAnswer(int id, CodeSnippetNoAnswerViewModel model)
         {
+            var folderId = Int32.Parse(Request.Form["folder"]);
+
             ViewBag.Categories = _categoryRepo.Categories;
             if (ModelState.IsValid)
             {
@@ -367,6 +376,7 @@ namespace CodingBlogDemo2.Controllers
 
                 newPost.PostCategory = 3;
                 newPost.AssignmentId = newCodeSnip.CodeSnippetNoAnswerId;
+                newPost.FolderId = folderId;
 
                 _context.Posts.Add(newPost);
                 await _context.SaveChangesAsync();

@@ -95,6 +95,35 @@
                 }
             </table>
         }
+
+        <br />
+        <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
+            Folders
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Folder" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Folder</a>
+
+                <a asp-controller="Folder" asp-action="Index" asp-route-id="@ViewBag.CourseId" class="btn btn-default">View All Folders</a>
+
+            }
+        </h3>
+        <hr />
+        @if (ViewBag.Folders == null)
+        {
+            <h5>No folders...</h5>
+
+        }
+        else
+        {
+            @foreach (var folder in ViewBag.Folders)
+            {
+                <a asp-route="FolderDetails" asp-route-id="@folder.FolderId" asp-route-courseId="@folder.CourseId">@folder.Name</a>
+                <hr />
+                    
+            }
+
+        }
+        <a asp-route="FolderDetails" asp-route-id="0" asp-route-courseId="@ViewBag.CourseId">Other</a>
     </div>
 
     <div class="col-md-4">
