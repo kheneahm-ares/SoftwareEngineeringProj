@@ -11393,7 +11393,11 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
+<<<<<<< HEAD
       "message": "Problem reading the cache file C:\\Users\\Pablo\\Documents\\Software Engineering\\Final Project\\CodingBlogDemo2\\CodingBlogDemo2\\obj\\CodingBlogDemo2.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+=======
+      "message": "Problem reading the cache file C:\\Users\\khene\\CSharpNet2017\\CodingBlogDemo2\\CodingBlogDemo2\\obj\\CodingBlogDemo2.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+>>>>>>> khen
     }
   ]
 }
