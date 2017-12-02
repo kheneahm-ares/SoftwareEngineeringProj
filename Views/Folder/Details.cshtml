@@ -29,7 +29,7 @@
             @foreach (MultipleChoice mc in Model.MultipleChoices)
             {
                 <tr>
-                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">@mc.Name</a></td>
+                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1" asp-route-folderId="@ViewBag.folder.FolderId">@mc.Name</a></td>
                     <td>@mc.Description</td>
                     <td>@mc.WhenEdited</td>
                     <td>Multiple Choice</td>
@@ -39,7 +39,7 @@
             {
 
                 <tr>
-                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2">@cs.Name</a></td>
+                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2" asp-route-folderId="@ViewBag.folder.FolderId">@cs.Name</a></td>
                     <td>@cs.Description</td>
                     <td>@cs.WhenEdited</td>
                     <td>Code Snippet</td>
@@ -48,7 +48,7 @@
             @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
             {
                 <tr>
-                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">@cs.Name</a></td>
+                    <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folder.FolderId">@cs.Name</a></td>
                     <td>@cs.Description</td>
                     <td>@cs.WhenEdited</td>
                     <td>Short Answer</td>
