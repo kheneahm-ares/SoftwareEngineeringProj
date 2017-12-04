@@ -83,7 +83,7 @@ namespace CodingBlogDemo2.Controllers
 
             //get posts based on who you follow and/or created
             posts = _context.Posts;
-            currentUser = _accountRepository.getUserByEmail(User.Identity.Name);
+            currentUser = _accountRepository.getUserByEmail(currentUserEmail);
 
 
             List<Activity> activities = new List<Activity>();
@@ -198,11 +198,43 @@ namespace CodingBlogDemo2.Controllers
 
                     activities.Add(newActivity);
                 }
-                
 
             }
 
-            //then we check if you have
+ 
+            var userSubmissions = _context.Submissions.Where(s => s.UserEmail == currentUserEmail);
+
+            //every user submission should be an activity
+            foreach (Submission s in userSubmissions)
+            {
+                Activity newActivity = new Activity();
+
+                //we grab the course name sthis submission it belongs to
+                var coursePostName = _context.Courses.Where(c => c.CourseId == s.CourseId).First().Name;
+                newActivity.CourseName = coursePostName;
+
+                if (s.CategoryId == 1)
+                {
+                    var mc = _context.MultipleChoices.Where(m => m.MultipleChoiceId == s.AssignmentId).First();
+                    newActivity.PostName = mc.Name;
+
+                }
+                else if (s.CategoryId == 2)
+                {
+                    var codeSnip = _context.CodeSnippets.Where(cs => cs.CodeSnippetId == s.AssignmentId).First();
+                    newActivity.PostName = codeSnip.Name;
+                }
+                else if (s.CategoryId == 3)
+                {
+                    var codeSnipNoAnswer = _context.CodeSnippetNoAnswers.Where(cs => cs.CodeSnippetNoAnswerId == s.AssignmentId).First();
+                    newActivity.PostName = codeSnipNoAnswer.Name;
+                }
+
+                newActivity.Time = s.DateCreated;
+                newActivity.Type = "PostSubmission";
+
+                activities.Add(newActivity);
+            }
 
             CourseListViewModel courseList = new CourseListViewModel
             {
