@@ -4,7 +4,7 @@
     @if (User.IsInRole("Admin") && ViewBag.IsCourseCreator)
     {
         <div class="col-md-12 col-md-offset-9">
-            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-warning btn-lg">Edit</a> |
+            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folderId" class="btn btn-warning btn-lg">Edit</a> |
             <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3">
                 <input type="submit" class="btn btn-danger btn-lg"  onclick="return confirm('Are you sure you want to Delete this assignment?')" value="Delete" /> |
             </form>
