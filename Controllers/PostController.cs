@@ -655,6 +655,16 @@ namespace CodingBlogDemo2.Controllers
                 {
                     _context.MultipleChoiceSubmissions.Remove(submission);
                 }
+
+                //also delete data from the associative table,
+                //all submissions to the specific post assignment in the specific table
+                var submissions = _context.Submissions.Where(s => s.AssignmentId == assignmentId && s.CategoryId == categoryId && s.CourseId == id);
+                foreach(Submission s in submissions)
+                {
+                    _context.Submissions.Remove(s);
+                }
+
+                
             }
             else if(categoryId == 2)
             {
@@ -666,6 +676,12 @@ namespace CodingBlogDemo2.Controllers
                 foreach (CodeSnippetSubmission submission in submissionsForAssignment)
                 {
                     _context.CodeSnippetSubmissions.Remove(submission);
+                }
+
+                var submissions = _context.Submissions.Where(s => s.AssignmentId == assignmentId && s.CategoryId == categoryId && s.CourseId == id);
+                foreach (Submission s in submissions)
+                {
+                    _context.Submissions.Remove(s);
                 }
             }
             else if(categoryId == 3)
@@ -680,10 +696,17 @@ namespace CodingBlogDemo2.Controllers
                 {
                     _context.CodeSnippetNoAnswerSubmissions.Remove(submission);
                 }
+
+                var submissions = _context.Submissions.Where(s => s.AssignmentId == assignmentId && s.CategoryId == categoryId && s.CourseId == id);
+                foreach (Submission s in submissions)
+                {
+                    _context.Submissions.Remove(s);
+                }
             }
 
 
             //to be used for views to show activity of Curse
+            //update course date times
             UpdateCourse(id);
 
             await _context.SaveChangesAsync();

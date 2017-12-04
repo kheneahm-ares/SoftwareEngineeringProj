@@ -18,7 +18,7 @@
 
             @if (a.Type == "CourseCreation")
             {
-                            
+
                 <div class="col-md-9">
                     <p>You created course: <b>@a.CourseName</b></p>
                 </div>
@@ -36,76 +36,98 @@
                         <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
                     }
                 </div>
-                        }
-                        else if (a.Type == "CourseEdit")
-                        {
-                            <div class="col-md-9">
-                                <p>You edited course: <b>@a.CourseName</b></p>
-                            </div>
-                            <div class="col-md-3">
-                                @if (timeDifference.Days > 0)
-                                {
+            }
+            else if (a.Type == "CourseEdit")
+            {
+                <div class="col-md-9">
+                    <p>You edited course: <b>@a.CourseName</b></p>
+                </div>
+                <div class="col-md-3">
+                    @if (timeDifference.Days > 0)
+                    {
 
-                                    <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
+                        <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
 
-                                }
-                                else
-                                {
+                    }
+                    else
+                    {
 
-                                    <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
-                                }
-                            </div>
-                                    }
-                                    else if (a.Type == "PostCreation")
-                                    {
-                                        <div class="col-md-9">
-                                            <p>You created a post: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            @if (timeDifference.Days > 0)
-                                            {
+                        <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
+                    }
+                </div>
+            }
+            else if (a.Type == "PostCreation")
+            {
+                <div class="col-md-9">
+                    <p>You created a post: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
+                </div>
+                <div class="col-md-3">
+                    @if (timeDifference.Days > 0)
+                    {
 
-                                                <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
+                        <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
 
-                                            }
-                                            else
-                                            {
+                    }
+                    else
+                    {
 
-                                                <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
-                                            }
-                 
-                                        </div>
-                                                }
+                        <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
+                    }
 
-                                                else if (a.Type == "PostEdit")
-                                                {
-                                                    <div class="col-md-9">
-                                                        <p>You edited a post: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                         @if (timeDifference.Days > 0)
-                                                         {
+                </div>
+            }
 
-                                                            <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
+            else if (a.Type == "PostEdit")
+            {
+                <div class="col-md-9">
+                    <p>You edited a post: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
+                </div>
+                <div class="col-md-3">
+                    @if (timeDifference.Days > 0)
+                    {
 
-                                                         }
-                                                         else
-                                                         {
+                        <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
 
-                                                            <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
-                                                         }
-                                                        
+                    }
+                    else
+                    {
 
-                                                    </div>
-                                                            }
+                        <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
+                    }
 
-                                                            }
+
+                </div>
+            }
+            else if (a.Type == "PostSubmission")
+            {
+                <div class="col-md-9">
+                    <p>You submitted to: <u><i>@a.PostName</i></u> in <b>@a.CourseName</b></p>
+                </div>
+                <div class="col-md-3">
+                    @if (timeDifference.Days > 0)
+                    {
+
+                        <p>@String.Format("{0} day(s) ago", timeDifference.Days)</p>
+
+                    }
+                    else
+                    {
+
+                        <p>@String.Format("{0:hh} hrs {0:mm} mins ago", timeDifference)</p>
+                    }
+
+
+                </div>
+
+            }
+
+        }
         <div class="text-center">
             <ul class="pagination ">
                 <pager source="(Sakura.AspNetCore.IPagedList)@Model.Activities" />
             </ul>
         </div>
-        
+
     </div>
 
     <div class="col-md-4">
@@ -150,7 +172,7 @@
 
                     <h5 style="padding: 10px 15px;"><a asp-controller="Course" asp-action="Show" asp-route-id="@course.Course.CourseId">@course.Course.Name</a></h5>
                     <p style="padding-left: 15px"><span style="font-weight: bold">Instructor:</span> Professor @course.InstructorLName</p>
-                        <p style="padding-left: 15px">Recent Activity: @String.Format("{0:MMM dd, yyyy hh:mm tt}", @course.Course.WhenEdited)</p>
+                    <p style="padding-left: 15px">Recent Activity: @String.Format("{0:MMM dd, yyyy hh:mm tt}", @course.Course.WhenEdited)</p>
 
 
                 }
