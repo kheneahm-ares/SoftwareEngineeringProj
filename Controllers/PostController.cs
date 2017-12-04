@@ -76,8 +76,8 @@ namespace CodingBlogDemo2.Controllers
         }
 
         // this details page is the actual page where STUDENTS submit their ANSWERS
-        [Route("/Course/{id}/Post/{assignmentId?}/{categoryId?}", Name = "PostDetails")]
-        public IActionResult Details(int? id, int? assignmentId, int? categoryId)
+        [Route("/Course/{id}/Post/{assignmentId?}/{categoryId?}/{folderId?}", Name = "PostDetails")]
+        public IActionResult Details(int? id, int? assignmentId, int? categoryId, int? folderId)
         {
             //NOTE THAT assignmentId != postId, postId is the id for the Post table whereas assignmentId is the actual instance of the assignment post
 
@@ -112,6 +112,8 @@ namespace CodingBlogDemo2.Controllers
             bool isCourseCreator = _context.Courses.Any(c => c.CourseId == id && c.UserEmail == currentUserEmail);
 
             ViewBag.IsCourseCreator = isCourseCreator;
+
+            ViewBag.folderId = folderId;
 
 
             //if requests for a category of type Multiple Choice
@@ -400,8 +402,8 @@ namespace CodingBlogDemo2.Controllers
 
         // GET:
         [Authorize(Roles = "Admin")]
-        [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}", Name ="EditPost")]
-        public async Task<IActionResult> Edit(int id, int? assignmentId, int? categoryId)
+        [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}/{folderId?}", Name ="EditPost")]
+        public async Task<IActionResult> Edit(int id, int? assignmentId, int? categoryId, int? folderId)
         {
 
             AssignmentViewModel newModel = new AssignmentViewModel();
@@ -437,6 +439,11 @@ namespace CodingBlogDemo2.Controllers
                 return NotFound();
             }
 
+            // ViewBag for folders
+            ViewBag.Folders = _context.Folders.Where(f => f.CourseId == id);
+
+            ViewBag.folderId = folderId;
+
             return View(new AssignmentViewModel
             {
                 MC = newModel.MC,
@@ -452,12 +459,14 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}/MultipleChoice", Name ="SaveMultipleChoice")]
         public async Task<IActionResult> EditMultipleChoice(int id, int? assignmentId, int? categoryId, MultipleChoice post)
         {
+            var folderId = Int32.Parse(Request.Form["folder"]);
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     var postToUpdate = _context.Set<MultipleChoice>().Where(m => m.MultipleChoiceId == assignmentId).SingleOrDefault();
+                    var postToUpdateFolderId = _context.Posts.Where(p => p.PostCategory == categoryId && p.AssignmentId == assignmentId).SingleOrDefault();
 
 
                     postToUpdate.Name = post.Name;
@@ -468,6 +477,8 @@ namespace CodingBlogDemo2.Controllers
                     postToUpdate.D = post.D;
                     postToUpdate.Answer = post.Answer;
                     postToUpdate.WhenEdited = DateTime.Now;
+
+                    postToUpdateFolderId.FolderId = folderId;
 
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
@@ -501,6 +512,7 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}/CodeSnippet", Name = "SaveCodeSnippet")]
         public async Task<IActionResult> EditCodeSnippet(int id, int? assignmentId, int? categoryId, CodeSnippet post)
         {
+            var folderId = Int32.Parse(Request.Form["folder"]);
 
             if (ModelState.IsValid)
             {
@@ -509,6 +521,7 @@ namespace CodingBlogDemo2.Controllers
 
                     //grab post to update
                     var postToUpdate = _context.Set<CodeSnippet>().Where(c => c.CodeSnippetId == assignmentId).SingleOrDefault();
+                    var postToUpdateFolderId = _context.Posts.Where(p => p.PostCategory == categoryId && p.AssignmentId == assignmentId).SingleOrDefault();
 
 
                     postToUpdate.Name = post.Name;
@@ -517,7 +530,7 @@ namespace CodingBlogDemo2.Controllers
                     postToUpdate.Code = post.Code;
                     postToUpdate.WhenEdited = DateTime.Now;
 
-
+                    postToUpdateFolderId.FolderId = folderId;
 
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
@@ -551,13 +564,14 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id?}/Edit/{assignmentId?}/{categoryId?}/CodeSnippetNoAnswer", Name = "SaveCodeSnippetNoAnswer")]
         public async Task<IActionResult> EditCodeSnippetNoAnswer(int id, int? assignmentId, int? categoryId, CodeSnippetNoAnswer post)
         {
+            var folderId = Int32.Parse(Request.Form["folder"]);
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     var postToUpdate = _context.Set<CodeSnippetNoAnswer>().Where(c => c.CodeSnippetNoAnswerId == assignmentId).SingleOrDefault();
-
+                    var postToUpdateFolderId = _context.Posts.Where(p => p.PostCategory == categoryId && p.AssignmentId == assignmentId).SingleOrDefault();
 
                     postToUpdate.Name = post.Name;
                     postToUpdate.Description = post.Description;
@@ -565,6 +579,7 @@ namespace CodingBlogDemo2.Controllers
                     postToUpdate.Answer = post.Answer;
                     postToUpdate.WhenEdited = DateTime.Now;
 
+                    postToUpdateFolderId.FolderId = folderId;
 
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
