@@ -145,7 +145,7 @@ namespace CodingBlogDemo2.Controllers
                 reports.Add(newReport);
             }
 
-            ViewBag.LNameSortParm = String.IsNullOrEmpty(sortOrder) ? "lname_desc" : "";
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
             switch (sortOrder)
