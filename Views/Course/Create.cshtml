@@ -12,19 +12,19 @@
 
 
 <form asp-controller="Course" asp-action="Create" role="form" class="form-horizontal" method="post">
-    <h2 class="col-md-offset-4">Create Your New Class </h2>
+    <h2 class="col-md-offset-4">Create Your New Course</h2>
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <hr />
     <div class="form-group">
-        <label asp-for="Name" class="col-md-5 control-label"></label>
+        <label asp-for="Name" class="col-md-5 control-label">Course Name</label>
         <div>
             <input asp-for="Name" class="col-md-2 form-control"/>
         </div>
     </div>
 
     <div class="form-group">
-        <input type="submit" class="btn btn-success col-md-offset-5 col-md-2" value="Create Class" />
+        <input type="submit" class="btn btn-success col-md-offset-5 col-md-2" value="Create Course" />
     </div>
 
 </form>

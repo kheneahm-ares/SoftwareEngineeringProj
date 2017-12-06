@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CodingBlogDemo2</title>
+    <title>@ViewData["Title"] - Code Everywhere</title>
 
-
+    <script src="https://use.fontawesome.com/cb248d86e8.js"></script>
     
 
     <environment names="Development">
@@ -22,8 +22,8 @@
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+<body style="background-color: #fafaf9;">
+    <nav class="navbar navbar-fixed-top" style="background-color: white; box-shadow: 0px 6px 6px -6px #999;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,12 +32,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Profile" asp-action="Index" class="navbar-brand">CodingBlogDemo2</a>
+                <a asp-area="" asp-controller="Profile" asp-action="Index" class="navbar-brand"><span class="fa fa-code" aria-hidden="true"></span> Code Everywhere</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Profile" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Course" asp-action="Index">Courses</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fundamentals <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -51,9 +51,9 @@
                         </ul>
                     </li>
                     <li>
-                        <div style="margin-top: 10px; margin-left: 40px;">
+                        <div style="margin-top: 8px; margin-left: 40px;">
                             <form asp-controller="Course" asp-action="Search" role="search">
-                                <input style="width: 400px" class="form-control" type="text" placeholder="Search classes" id="searchQuery" name="searchQuery" required>
+                                <input style="width: 400px" class="form-control" type="text" placeholder="Search courses" id="searchQuery" name="searchQuery" required>
                             </form>
                         </div>
                     </li>

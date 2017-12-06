@@ -2,18 +2,22 @@
 <div class="row">
     @if (User.IsInRole("Admin")  && ViewBag.IsCourseCreator)
     {
-        <div class="col-md-12 col-md-offset-9">
-            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" asp-route-folderId="@ViewBag.folderId" class="btn btn-warning btn-lg">Edit</a> |
-            <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1">
-                <input type="submit" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to Delete this assignment?')" value="Delete" /> |
+        <div class="col-md-offset-9">
+            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" asp-route-folderId="@ViewBag.folderId" class="btn btn-default">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+            <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1">              
+                <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to Delete this assignment?')" style="color: black;">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                </button>
             </form>
-            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-lg btn-default">Results</a>
+            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-default">
+                <i class="fa fa-pie-chart" aria-hidden="true"></i> Results</a>
 
         </div>
     }
     <hr />
 
-    <form asp-route="SubmitMultipleChoice" role="form" class="form-horizontal col-md-12 col-md-offset-3" method="post" id="assignment">
+    <form asp-route="SubmitMultipleChoice" role="form" class="form-horizontal col-md-12" method="post" id="assignment">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" />
             <div class="form-group">
@@ -28,7 +32,27 @@
                     @Html.DisplayFor(model => model.Description)
                 </div>
             </div>
-            <div class="form-group">
+
+            <div class="funkyradio">
+                <div class="funkyradio-primary col-md-8 col-md-offset-1">
+                    <input type="radio" value="A" name="radio" id="A" />
+                    <label for="A">@Html.DisplayFor(model => model.A)</label>
+                </div>
+                <div class="funkyradio-primary col-md-8 col-md-offset-1">
+                    <input type="radio" value="B" name="radio" id="B" />
+                    <label for="B">@Html.DisplayFor(model => model.B)</label>
+                </div>
+                <div class="funkyradio-primary col-md-8 col-md-offset-1">
+                    <input type="radio" value="C" name="radio" id="C" />
+                    <label for="C">@Html.DisplayFor(model => model.C)</label>
+                </div>
+                <div class="funkyradio-primary col-md-8 col-md-offset-1">
+                    <input type="radio" value="D" name="radio" id="D" />
+                    <label for="D">@Html.DisplayFor(model => model.D)</label>
+                </div>
+            </div>
+
+            @*<div class="form-group">
                 <input type="radio" value="A" name="answer" required />
                 <label asp-for="A" class="col-md-2 control-label"></label>
                 <div class="col-md-10">
@@ -56,10 +80,10 @@
                 <div class="col-md-10">
                     @Html.DisplayFor(model => model.D)
                 </div>
-            </div>
+            </div>*@
     </form>
 
-    <div class="col-md-offset-3">
+    <div class="col-md-offset-2">
         @{ Html.RenderPartial("_SubmissionPartial");}
     </div>
 </div>
