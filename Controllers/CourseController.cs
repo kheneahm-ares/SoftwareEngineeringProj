@@ -7,6 +7,7 @@ using CodingBlogDemo2.Data;
 using Microsoft.AspNetCore.Authorization;
 using CodingBlogDemo2.Models;
 using CodingBlogDemo2.Models.ViewModels;
+using Sakura.AspNetCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -95,7 +96,7 @@ namespace CodingBlogDemo2.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Report(int id)
+        public IActionResult Report(int id, string sortOrder, string searchString)
         {
             //an admin can only do "CUD" functionalities if he/she is the creator of the course
             if (!IsOwner(id))
@@ -144,9 +145,24 @@ namespace CodingBlogDemo2.Controllers
                 reports.Add(newReport);
             }
 
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            switch (sortOrder)
+            {
+                case "name_desc": reports = reports.OrderByDescending(r => r.LastName).ToList(); break;
+                case "Date": reports = reports.OrderBy(r => r.SubmissionTime).ToList(); break;
+                case "date_desc": reports = reports.OrderByDescending(r => r.SubmissionTime).ToList(); break;
+                default: reports = reports.OrderBy(r => r.LastName).ToList(); break;
+            }
 
 
-
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                reports = reports.Where(r => r.LastName.ToLower().Contains(searchString)
+                                       || r.FirstName.ToLower().Contains(searchString)).ToList();
+            }
 
 
             return View(new ReportViewModel
@@ -303,7 +319,7 @@ namespace CodingBlogDemo2.Controllers
 
         }
 
-        public IActionResult Search(String searchQuery)
+        public IActionResult Search(String searchQuery, int? page, int? pageSize)
         {
             List<CourseInfo> courseInfos = new List<CourseInfo>();
 
@@ -340,9 +356,13 @@ namespace CodingBlogDemo2.Controllers
 
             ViewBag.Search = searchQuery;
 
+            //pagination 
+            int no = page ?? 1;
+            int size = pageSize ?? 10;
+
             return View(new CourseListViewModel
             {
-                CourseInfos = courseInfos
+                CourseInfos = courseInfos.ToPagedList(size, no)
             });
         }
 
