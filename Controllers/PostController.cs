@@ -581,6 +581,11 @@ namespace CodingBlogDemo2.Controllers
 
                     postToUpdateFolderId.FolderId = folderId;
 
+                    //everytime we add a post to a folder we update the edit time of the edit col in folder
+                    var folderToUpdate = _context.Folders.Where(f => f.FolderId == folderId && f.CourseId == id).First();
+                    folderToUpdate.WhenEdited = DateTime.Now;
+                    
+
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
                 }
@@ -1003,8 +1008,10 @@ namespace CodingBlogDemo2.Controllers
                     currentResult.LName = user.LastName;
 
                     currentResult.UserCodeLength = sub.UserCode.Length;
+                    currentResult.UserCode = sub.UserCode;
 
                     currentResult.IsCorrect = sub.IsCorrect;
+
 
                     if (currentResult.IsCorrect == true)
                     {

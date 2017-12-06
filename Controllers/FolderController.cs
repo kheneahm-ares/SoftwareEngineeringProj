@@ -31,7 +31,7 @@ namespace CodingBlogDemo2.Controllers
         }
 
         // GET: Folder/Details/5
-        [Route("/Course/{courseId}/Folder/Details/{id}", Name = "FolderDetails")]
+        [Route("/Course/{courseId}/Folder/{id}/Details/", Name = "FolderDetails")]
         public IActionResult Details(int? id, int courseId)
         {
             if (id == null)
@@ -43,7 +43,6 @@ namespace CodingBlogDemo2.Controllers
 
             // Get all posts for this course and this folder
             IEnumerable<Post> posts = _context.Posts.Where(p => p.CourseId == courseId && p.FolderId == id);
-
             // Store posts by their type
             List<MultipleChoice> multipleChoice = new List<MultipleChoice>();
             List<CodeSnippet> codeSnippet = new List<CodeSnippet>();

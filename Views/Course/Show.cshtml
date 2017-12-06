@@ -7,15 +7,21 @@
  
     <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
 
-        <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
-            @ViewBag.CourseName
-            @if (User.IsInRole("Admin") && User.Identity.Name == ViewBag.CourseCreator)
+        <div>
+            <h3 style="font-weight: 600;">
+                @ViewBag.CourseName
+                <span class="pull-right">
+                    @if (User.IsInRole("Admin") && User.Identity.Name == ViewBag.CourseCreator)
             {
-                <a asp-controller="Post" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Post</a>
-                <a asp-controller="Course" asp-action="Report" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Class Report</a>
 
-            }
-        </h3>
+                        <a asp-controller="Post" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Post</a>
+                        <a asp-controller="Course" asp-action="Report" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Class Report</a>
+
+                    }
+                </span>
+            </h3>
+         
+        </div>
 
         <hr />
         @if (Model.CodeSnippets.Count() <= 0 && Model.MultipleChoices.Count() <= 0 && Model.CodeSnippetNoAnswers.Count() <= 0)
@@ -24,86 +30,17 @@
                 No posts...
             </h5>
         }
-        else
-        {
-            <h3>Multiple Choice Posts</h3>
-
-            <table class="table table-bordered table-hover">
-                <thead>
-                <th>Assignment Name</th>
-                <th>Updated</th>
-                </thead>
-                <tbody>
-
-                    @foreach (MultipleChoice mc in Model.MultipleChoices)
-                    {
-                        <tr>
-
-                            <td><a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">@mc.Name</a></td>
-                            <td>@mc.WhenEdited</td>
-                        </tr>
-                    }
-                </tbody>
-
-            </table>
-            <hr />
-
-            <h3>Code Snippet Posts</h3>
-
-            <table class="table table-bordered table-hover">
-                <thead>
-                <th>Assignment Name</th>
-                <th>Updated</th>
-                </thead>
-                @foreach (CodeSnippet cs in Model.CodeSnippets)
-                {
-
-                    <tr>
-                        <td>
-                            <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2">@cs.Name</a>
-                        </td>
-                        <td>
-                            @cs.WhenEdited
-                        </td>
-
-                    </tr>
-                }
-            </table>
-
-            <hr />
-
-
-
-            <h3>Code Evaluation Posts</h3>
-
-            <table class="table table-bordered table-hover">
-                <thead>
-                <th>Assignment Name</th>
-                <th>Updated</th>
-                </thead>
-
-                @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
-                {
-                    <tr>
-                        <td>
-                            <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">@cs.Name</a>
-                        </td>
-                        <td>
-                            @cs.WhenEdited
-                        </td>
-                    </tr>
-                }
-            </table>
-        }
-
+        
         <br />
         <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
             Folders
             @if (User.IsInRole("Admin"))
             {
-                <a asp-controller="Folder" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Folder</a>
+                <span class="pull-right">
+                    <a asp-controller="Folder" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Folder</a>
 
-                <a asp-controller="Folder" asp-action="Index" asp-route-id="@ViewBag.CourseId" class="btn btn-default">View All Folders</a>
+                    <a asp-controller="Folder" asp-action="Index" asp-route-id="@ViewBag.CourseId" class="btn btn-default">View All Folders</a>
+                </span>
 
             }
         </h3>
@@ -115,15 +52,41 @@
         }
         else
         {
-            @foreach (var folder in ViewBag.Folders)
-            {
-                <a asp-route="FolderDetails" asp-route-id="@folder.FolderId" asp-route-courseId="@folder.CourseId">@folder.Name</a>
-                <hr />
-                    
-            }
+            <table class="table table-responsive table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Folder Name
+                        </th>
+                        <th>
+                            Recent Activity
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var folder in ViewBag.Folders)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-route="FolderDetails" asp-route-id="@folder.FolderId" asp-route-courseId="@folder.CourseId">@folder.Name</a>
+                           </td>
+                            <td>
+                                @folder.WhenEdited
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <a asp-route="FolderDetails" asp-route-id="0" asp-route-courseId="@ViewBag.CourseId">Other</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table> 
 
         }
-        <a asp-route="FolderDetails" asp-route-id="0" asp-route-courseId="@ViewBag.CourseId">Other</a>
     </div>
 
     <div class="col-md-4">
