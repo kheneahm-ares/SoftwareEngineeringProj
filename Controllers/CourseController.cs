@@ -147,7 +147,7 @@ namespace CodingBlogDemo2.Controllers
 
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-
+            
             switch (sortOrder)
             {
                 case "name_desc": reports = reports.OrderByDescending(r => r.LastName).ToList(); break;
