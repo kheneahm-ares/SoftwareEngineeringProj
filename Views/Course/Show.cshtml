@@ -3,8 +3,7 @@
     ViewData["Title"] = "Show Course";
 }
 
-<div class="row">
- 
+<div class="row"> 
     <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading" style="color: #337ab7;">
@@ -17,84 +16,6 @@
                 }
             </div>
             <div class="panel-body">
-                @*<hr />
-                    @if (Model.CodeSnippets.Count() <= 0 && Model.MultipleChoices.Count() <= 0 && Model.CodeSnippetNoAnswers.Count() <= 0)
-                    {
-                        <h5>
-                            No posts...
-                        </h5>
-                    }
-                    else
-                    {
-                        <h3>Multiple Choice Posts</h3>
-
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                            <th>Assignment Name</th>
-                            <th>Updated</th>
-                            </thead>
-                            <tbody>
-
-                                @foreach (MultipleChoice mc in Model.MultipleChoices)
-                                {
-                                    <tr>
-
-                                        <td><a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">@mc.Name</a></td>
-                                        <td>@mc.WhenEdited</td>
-                                    </tr>
-                                }
-                            </tbody>
-
-                        </table>
-                        <hr />
-
-                        <h3>Code Snippet Posts</h3>
-
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                            <th>Assignment Name</th>
-                            <th>Updated</th>
-                            </thead>
-                            @foreach (CodeSnippet cs in Model.CodeSnippets)
-                            {
-
-                                <tr>
-                                    <td>
-                                        <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2">@cs.Name</a>
-                                    </td>
-                                    <td>
-                                        @cs.WhenEdited
-                                    </td>
-
-                                </tr>
-                            }
-                        </table>
-
-                        <hr />
-
-
-
-                        <h3>Code Evaluation Posts</h3>
-
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                            <th>Assignment Name</th>
-                            <th>Updated</th>
-                            </thead>
-
-                            @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
-                            {
-                                <tr>
-                                    <td>
-                                        <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">@cs.Name</a>
-                                    </td>
-                                    <td>
-                                        @cs.WhenEdited
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-                    }*@
                 <h3>
                     Folders <i class="fa fa-folder-o" aria-hidden="true"></i>
                 </h3>

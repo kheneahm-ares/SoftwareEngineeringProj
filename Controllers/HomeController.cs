@@ -47,5 +47,9 @@ namespace CodingBlogDemo2.Controllers
         {
             return View();
         }
+        public IActionResult Fundamentals()
+        {
+            return View();
+        }
     }
 }

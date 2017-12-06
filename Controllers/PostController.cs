@@ -581,6 +581,11 @@ namespace CodingBlogDemo2.Controllers
 
                     postToUpdateFolderId.FolderId = folderId;
 
+                    //everytime we add a post to a folder we update the edit time of the edit col in folder
+                    var folderToUpdate = _context.Folders.Where(f => f.FolderId == folderId && f.CourseId == id).First();
+                    folderToUpdate.WhenEdited = DateTime.Now;
+                    
+
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
                 }
@@ -934,15 +939,28 @@ namespace CodingBlogDemo2.Controllers
             //used by MC
             UserAnswersViewModel userAnswers = new UserAnswersViewModel();
 
+
             //grab all the submissions from the specific category table
             //grab from MCSubmissions table
             if (categoryId == 1)
             {
                 ViewBag.isMCResult = true;
 
+                //get current question using primary key of table
+                var assignment = _context.MultipleChoices.Where(mc => mc.MultipleChoiceId == assignmentId).First();
+
+                //for chart
+                ViewBag.Question = assignment.Description;
+                ViewBag.ChoiceA = assignment.A;
+                ViewBag.ChoiceB = assignment.B;
+                ViewBag.ChoiceC = assignment.C;
+                ViewBag.ChoiceD = assignment.D;
+
+
                 //get all submissions from table
                 IEnumerable<MultipleChoiceSubmission> mcSubmissions = _context.MultipleChoiceSubmissions.Where(m => m.AssignmentId == assignmentId);
 
+                
                 foreach(MultipleChoiceSubmission mc in mcSubmissions)
                 {
 
@@ -1003,8 +1021,10 @@ namespace CodingBlogDemo2.Controllers
                     currentResult.LName = user.LastName;
 
                     currentResult.UserCodeLength = sub.UserCode.Length;
+                    currentResult.UserCode = sub.UserCode;
 
                     currentResult.IsCorrect = sub.IsCorrect;
+
 
                     if (currentResult.IsCorrect == true)
                     {
