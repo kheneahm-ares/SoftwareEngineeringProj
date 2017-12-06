@@ -62,16 +62,34 @@
 
 @if (ViewBag.isMCResult)
 {
-    <div class="col-md-6 col-md-offset-3">
-        <div>
-            <select class="form-control" id="myselect" name="myselect" required>
-                <option value="correctChart" selected="selected"> Correct Vs Incorrect</option>
-                <option value="answersChart">Student Answers</option>
+    <div class="col-md-7">
+    <div class="col-md-offset-3">
+        <select class="form-control" id="myselect" name="myselect" required>
+            <option value="correctChart" selected="selected"> Correct Vs Incorrect</option>
+            <option value="answersChart">Student Answers</option>
 
-            </select>
+        </select>
+    </div>
+        <canvas id="correctChart"></canvas>
+        <canvas id="answersChart"></canvas>
+    </div>
+
+    <div class="col-md-5">
+        <div class="row">
+            <h3>@ViewBag.Question </h3>
+            <p>
+               A) @ViewBag.ChoiceA
+            </p>
+            <p>
+                B) @ViewBag.ChoiceB
+            </p>
+            <p>
+                C) @ViewBag.ChoiceC
+            </p>
+            <p>
+                D) @ViewBag.ChoiceD
+            </p>
         </div>
-        <canvas id="correctChart" width="20" height="20"></canvas>
-        <canvas id="answersChart" width="20" height="20"></canvas>
 
         <div class="panel panel-default">
             <table class="table table-bordered table-hover">
@@ -92,7 +110,19 @@
                             <td>@userResults.FName</td>
                             <td>@userResults.LName</td>
                             <td>@userResults.Answer</td>
-                            <td>@userResults.IsCorrect</td>
+                            <td>
+                                @if (!userResults.IsCorrect)
+                                {
+
+                                    <label style="color:red">@userResults.IsCorrect</label>
+                                }
+                                else
+                                {
+                                    <label style="color:green">@userResults.IsCorrect</label>
+
+
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -103,21 +133,20 @@
 }
 else if (ViewBag.isCodeSnipResult)
 {
-    <div class="col-md-6 col-md-offset-3">
-        
-        <canvas id="correctChart" width="20" height="20"></canvas>
+    <div class="col-md-7">
+        <canvas id="correctChart"></canvas>
 
-
-
+    </div>
+    <div class="col-md-5">
         <div class="panel panel-default">
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
+                        <th>Show Code</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Code Length</th>
                         <th>Is Correct</th>
-                        <th>Show Code</th>
                     </tr>
 
 
@@ -126,16 +155,16 @@ else if (ViewBag.isCodeSnipResult)
                     @foreach (var userResults in Model.UserResults)
                     {
                         <tr>
-                            <td>@userResults.FName</td>
-                            <td>@userResults.LName</td>
-                            <td>@userResults.UserCodeLength</td>
-                            <td>@userResults.IsCorrect</td>
                             <td>
                                 <div class="popup" onclick="myFunction()">
                                     Code
                                     <span class="popuptext" id="myPopup">@userResults.UserCode</span>
-                                </div>                           
+                                </div>
                             </td>
+                            <td>@userResults.FName</td>
+                            <td>@userResults.LName</td>
+                            <td>@userResults.UserCodeLength</td>
+                            <td>@userResults.IsCorrect</td>
                         </tr>
                     }
                 </tbody>
@@ -149,12 +178,11 @@ else if (ViewBag.isCodeSnipResult)
 
 else if (ViewBag.isCodeSnipNoAnswerResult)
 {
+    <div class="col-md-7">
+        <canvas id="correctChart"></canvas>
 
-    <div class="col-md-6 col-md-offset-3">
-
-        <canvas id="correctChart" width="20" height="20"></canvas>
-
-
+    </div>
+    <div class="col-md-5">
 
         <div class="panel panel-default">
             <table class="table table-bordered table-hover">
@@ -224,7 +252,7 @@ else if (ViewBag.isCodeSnipNoAnswerResult)
 
         var answersCanvas = document.getElementById("answersChart");
         var myBarChart = new Chart(answersCanvas, {
-            type: 'bar',
+            type: 'horizontalBar',
             data: {
                 labels: ["A", "B", "C", "D"],
                 datasets: [
@@ -239,7 +267,7 @@ else if (ViewBag.isCodeSnipNoAnswerResult)
                 legend: { display: false },
                 title: {
                     display: true,
-                    text: "Student Answers"
+                    text: "@ViewBag.Question"
 
                 }
 
