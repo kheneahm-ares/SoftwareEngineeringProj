@@ -23,7 +23,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Updated</th>
-                <th>Type</th>
+                <th>Question Type</th>
             </tr>
 
             @foreach (MultipleChoice mc in Model.MultipleChoices)
@@ -51,7 +51,7 @@
                     <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folder.FolderId">@cs.Name</a></td>
                     <td>@cs.Description</td>
                     <td>@cs.WhenEdited</td>
-                    <td>Short Answer</td>
+                    <td>Code Evaluation</td>
                 </tr>
             }
 

@@ -3,12 +3,18 @@
 <div class="row">
     @if (User.IsInRole("Admin") && ViewBag.IsCourseCreator)
     {
-        <div class="col-md-12 col-md-offset-9">
-            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folderId" class="btn btn-warning btn-lg">Edit</a> |
+        <div class="col-md-offset-9">
+            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folderId" class="btn btn-default">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+            </a>
             <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3">
-                <input type="submit" class="btn btn-danger btn-lg"  onclick="return confirm('Are you sure you want to Delete this assignment?')" value="Delete" /> |
+                <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to Delete this assignment?')" style="color: black;">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                </button>
             </form>
-            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-lg btn-default">Results</a>
+            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@Model.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-default">
+                <i class="fa fa-pie-chart" aria-hidden="true"></i> Results
+            </a>
 
         </div>
     }

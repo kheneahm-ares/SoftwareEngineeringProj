@@ -18,10 +18,14 @@ namespace CodingBlogDemo2.Controllers
             _accountRepository = repo;
             _manager = SignInManager;
         }
+
         public IActionResult Index()
+        {                   
+            return View();
+        }
+
+        public IActionResult Fundamentals()
         {
-           
-                
             return View();
         }
 

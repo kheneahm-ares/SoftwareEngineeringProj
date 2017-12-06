@@ -5,131 +5,126 @@
 
 <div class="row">
  
-    <div class="col-md-8" style="border: 2px dashed rgba(27,31,35,0.3); padding: 30px;">
-
-        <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
-            @ViewBag.CourseName
-            @if (User.IsInRole("Admin") && User.Identity.Name == ViewBag.CourseCreator)
-            {
-                <a asp-controller="Post" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Post</a>
-                <a asp-controller="Course" asp-action="Report" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Class Report</a>
-
-            }
-        </h3>
-
-        <hr />
-        @if (Model.CodeSnippets.Count() <= 0 && Model.MultipleChoices.Count() <= 0 && Model.CodeSnippetNoAnswers.Count() <= 0)
-        {
-            <h5>
-                No posts...
-            </h5>
-        }
-        else
-        {
-            <h3>Multiple Choice Posts</h3>
-
-            <table class="table table-bordered table-hover">
-                <thead>
-                <th>Assignment Name</th>
-                <th>Updated</th>
-                </thead>
-                <tbody>
-
-                    @foreach (MultipleChoice mc in Model.MultipleChoices)
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color: #337ab7;">
+                @if (User.IsInRole("Admin") && User.Identity.Name == ViewBag.CourseCreator)
+                {
+                    <a asp-controller="Post" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Post</a>                 
+                    <a asp-controller="Folder" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Folder</a>
+                    <a asp-controller="Folder" asp-action="Index" asp-route-id="@ViewBag.CourseId" class="btn btn-default">All Folders</a>
+                    <a asp-controller="Course" asp-action="Report" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Course Report</a>
+                }
+            </div>
+            <div class="panel-body">
+                @*<hr />
+                    @if (Model.CodeSnippets.Count() <= 0 && Model.MultipleChoices.Count() <= 0 && Model.CodeSnippetNoAnswers.Count() <= 0)
                     {
-                        <tr>
-
-                            <td><a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">@mc.Name</a></td>
-                            <td>@mc.WhenEdited</td>
-                        </tr>
+                        <h5>
+                            No posts...
+                        </h5>
                     }
-                </tbody>
+                    else
+                    {
+                        <h3>Multiple Choice Posts</h3>
 
-            </table>
-            <hr />
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <th>Assignment Name</th>
+                            <th>Updated</th>
+                            </thead>
+                            <tbody>
 
-            <h3>Code Snippet Posts</h3>
+                                @foreach (MultipleChoice mc in Model.MultipleChoices)
+                                {
+                                    <tr>
 
-            <table class="table table-bordered table-hover">
-                <thead>
-                <th>Assignment Name</th>
-                <th>Updated</th>
-                </thead>
-                @foreach (CodeSnippet cs in Model.CodeSnippets)
-                {
+                                        <td><a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">@mc.Name</a></td>
+                                        <td>@mc.WhenEdited</td>
+                                    </tr>
+                                }
+                            </tbody>
 
-                    <tr>
-                        <td>
-                            <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2">@cs.Name</a>
-                        </td>
-                        <td>
-                            @cs.WhenEdited
-                        </td>
+                        </table>
+                        <hr />
 
-                    </tr>
-                }
-            </table>
+                        <h3>Code Snippet Posts</h3>
 
-            <hr />
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <th>Assignment Name</th>
+                            <th>Updated</th>
+                            </thead>
+                            @foreach (CodeSnippet cs in Model.CodeSnippets)
+                            {
+
+                                <tr>
+                                    <td>
+                                        <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetId" asp-route-categoryId="2">@cs.Name</a>
+                                    </td>
+                                    <td>
+                                        @cs.WhenEdited
+                                    </td>
+
+                                </tr>
+                            }
+                        </table>
+
+                        <hr />
 
 
 
-            <h3>Code Evaluation Posts</h3>
+                        <h3>Code Evaluation Posts</h3>
 
-            <table class="table table-bordered table-hover">
-                <thead>
-                <th>Assignment Name</th>
-                <th>Updated</th>
-                </thead>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <th>Assignment Name</th>
+                            <th>Updated</th>
+                            </thead>
 
-                @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
-                {
-                    <tr>
-                        <td>
-                            <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">@cs.Name</a>
-                        </td>
-                        <td>
-                            @cs.WhenEdited
-                        </td>
-                    </tr>
-                }
-            </table>
-        }
-
-        <br />
-        <h3 style="padding-top: 0px; margin-top: 0px; font-weight: 600;">
-            Folders
-            @if (User.IsInRole("Admin"))
-            {
-                <a asp-controller="Folder" asp-action="Create" asp-route-id="@ViewBag.CourseId" class="btn btn-default">Create Folder</a>
-
-                <a asp-controller="Folder" asp-action="Index" asp-route-id="@ViewBag.CourseId" class="btn btn-default">View All Folders</a>
-
-            }
-        </h3>
-        <hr />
-        @if (ViewBag.Folders == null)
-        {
-            <h5>No folders...</h5>
-
-        }
-        else
-        {
-            @foreach (var folder in ViewBag.Folders)
-            {
-                <a asp-route="FolderDetails" asp-route-id="@folder.FolderId" asp-route-courseId="@folder.CourseId">@folder.Name</a>
+                            @foreach (CodeSnippetNoAnswer cs in Model.CodeSnippetNoAnswers)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-route="PostDetails" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">@cs.Name</a>
+                                    </td>
+                                    <td>
+                                        @cs.WhenEdited
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }*@
+                <h3>
+                    Folders <i class="fa fa-folder-o" aria-hidden="true"></i>
+                </h3>
                 <hr />
-                    
-            }
+                @if (ViewBag.Folders == null)
+                {
+                    <h5>No folders...</h5>
 
-        }
-        <a asp-route="FolderDetails" asp-route-id="0" asp-route-courseId="@ViewBag.CourseId">Other</a>
+                }
+                else
+                {
+                    @foreach (var folder in ViewBag.Folders)
+                    {
+                        <a asp-route="FolderDetails" asp-route-id="@folder.FolderId" asp-route-courseId="@folder.CourseId">@folder.Name</a>
+                        <hr />
+
+                    }
+
+                }
+                <a asp-route="FolderDetails" asp-route-id="0" asp-route-courseId="@ViewBag.CourseId">Other</a>
+            </div>
+        </div>
     </div>
 
     <div class="col-md-4">
+        <h1 style="font-weight: bold; color: #337ab7;">@ViewBag.CourseName <i class="fa fa-book" aria-hidden="true"></i></h1>
+        <hr />
         @if (User.Identity.Name == ViewBag.CourseCreator)
         {
-            <h1 style="font-weight: bold">Welcome, Professor @ViewBag.CourseCreatorLName!</h1>
+            <h3 style="font-weight: bold; color: #337ab7;">Welcome, Professor @ViewBag.CourseCreatorLName!</h3>
 
         }
         else if (ViewBag.isFollowing)

@@ -743,7 +743,7 @@ namespace CodingBlogDemo2.Controllers
 
 
 
-                var userSelectedAnswer = Request.Form["answer"];
+                var userSelectedAnswer = Request.Form["radio"];
 
                 MultipleChoiceSubmission newSubmission = new MultipleChoiceSubmission
                 {
