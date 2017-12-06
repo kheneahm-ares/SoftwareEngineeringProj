@@ -6,6 +6,59 @@
 
 <script src="~/lib/chartjs/dist/Chart.min.js"></script>
 
+<style>
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.popup .popuptext {
+    visibility: hidden;
+    width: 360px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+@@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+</style>
 
 @if (ViewBag.isMCResult)
 {
@@ -23,10 +76,13 @@
         <div class="panel panel-default">
             <table class="table table-bordered table-hover">
                 <thead>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Answer</th>
-                <th>Is Correct</th>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Answer</th>
+                        <th>Is Correct</th>
+                    </tr>
+
 
                 </thead>
                 <tbody>
@@ -56,11 +112,14 @@ else if (ViewBag.isCodeSnipResult)
         <div class="panel panel-default">
             <table class="table table-bordered table-hover">
                 <thead>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Code Length</th>
-                <th>Is Correct</th>
-                <th>Show Code</th>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Code Length</th>
+                        <th>Is Correct</th>
+                        <th>Show Code</th>
+                    </tr>
+
 
                 </thead>
                 <tbody>
@@ -72,7 +131,10 @@ else if (ViewBag.isCodeSnipResult)
                             <td>@userResults.UserCodeLength</td>
                             <td>@userResults.IsCorrect</td>
                             <td>
-                                <a href="#">Code</a>
+                                <div class="popup" onclick="myFunction()">
+                                    Code
+                                    <span class="popuptext" id="myPopup">@userResults.UserCode</span>
+                                </div>                           
                             </td>
                         </tr>
                     }
@@ -97,10 +159,12 @@ else if (ViewBag.isCodeSnipNoAnswerResult)
         <div class="panel panel-default">
             <table class="table table-bordered table-hover">
                 <thead>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>User Answer</th>
-                <th>Is Correct</th>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>User Answer</th>
+                        <th>Is Correct</th>
+                    </tr>
 
                 </thead>
                 <tbody>
@@ -134,6 +198,7 @@ else if (ViewBag.isCodeSnipNoAnswerResult)
             $('#' + value).show("slow");
 
         });
+
         var correctCanvas = document.getElementById("correctChart");
 
         var myChart = new Chart(correctCanvas, {
@@ -184,5 +249,10 @@ else if (ViewBag.isCodeSnipNoAnswerResult)
         });
 
     });
+            // When the user clicks on div, open the popup
+            function myFunction() {
+                var popup = document.getElementById("myPopup");
+                popup.classList.toggle("show");
+            }
 
         </script>

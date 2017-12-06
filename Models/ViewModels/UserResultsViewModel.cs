@@ -17,6 +17,7 @@ namespace CodingBlogDemo2.Models.ViewModels
 
         //used by CodeSnippet
         public int UserCodeLength { get; set; }
+        public string UserCode { get; set; }
 
     }
 }

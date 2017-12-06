@@ -8,6 +8,14 @@
 <div class="row">
     <div>
         <h1>Class Report</h1>
+        @using (Html.BeginForm())
+        {
+            <p>
+                Find by name: @Html.TextBox("searchString")
+                <input type="submit" value="Search" />
+            </p>
+        }
+
     </div>
     <hr />
 </div>
@@ -17,12 +25,18 @@
     <table class="table table-bordered table-responsive table-hover">
         <tr>
             <th>First Name</th>
-            <th>Last Name</th>
+            <th>
+                @Html.ActionLink("Last Name", "Report", new { sortOrder = ViewBag.NameSortParm })
+            </th>
             <th>Email</th>
             <th>Submissions</th>
             <th>Course Assignments Total</th>
             <th>Activity %</th>
-            <th>Most Recent Submission</th>
+            <th>
+                @Html.ActionLink("Most Recent Submission", "Report", new { sortOrder = ViewBag.DateSortParm })
+
+
+            </th>
         </tr>
         @foreach (Report rep in Model.Reports)
             {
