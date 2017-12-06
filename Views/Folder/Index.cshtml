@@ -4,39 +4,50 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>@ViewBag.course.Name Folders</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    <span style="font-weight: bold; color: #337ab7;">
+                        @ViewBag.course.Name Folders <i class="fa fa-folder-open-o" aria-hidden="true"></i>&nbsp;
+                        <a asp-action="Create" class="btn btn-default">Create New</a>
+                    </span>
+                </h4>
+            </div>
+            <div class="panel-body" style="padding: 0px;">
+                <table class="table" style="margin-bottom: 0px;">
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td style="width: 300px;">
+                                    <form asp-controller="Folder" asp-action="Delete" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" method="POST">
+                                        <div class="form-actions no-color">
+                                            <a asp-action="Details" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" class="btn btn-default btn-sm" style="color: black; margin-left: 48px;">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> View
+                                            </a><span>&nbsp</span>
+                                            <a asp-action="Edit" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" class="btn btn-default btn-sm" style="color: black;">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                                            </a>
+                                            <button type="submit" class="btn btn-default btn-sm" style="color: black;">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
+            </div>
+        </div>
+    </div>
+</div>
 <p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <form asp-controller="Folder" asp-action="Delete" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" method="POST">
-                    <div class="form-actions no-color">
-                        <a asp-action="Edit" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" class="btn btn-default">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.FolderId" asp-route-courseId="@ViewBag.course.CourseId" class="btn btn-default">Details</a>
-                        <input type="submit" value="Delete" class="btn btn-default" />
-                    </div>
-                </form>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-<p>
-    <a asp-controller="Course" asp-action="Show" asp-route-id="@ViewBag.course.CourseId">Back</a>
+    <a asp-controller="Course" asp-action="Show" asp-route-id="@ViewBag.course.CourseId" class="btn btn-default">Back</a>
 </p>

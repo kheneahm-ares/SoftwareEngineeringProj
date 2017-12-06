@@ -4,24 +4,22 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
-
 <form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>Folder</h4>
-        <hr />
+        <h2 class="col-md-offset-4">Update Folder </h2>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="FolderId" />
+        <input type="hidden" asp-for="FolderId" />
+        <hr />
         <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Name" class="form-control" />
+            <label asp-for="Name" class="col-md-5 control-label">Folder Name</label>
+            <div>
+                <input asp-for="Name" class="col-md-2 form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div>
+                <input type="submit" class="btn btn-success col-md-offset-5 col-md-2" value="Update Folder" />
             </div>
         </div>
     </div>

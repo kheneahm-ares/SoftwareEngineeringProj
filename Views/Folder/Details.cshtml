@@ -69,7 +69,7 @@
                     <td><a asp-route="PostDetails" asp-route-id="@ViewBag.courseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folder.FolderId">@cs.Name</a></td>
                     <td>@cs.Description</td>
                     <td>@cs.WhenEdited</td>
-                    <td>Short Answer</td>
+                    <td>Code Evaluation</td>
                     <td class="text-center">
                         <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folderId" class="btn btn-warning btn-sm">Edit</a>
                         <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">
