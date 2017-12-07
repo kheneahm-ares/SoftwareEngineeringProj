@@ -12,6 +12,7 @@ using CodingBlogDemo2.Models.ViewModels;
 
 namespace CodingBlogDemo2.Controllers
 {
+    [Authorize]
     public class FolderController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -32,13 +33,8 @@ namespace CodingBlogDemo2.Controllers
 
         // GET: Folder/Details/5
         [Route("/Course/{courseId}/Folder/{id}/Details/", Name = "FolderDetails")]
-        public IActionResult Details(int? id, int courseId)
+        public IActionResult Details(int id, int courseId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             AssignmentViewModel assignmentViewModel = new AssignmentViewModel();
 
             // Get all posts for this course and this folder
@@ -75,7 +71,10 @@ namespace CodingBlogDemo2.Controllers
             else
             {
                 ViewBag.folder = _context.Folders.Where(f => f.FolderId == id).SingleOrDefault();
-            }        
+            }
+
+            //used for showing options
+            ViewBag.IsOwner = IsOwner(courseId);
 
             return View(new AssignmentViewModel
             {
@@ -90,6 +89,14 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id}/Folder/Create")]
         public IActionResult Create(int id)
         {
+            if (!IsOwner(id))
+            {
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
+            }
             _courseId = id;
             return View();
         }
@@ -103,6 +110,7 @@ namespace CodingBlogDemo2.Controllers
         [Route("/Course/{id}/Folder/Create")]
         public async Task<IActionResult> Create(Folder folder)
         {
+
             if (ModelState.IsValid)
             {
                 Folder f = new Folder
@@ -122,14 +130,17 @@ namespace CodingBlogDemo2.Controllers
         // GET: Folder/Edit/5
         [Authorize(Roles = "Admin")]
         [Route("/Course/{courseId}/Folder/Edit/{id}")]
-        public async Task<IActionResult> Edit(int? id, int courseId)
+        public async Task<IActionResult> Edit(int id, int courseId)
         {
-            _courseId = courseId;
-
-            if (id == null)
+            if (!IsOwner(courseId))
             {
-                return NotFound();
+                return RedirectToRoute(new
+                {
+                    controller = "Account",
+                    action = "AccessDenied"
+                });
             }
+            _courseId = courseId;
 
             var folder = await _context.Folders.SingleOrDefaultAsync(m => m.FolderId == id);
             if (folder == null)
@@ -193,6 +204,20 @@ namespace CodingBlogDemo2.Controllers
         private bool FolderExists(int id)
         {
             return _context.Folders.Any(e => e.FolderId == id);
+        }
+
+        private bool IsOwner(int courseId)
+        {
+            //get specific post,
+            bool isOwner = false;
+            string currentUserEmail = User.Identity.Name;
+
+
+            //we can grab the user of the post by checking who the owner of the course it belongs to
+            var course = _context.Courses.Where(c => c.CourseId == courseId).First();
+
+
+            return isOwner = currentUserEmail == course.UserEmail; ;
         }
     }
 }

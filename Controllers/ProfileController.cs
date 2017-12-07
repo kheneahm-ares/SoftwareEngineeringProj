@@ -246,7 +246,7 @@ namespace CodingBlogDemo2.Controllers
 
             //pagination 
             int no = page ?? 1;
-            int size = pageSize ?? 10;
+            int size = pageSize ?? 5;
 
             return View(new HomePageViewModel
             {

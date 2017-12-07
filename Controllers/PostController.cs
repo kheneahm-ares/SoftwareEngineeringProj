@@ -264,6 +264,11 @@ namespace CodingBlogDemo2.Controllers
                 newPost.FolderId = folderId;
 
                 _context.Posts.Add(newPost);
+
+                //everytime we add a post to a folder we update the edit time of the edit col in folder
+                var folderToUpdate = _context.Folders.Where(f => f.FolderId == folderId && f.CourseId == id).First();
+                folderToUpdate.WhenEdited = DateTime.Now;
+
                 await _context.SaveChangesAsync();
 
                 TempData["Success"] = "Assignment Successfully Created!";
@@ -325,6 +330,11 @@ namespace CodingBlogDemo2.Controllers
                 newPost.FolderId = folderId;
 
                 _context.Posts.Add(newPost);
+
+                //everytime we add a post to a folder we update the edit time of the edit col in folder
+                var folderToUpdate = _context.Folders.Where(f => f.FolderId == folderId && f.CourseId == id).First();
+                folderToUpdate.WhenEdited = DateTime.Now;
+
                 await _context.SaveChangesAsync();
 
                 //to be used for views to show activity of Curse
@@ -381,6 +391,12 @@ namespace CodingBlogDemo2.Controllers
                 newPost.FolderId = folderId;
 
                 _context.Posts.Add(newPost);
+
+
+                //everytime we add a post to a folder we update the edit time of the edit col in folder
+                var folderToUpdate = _context.Folders.Where(f => f.FolderId == folderId && f.CourseId == id).First();
+                folderToUpdate.WhenEdited = DateTime.Now;
+
                 await _context.SaveChangesAsync();
 
                 //to be used for views to show activity of Curse
@@ -480,6 +496,11 @@ namespace CodingBlogDemo2.Controllers
 
                     postToUpdateFolderId.FolderId = folderId;
 
+                    //everytime we add a post to a folder we update the edit time of the edit col in folder
+                    var folderToUpdate = _context.Folders.Where(f => f.FolderId == folderId && f.CourseId == id).First();
+                    folderToUpdate.WhenEdited = DateTime.Now;
+
+
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
                 }
@@ -531,6 +552,11 @@ namespace CodingBlogDemo2.Controllers
                     postToUpdate.WhenEdited = DateTime.Now;
 
                     postToUpdateFolderId.FolderId = folderId;
+
+                    //everytime we add a post to a folder we update the edit time of the edit col in folder
+                    var folderToUpdate = _context.Folders.Where(f => f.FolderId == folderId && f.CourseId == id).First();
+                    folderToUpdate.WhenEdited = DateTime.Now;
+
 
                     //_context.Update(post);
                     await _context.SaveChangesAsync();
@@ -782,11 +808,9 @@ namespace CodingBlogDemo2.Controllers
             //all we need is the actual radio button selected 
             return RedirectToRoute(new
             {
-                controller = "Post",
-                action = "Details",
-                id = id,
-                assignmentId = assignmentId,
-                categoryId = categoryId
+                controller = "Course",
+                action = "Show",
+                id = id
             });
 
         }
@@ -850,11 +874,9 @@ namespace CodingBlogDemo2.Controllers
 
             return RedirectToRoute(new
             {
-                controller = "Post",
-                action = "Details",
-                id = id,
-                assignmentId = assignmentId,
-                categoryId = categoryId
+                controller = "Course",
+                action = "Show",
+                id = id
             });
         }
 
@@ -903,11 +925,9 @@ namespace CodingBlogDemo2.Controllers
 
             return RedirectToRoute(new
             {
-                controller = "Post",
-                action = "Details",
-                id = id,
-                assignmentId = assignmentId,
-                categoryId = categoryId
+                controller = "Course",
+                action = "Show",
+                id = id
             });
         }
 
