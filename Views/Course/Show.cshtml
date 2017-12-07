@@ -20,20 +20,14 @@
                     Folders <i class="fa fa-folder-o" aria-hidden="true"></i>
                 </h3>
                 <hr />
-                @if (ViewBag.Folders == null)
-                {
-                    <h5>No folders...</h5>
-
-                }
-                else
+                @if (ViewBag.Folders != null)
                 {
                     @foreach (var folder in ViewBag.Folders)
                     {
                         <a asp-route="FolderDetails" asp-route-id="@folder.FolderId" asp-route-courseId="@folder.CourseId">@folder.Name</a>
-                        <hr />
+                                            <hr />
 
                     }
-
                 }
                 <a asp-route="FolderDetails" asp-route-id="0" asp-route-courseId="@ViewBag.CourseId">Other</a>
             </div>
