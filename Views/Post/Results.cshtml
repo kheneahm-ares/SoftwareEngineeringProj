@@ -52,7 +52,7 @@
     <div class="col-md-7">
     <div class="col-md-offset-3">
         <select class="form-control" id="myselect" name="myselect" required>
-            <option value="correctChart" selected="selected"> Correct Vs Incorrect</option>
+            <option value="correctChart" selected="selected"> Correct vs Incorrect</option>
             <option value="answersChart">Student Answers</option>
 
         </select>
@@ -61,20 +61,24 @@
         <canvas id="answersChart"></canvas>
     </div>
     <div class="col-md-5">
-        <div class="row">
-            <h3>@ViewBag.Question </h3>
-            <p>
-               A) @ViewBag.ChoiceA
-            </p>
-            <p>
-                B) @ViewBag.ChoiceB
-            </p>
-            <p>
-                C) @ViewBag.ChoiceC
-            </p>
-            <p>
-                D) @ViewBag.ChoiceD
-            </p>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>@ViewBag.Question</h4>
+            </div>
+            <div class="panel-body">
+                <p>
+                    A) @ViewBag.ChoiceA
+                </p>
+                <p>
+                    B) @ViewBag.ChoiceB
+                </p>
+                <p>
+                    C) @ViewBag.ChoiceC
+                </p>
+                <p>
+                    D) @ViewBag.ChoiceD
+                </p>
+            </div>
         </div>
 
         <div class="panel panel-default">
@@ -128,7 +132,7 @@ else if (ViewBag.isCodeSnipResult)
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th>Show Code</th>
+                        <th>Student Code</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Code Length</th>
@@ -196,7 +200,7 @@ else if (ViewBag.isCodeSnipNoAnswerResult)
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>User Answer</th>
+                        <th>Answer</th>
                         <th>Is Correct</th>
                     </tr>
 
