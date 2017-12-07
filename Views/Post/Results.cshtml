@@ -212,7 +212,19 @@ else if (ViewBag.isCodeSnipNoAnswerResult)
                             <td>@userResults.FName</td>
                             <td>@userResults.LName</td>
                             <td>@userResults.Answer</td>
-                            <td>@userResults.IsCorrect</td>
+                            <td>
+                                @if (!userResults.IsCorrect)
+                                {
+
+                                    <label style="color:red">@userResults.IsCorrect</label>
+                                }
+                                else
+                                {
+                                    <label style="color:green">@userResults.IsCorrect</label>
+
+
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>
