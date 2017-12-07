@@ -23,16 +23,11 @@
                 <th class="text-center">Name</th>
                 <th class="text-center">Description</th>
                 <th class="text-center">Updated</th>
-<<<<<<< HEAD
                 <th class="text-center">Type</th>
                 @if (ViewBag.IsOwner)
                 {
                     <th class="text-center">Options</th>
                 }
-=======
-                <th class="text-center">Question Type</th>
-                <th class="text-center">Options</th>
->>>>>>> 081bfd368467ec9cb7cb3dd2ff276c7a13ed3dc6
             </tr>
 
             @foreach (MultipleChoice mc in Model.MultipleChoices)
@@ -42,33 +37,24 @@
                     <td>@mc.Description</td>
                     <td>@mc.WhenEdited</td>
                     <td>Multiple Choice</td>
-<<<<<<< HEAD
                     @if (ViewBag.IsOwner)
                     {
-
                         <td class="text-center">
-                            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1" asp-route-folderId="@ViewBag.folderId" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1" asp-route-folderId="@ViewBag.folderId" class="btn btn-default btn-sm">
+                                <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                            </a>
                             <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">
-                                <input type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to Delete this assignment?')" value="Delete" />
+                                <button type="submit" class="btn btn-default btn-sm" onclick="return confirm('Are you sure you want to Delete this assignment?')" style="color: black;">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                                </button>
                             </form>
-                            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-sm btn-default">Results</a>
+                            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-default btn-sm">
+                                <i class="fa fa-pie-chart" aria-hidden="true"></i> Results
+                            </a>
+
 
                         </td>
                     }
-=======
-                    <td class="text-center">
-                        <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1" asp-route-folderId="@ViewBag.folderId" class="btn btn-default btn-sm">
-                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
-                        </a>
-                        <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1">
-                            <button type="submit" class="btn btn-default btn-sm" onclick="return confirm('Are you sure you want to Delete this assignment?')" style="color: black;">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
-                            </button>
-                        </form>
-                        <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@mc.MultipleChoiceId" asp-route-categoryId="1" class="btn btn-default btn-sm">
-                            <i class="fa fa-pie-chart" aria-hidden="true"></i> Results
-                        </a>
->>>>>>> 081bfd368467ec9cb7cb3dd2ff276c7a13ed3dc6
 
                 </tr>
             }
@@ -107,32 +93,24 @@
                     <td>@cs.Description</td>
                     <td>@cs.WhenEdited</td>
                     <td>Code Evaluation</td>
-<<<<<<< HEAD
                     @if (ViewBag.IsOwner)
                     {
                         <td class="text-center">
-                            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folderId" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folderId" class="btn btn-default btn-sm">
+                                <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                            </a>
                             <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">
-                                <input type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to Delete this assignment?')" value="Delete" />
+                                <button type="submit" class="btn btn-default btn-sm" onclick="return confirm('Are you sure you want to Delete this assignment?')" style="color: black;">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                                </button>
                             </form>
-                            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-sm btn-default">Results</a>
+                            <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-default btn-sm">
+                                <i class="fa fa-pie-chart" aria-hidden="true"></i> Results
+                            </a>
+
 
                         </td>
                     }
-=======
-                    <td class="text-center">
-                        <a asp-route="EditPost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" asp-route-folderId="@ViewBag.folderId" class="btn btn-default btn-sm">
-                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
-                        </a>
-                        <form style="display:inline" method="post" asp-route="DeletePost" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3">
-                            <button type="submit" class="btn btn-default btn-sm" onclick="return confirm('Are you sure you want to Delete this assignment?')" style="color: black;">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
-                            </button>
-                        </form>
-                        <a asp-route="PostResults" asp-route-id="@ViewBag.CourseId" asp-route-assignmentId="@cs.CodeSnippetNoAnswerId" asp-route-categoryId="3" class="btn btn-default btn-sm">
-                            <i class="fa fa-pie-chart" aria-hidden="true"></i> Results
-                        </a>
->>>>>>> 081bfd368467ec9cb7cb3dd2ff276c7a13ed3dc6
 
                 </tr>
             }
