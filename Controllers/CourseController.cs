@@ -232,7 +232,7 @@ namespace CodingBlogDemo2.Controllers
             //used to show follow or unfollow
             string userEmail = User.Identity.Name;
 
-            ViewBag.isFollowing = _context.Registers.Any(r => r.UserEmail == userEmail);
+            ViewBag.isFollowing = _context.Registers.Any(r => r.UserEmail == userEmail && r.CourseId == id);
 
 
             string courseCreatorEmail = _context.Courses.Where(c => c.CourseId == id).First().UserEmail;
