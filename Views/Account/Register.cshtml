@@ -3,9 +3,17 @@
     ViewData["Title"] = "Register";
 }
 
+<style>
+    body {
+        background-image: linear-gradient(rgba(255,255,255,0.5),rgba(255,255,255,0.5)), url("/images/Background_SWE.png");
+    }
+</style>
+
 
 <div class="row">
-    <div class="col-md-offset-7 col-md-5">
+    <div class="col-md-7">
+    </div>
+    <div class="col-md-5" style="border-radius: 8px; border: thin; background-color: white; padding-bottom: 50px;">
         <h2>@ViewData["Title"].</h2>
         <section>
             <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">

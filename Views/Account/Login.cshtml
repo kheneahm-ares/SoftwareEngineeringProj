@@ -7,12 +7,22 @@
 @{
     ViewData["Title"] = "Log in";
 }
+<style>
+    body {
+        background-image: linear-gradient(rgba(255,255,255,0.5),rgba(255,255,255,0.5)), url("/images/Background_SWE.png");
+    }
+</style>
 
 
 <div class="row">
-
-    <div class="col-md-offset-7 col-md-5">
-        <h2>@ViewData["Title"].</h2>
+    <div class="col-md-7" style="padding-top: 100px; color: white">
+        <h1 style="font-size: 80px">Built for students</h1>
+        <h3 class="alt-lead mb-4">
+            CodeEverywhere is a platform that enhances a classroom's learning environmeny by encouraging student participation.
+        </h3>
+    </div>
+    <div class="col-md-5" style="border-radius: 8px; border: thin; background-color: white; padding-bottom: 50px;" >
+        <h2>@ViewData["Title"]</h2>
         <section>
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                 <hr />
